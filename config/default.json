@@ -1,0 +1,14 @@
+{ 
+  "DBHost": "mongodb://localhost:27017/dbsanroque",
+  "secret": "yoursecret",
+  "defaultAdmin": {
+    "firstname": "Jeric",
+    "middlename": "Padua",
+    "lastname": "Tibayan",
+    "dateOfBirth": "03/11/1985",
+    "email": "jrtibayan@gmail.com",
+    "role": "admin",
+    "gender": "Male",
+    "address": "P Burgos St, Lemery, Batangas"
+  }
+}

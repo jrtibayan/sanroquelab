@@ -1,0 +1,42 @@
+{
+  "name": "sanroque",
+  "version": "1.0.0",
+  "description": "A MEAN Stack App made for San Roque Lab that would record lab services rendered and print lab results.",
+  "main": "app.js",
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha --require mock-local-storage --exit",
+    "start": "set NODE_ENV=dev && node app.js"
+  },
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "config": "^1.20.1",
+    "cors": "*",
+    "express": "*",
+    "jsonwebtoken": "*",
+    "mocha": "^8.2.1",
+    "mongoose": "^5.10.10",
+    "morgan": "^1.7.0",
+    "nodemailer": "^6.4.16",
+    "passport": "*",
+    "passport-jwt": "*",
+    "test": "^0.6.0",
+    "typescript": "^4.1.3"
+  },
+  "author": "Jeric Tibayan",
+  "license": "ISC",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.13.0",
+    "@typescript-eslint/parser": "^4.13.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "eslint": "^7.17.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "mock-local-storage": "^1.1.15",
+    "request": "^2.88.2"
+  }
+}

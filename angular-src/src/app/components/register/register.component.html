@@ -1,0 +1,45 @@
+<h2 class="page-header">Register</h2>
+<form (submit)="onRegisterSubmit()">
+    <div class="form-group">
+        <label>firstname</label>
+        <input type="text" [(ngModel)]="firstname" name="firstname" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>middlename</label>
+        <input type="text" [(ngModel)]="middlename" name="middlename" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>lastname</label>
+        <input type="text" [(ngModel)]="lastname" name="lastname" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>dateOfBirth</label>
+        <input type="text" [(ngModel)]="dateOfBirth" name="dateOfBirth" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>email</label>
+        <input type="text" [(ngModel)]="email" name="email" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>role</label>
+        <input type="text" [(ngModel)]="role" name="role" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>license</label>
+        <input type="text" [(ngModel)]="license" name="license" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>signatoryname</label>
+        <input type="text" [(ngModel)]="signatoryName" name="signatoryName" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>gender</label>
+        <input type="text" [(ngModel)]="gender" name="gender" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>address</label>
+        <input type="text" [(ngModel)]="address" name="address" class="form-control">
+    </div>
+    <input type="submit" class="btn btn-primary" value="Submit">
+
+</form>

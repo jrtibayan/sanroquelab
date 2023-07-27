@@ -1,0 +1,129 @@
+// 1. create schema for results = collection of results
+// 1. create test input
+2. each test group will be a document except the chemistry  where all of them will be one result only
+                {
+                  testCategoryId: 'chemId',
+                  testGroupId: 'chemTestId1',
+                  price: 100
+                },
+                {
+                  testCategoryId: 'chemId',
+                  testGroupId: 'chemTestId2',
+                  price: 200
+                },
+                {
+                  testCategoryId: 'hemaId',
+                  testGroupId: 'hemaTestId1',
+                  price: 1000
+                }
+3. this will be done using loop
+    if testcategory == chem
+        if already in collection
+            dont add
+        else
+            add new document for group test
+                properties of the document will be the different parameters for each testGroup
+    else
+        add new document for group test
+            properties of the document will be the different parameters for each testGroup
+
+4. since each document already have parameters, to input the results user must select a testGroup and submit a request
+5 the request will return all the fields that is needed and depending on the returned fields those input boxes for those fields will be the only ones shown. 
+6 since only the needed parameters are shown we only submit those and save the values to the database
+
+// since we can add transaction, discount and payment,
+        we can now start with inputing for the report
+
+/cannot add discount if payment is already applied
+/cannot add discount if discount already applied
+
+
+
+
+
+
+
+
+
+
+
+
+Users
+    LabTech
+    XrayTech
+    Cashier
+    Manger
+    Owner
+    SystemAdmin
+///TODO: Give users new fields [group, suffix, license]
+///TODO: user logs in using email and password
+///TODO: cannot go to user register if not logged in
+///TODO: upon register emails password to the user
+///TODO: can change password
+///TODO: cannot register user if email is already existing
+///TODO: be able to select which role for user to be registered
+///TODO: depending on the role of logged in. role to be registed is checked if allowed to add that role
+///1. add roles field on front end
+///2. admin register manager
+///3. admin register cashier
+///4. admin register xraytech
+///5. admin register medtech
+6. only display roles that user is allowed to register (do later)
+7. medtech may request for test
+    create front end for transactions
+        be able to search and select patient from list
+        be able to click new patient to register new patient
+        be able to search and select test to register for
+            if the test if package then register the test
+            if the test if per item show different test and select before registered
+        be able to list all request for the display
+        be able to select test and click button for add results
+        be able to select test and void if no result yet
+    create front end for patients registration
+
+
+
+
+
+
+Manager, Owner, SystemAdmin can
+    -   add new refering doctor
+    -   add new tech
+    -   add new pathologist
+
+Techs can
+    -   enter requests
+    -   pick a paid request and type results
+
+Cashier can
+    -   pick a request
+        -   enter cash paid
+        -   e
+    SystemAdminther income and expenses
+    -   can view transactions with total of how much cash should be on hand
+
+
+----------------------------------------------------------------
+managing refering doctor
+    -   can display list of refering doctors in database sorted by lastname > firstname
+    -   display only 10 and use right and left arrow to browse list
+    -   if on first page left arrow is disabled
+    -   if on last page right arrow is disabled
+    -   search "*" to show all
+    -   search the string to show only doctors with that string and user can browse those list
+    -   add new doctor to the list
+    -   can delete new doctor with no transactions yet
+    -   edit doctor info (only available to SystemAdmin)
+    -   refering doctor have
+        -   firstname
+        -   lastname
+        -   middlename
+        -   birthdate
+        -   license number
+
+----------------------------------------------------------------
+managing users
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
