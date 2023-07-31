@@ -47,7 +47,7 @@ exports.emailRegistrationSuccessful = function (email, password, user) {
   mailOptions = {
     from: sender.email,
     to: defaultAdmin.email,
-    subject: 'San Roque | ' + user.firstname + ' ' + user.lastname + ' has been registered',
+    subject: 'San Roque | ' + user.firstName + ' ' + user.lastName + ' has been registered',
     text: 'A new staff has been registered!\n\nEmail: ' + email + '\nPassword: ' + password
   }
   transporter.sendMail(mailOptions, function (error, info) {

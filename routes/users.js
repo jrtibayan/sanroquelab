@@ -7,7 +7,7 @@ const defaultAdmin = conf.defaultAdmin
 
 const h = require('../misc/helper')
 
-const User = require('../models/user')
+const User = require('../models/person')
 
 function prepareNewUser (user) {
   let newPassword = null
@@ -16,18 +16,19 @@ function prepareNewUser (user) {
   h.dlog('Generated random password for the user')
 
   const newUser = new User({
-    firstname: user.firstname,
-    middlename: user.middlename,
-    lastname: user.lastname,
+    firstName: user.firstName,
+    middleName: user.middleName,
+    lastName: user.lastName,
     dateOfBirth: user.dateOfBirth,
-    contactNumber: user.contactNumber,
-    suffix: user.suffix,
-    license: user.license,
-    email: user.email,
-    password: newPassword,
-    role: user.role,
     gender: user.gender,
-    address: user.address
+    address: user.address,
+    contact: {
+      mobile: user.mobile,
+      email: user.email,
+    },
+    license: user.license,
+    password: newPassword,
+    role: user.role
   })
 
   // will always make default password upon registering "password"
@@ -41,9 +42,9 @@ function prepareNewUser (user) {
 
 function registerUser (newUser, newPassword, res) {
   User.getUserByEmail(
-    newUser.email,
+    newUser.contact.email,
     (err, user) => {
-      h.dlog('Finding user with email: ' + newUser.email)
+      h.dlog('Finding user with email: ' + newUser.contact.email)
 
       if (err) throw err
 
@@ -63,12 +64,12 @@ function registerUser (newUser, newPassword, res) {
           h.dlog('User registered')
 
           if (conf.util.getEnv('NODE_ENV') !== 'test') {
-            h.emailRegistrationSuccessful(user.email, newPassword, user)
+            h.emailRegistrationSuccessful(newUser.contact.email, newPassword, user)
           }
 
           return res.json(h.appRes(
             { success: true, msg: 'User added' },
-            { id: newUser._id, fullname: newUser.lastname + ', ' + newUser.firstname }
+            { id: newUser._id, fullName: newUser.lastName + ', ' + newUser.firstName }
           ))
         }
       })
@@ -179,7 +180,7 @@ router.post(
           }
 
           if (users.length > 0) {
-            h.dlog('Users exist ' + users[0].email)
+            h.dlog('Users exist ' + users[0].contact.email)
             h.dlog('Special procedure will be cancelled')
             return res.json({ success: false, msg: 'Can only execute this operation if the database is empty!' })
           } else {
@@ -224,9 +225,8 @@ router.post(
                   token: 'JWT ' + token,
                   user: {
                     id: user._id,
-                    firstname: user.firstname,
-                    lastname: user.lastname,
-                    suffix: user.suffix,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
                     email: user.email,
                     role: user.role
                   }
@@ -252,8 +252,8 @@ router.get(
     return res.json({
       success: true,
       user: {
-        firstname: req.user.firstname, 
-        lastname: req.user.lastname, 
+        firstName: req.user.firstName, 
+        lastName: req.user.lastName, 
         email: req.user.email, 
         role: req.user.role
       }

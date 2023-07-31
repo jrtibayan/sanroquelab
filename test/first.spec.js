@@ -208,9 +208,9 @@ describe('MEAN Stack App', function () {
           chai.request(server)
             .post('/users/register')
             .send({
-              firstname: 'Jeric Tibayan8',
-              middlename: 'Padua8',
-              lastname: 'Jeric Tibayan8',
+              firstName: 'Jeric Tibayan8',
+              middleName: 'Padua8',
+              lastName: 'Jeric Tibayan8',
               dateOfBirth: 'bday8',
               email: 'jrhod_baby8@yahoo.com',
               role: 'director2',
@@ -270,9 +270,9 @@ describe('MEAN Stack App', function () {
           chai.request(server)
             .post('/users/register')
             .send({
-              firstname: 'Jeric Tibayan2',
-              middlename: 'Padua2',
-              lastname: 'Jeric Tibayan2',
+              firstName: 'Jeric Tibayan2',
+              middleName: 'Padua2',
+              lastName: 'Jeric Tibayan2',
               dateOfBirth: 'bday2',
               email: 'jrhod_baby21@yahoo.com',
               role: 'cashier',
@@ -301,9 +301,9 @@ describe('MEAN Stack App', function () {
           chai.request(server)
             .post('/users/register')
             .send({
-              firstname: 'Jeric Tibayan3',
-              middlename: 'Padua3',
-              lastname: 'Jeric Tibayan3',
+              firstName: 'Jeric Tibayan3',
+              middleName: 'Padua3',
+              lastName: 'Jeric Tibayan3',
               dateOfBirth: 'bday3',
               email: 'jrhod_baby3@yahoo.com',
               role: 'medtech',
@@ -334,9 +334,9 @@ describe('MEAN Stack App', function () {
           chai.request(server)
             .post('/users/register')
             .send({
-              firstname: 'Jeric Tibayan4',
-              middlename: 'Padua4',
-              lastname: 'Jeric Tibayan4',
+              firstName: 'Jeric Tibayan4',
+              middleName: 'Padua4',
+              lastName: 'Jeric Tibayan4',
               dateOfBirth: 'bday4',
               email: 'jrhod_baby4@yahoo.com',
               role: 'radtech',
@@ -367,9 +367,9 @@ describe('MEAN Stack App', function () {
           chai.request(server)
             .post('/users/register')
             .send({
-              firstname: 'Jeric5',
-              middlename: 'Padua5',
-              lastname: 'Tibayan5',
+              firstName: 'Jeric5',
+              middleName: 'Padua5',
+              lastName: 'Tibayan5',
               dateOfBirth: '2019-11-11',
               contactNumber: 'contact 0917',
               email: 'jrhod_baby5@yahoo.com',
@@ -390,7 +390,7 @@ describe('MEAN Stack App', function () {
               if (er) done(er)
 
               localStorage.setItem('patient01_id', res.body.testOnly.id)
-              localStorage.setItem('patient01_fullname', res.body.testOnly.fullname)
+              localStorage.setItem('patient01_fullname', res.body.testOnly.fullName)
 
               done()
             })
@@ -403,9 +403,9 @@ describe('MEAN Stack App', function () {
           chai.request(server)
             .post('/users/register')
             .send({
-              firstname: 'Jeric Tibayan6',
-              middlename: 'Padua6',
-              lastname: 'Jeric Tibayan6',
+              firstName: 'Jeric Tibayan6',
+              middleName: 'Padua6',
+              lastName: 'Jeric Tibayan6',
               dateOfBirth: 'bday6',
               email: 'jrhod_baby6@yahoo.com',
               role: 'director',
@@ -434,9 +434,9 @@ describe('MEAN Stack App', function () {
           chai.request(server)
             .post('/users/register')
             .send({
-              firstname: 'Jeric Tibayan7',
-              middlename: 'Padua7',
-              lastname: 'Jeric Tibayan7',
+              firstName: 'Jeric Tibayan7',
+              middleName: 'Padua7',
+              lastName: 'Jeric Tibayan7',
               dateOfBirth: 'bday7',
               email: 'jrhod_baby7@yahoo.com',
               role: 'director2',

@@ -1,29 +1,25 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
-// User Schema
+const h = require('../misc/helper')
+
+// Person Schema
 const UserSchema = mongoose.Schema({
-  // ALL
-  firstname: {
+  firstName: {
     type: String,
     required: true
   },
-  // ALL
-  middlename: {
+  middleName: {
     type: String,
     required: true
   },
-  // ALL
-  lastname: {
+  lastName: {
     type: String,
     required: true
   },
   dateOfBirth: {
     type: String,
     required: true
-  },
-  contactNumber: {
-    type: String
   },
   gender: {
     type: String,
@@ -33,6 +29,10 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  contact: {
+    email: String,  
+    mobile: String,
+  },
   // Referring, Patho, Medtech, Radtech
   license: {
     type: String
@@ -41,13 +41,10 @@ const UserSchema = mongoose.Schema({
   signatoryName: {
     type: String
   },
-  // User (Admin, Manager, Cashier, Medtech, Radtech)
-  email: {
-    type: String
-  },
   password: {
     type: String
   },
+  // User (Admin, Manager, Cashier, Medtech, Radtech)
   role: {
     type: String
   },
@@ -67,7 +64,7 @@ module.exports.getPatientById = function (id, callback) {
 }
 
 module.exports.getUserByEmail = function (email, callback) {
-  const query = { email: email }
+  const query = { 'contact.email': email }
   User.findOne(query, callback)
 }
 
@@ -76,19 +73,11 @@ module.exports.getUsers = function (query, callback) {
 }
 
 module.exports.addPatient = function (newPatient, callback) {
-  // console.log('Inside User Model - ADDUSER Start');
-
-  // console.log('Will now encrypt the password');
-
   newPatient.save(callback)
-
-  // console.log('Inside User Model - ADDUSER End');
 }
 
 module.exports.addUser = function (newUser, callback) {
-  // console.log('Inside User Model - ADDUSER Start');
-
-  // console.log('Will now encrypt the password');
+  h.dlog('Will now encrypt the password');
   bcrypt.genSalt(
     10,
     (err, salt) => {
@@ -96,7 +85,7 @@ module.exports.addUser = function (newUser, callback) {
 
       bcrypt.hash(newUser.password, salt, (err, hash) => {
         if (err) {
-          // console.log('Password encryption failed');
+          h.dlog('Password encryption failed');
           throw err
         }
         newUser.password = hash
@@ -105,15 +94,15 @@ module.exports.addUser = function (newUser, callback) {
     }
   )
 
-  // console.log('Inside User Model - ADDUSER End');
+  h.dlog('Inside User Model - ADDUSER End');
 }
 
 module.exports.updateUser = function (query, set) {
   options = { multi: true }
 
   const res = User.updateOne(query, set, options, function (err) {
-    if (err) return console.error(err)
-    // console.log('User update successful');
+    if (err) return h.derror(err)
+    h.dlog('User update successful');
   })
 }
 
@@ -139,11 +128,11 @@ module.exports.changePassword = function (email, password) {
 
         newPassword = hash
 
-        query = { email: email }
+        query = { 'contact.email': email }
         update = { $set: { password: newPassword } }
 
         User.updateUser(query, update)
-        // console.log('Password updated');
+        h.dlog('Password updated');
       })
     }
   )

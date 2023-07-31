@@ -3,9 +3,9 @@
   "secret": "yoursecret",
   "debug" : false,
   "defaultAdmin": {
-    "firstname": "Jeric",
-    "middlename": "Padua",
-    "lastname": "Tibayan",
+    "firstName": "Jeric",
+    "middleName": "Padua",
+    "lastName": "Tibayan",
     "dateOfBirth": "03/11/1985",
     "email": "jrtibayan@gmail.com",
     "role": "admin",
