@@ -23,7 +23,8 @@ const UserSchema = mongoose.Schema({
   },
   gender: {
     type: String,
-    required: true
+    required: true,
+    enum: ['Male', 'Female']
   },
   address: {
     type: String,
@@ -32,6 +33,13 @@ const UserSchema = mongoose.Schema({
   contact: {
     email: String,  
     mobile: String,
+  },
+  isSeniorCitizen: {
+    type: Boolean,
+    default: false
+  },
+  seniorIdNumber: {
+    type: String
   },
   // Referring, Patho, Medtech, Radtech
   license: {

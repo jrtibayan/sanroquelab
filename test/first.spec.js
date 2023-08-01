@@ -214,7 +214,7 @@ describe('MEAN Stack App', function () {
               dateOfBirth: 'bday8',
               email: 'jrhod_baby8@yahoo.com',
               role: 'director2',
-              gender: 'gender',
+              gender: 'Male',
               address: 'address'
             })
             .set({ Authorization: localStorage.getItem('id_token') })
@@ -276,7 +276,7 @@ describe('MEAN Stack App', function () {
               dateOfBirth: 'bday2',
               email: 'jrhod_baby21@yahoo.com',
               role: 'cashier',
-              gender: 'gender',
+              gender: 'Male',
               address: 'address'
             })
             .set({ Authorization: localStorage.getItem('id_token') })
@@ -309,7 +309,7 @@ describe('MEAN Stack App', function () {
               role: 'medtech',
               license: 'medtech LICENSE',
               signatoryName: 'signatoryName medtech',
-              gender: 'gender',
+              gender: 'Male',
               address: 'address'
             })
             .set({ Authorization: localStorage.getItem('id_token') })
@@ -342,7 +342,7 @@ describe('MEAN Stack App', function () {
               role: 'radtech',
               license: 'radtech LICENSE',
               signatoryName: 'signatoryName radtech',
-              gender: 'gender',
+              gender: 'Male',
               address: 'address'
             })
             .set({ Authorization: localStorage.getItem('id_token') })
@@ -374,7 +374,7 @@ describe('MEAN Stack App', function () {
               contactNumber: 'contact 0917',
               email: 'jrhod_baby5@yahoo.com',
               role: 'manager',
-              gender: 'gender',
+              gender: 'Male',
               address: 'address'
             })
             .set({ Authorization: localStorage.getItem('id_token') })
@@ -409,7 +409,7 @@ describe('MEAN Stack App', function () {
               dateOfBirth: 'bday6',
               email: 'jrhod_baby6@yahoo.com',
               role: 'director',
-              gender: 'gender',
+              gender: 'Male',
               address: 'address'
             })
             .set({ Authorization: localStorage.getItem('id_token') })
@@ -440,7 +440,7 @@ describe('MEAN Stack App', function () {
               dateOfBirth: 'bday7',
               email: 'jrhod_baby7@yahoo.com',
               role: 'director2',
-              gender: 'gender',
+              gender: 'Male',
               address: 'address'
             })
             .set({ Authorization: localStorage.getItem('id_token') })
