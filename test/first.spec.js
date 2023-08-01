@@ -429,7 +429,7 @@ describe('MEAN Stack App', function () {
       )
 
       it(
-        'it should NOT allow user to register a role that is not on his allowed action list',
+        'it should NOT allow user to register an invalid role',
         function (done) {
           chai.request(server)
             .post('/users/register')
