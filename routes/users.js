@@ -227,7 +227,7 @@ router.post(
                     id: user._id,
                     firstName: user.firstName,
                     lastName: user.lastName,
-                    email: user.email,
+                    email: user.contact.email,
                     role: user.role
                   }
                 })
@@ -253,8 +253,9 @@ router.get(
       success: true,
       user: {
         firstName: req.user.firstName, 
+        middleName: req.user.middleName, 
         lastName: req.user.lastName, 
-        email: req.user.email, 
+        email: req.user.contact.email, 
         role: req.user.role
       }
     })
