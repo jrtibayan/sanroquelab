@@ -1,20 +1,24 @@
 <h2 class="page-header">Register</h2>
 <form (submit)="onRegisterSubmit()">
     <div class="form-group">
-        <label>firstname</label>
-        <input type="text" [(ngModel)]="firstname" name="firstname" class="form-control">
+        <label>firstName</label>
+        <input type="text" [(ngModel)]="firstName" name="firstName" class="form-control">
     </div>
     <div class="form-group">
-        <label>middlename</label>
-        <input type="text" [(ngModel)]="middlename" name="middlename" class="form-control">
+        <label>middleName</label>
+        <input type="text" [(ngModel)]="middleName" name="middleName" class="form-control">
     </div>
     <div class="form-group">
-        <label>lastname</label>
-        <input type="text" [(ngModel)]="lastname" name="lastname" class="form-control">
+        <label>lastName</label>
+        <input type="text" [(ngModel)]="lastName" name="lastName" class="form-control">
     </div>
     <div class="form-group">
         <label>dateOfBirth</label>
         <input type="text" [(ngModel)]="dateOfBirth" name="dateOfBirth" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>mobile number</label>
+        <input type="text" [(ngModel)]="mobile" name="mobile" class="form-control">
     </div>
     <div class="form-group">
         <label>email</label>
@@ -40,6 +44,42 @@
         <label>address</label>
         <input type="text" [(ngModel)]="address" name="address" class="form-control">
     </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" [(ngModel)]="isSeniorCitizen" name="isSeniorCitizen"> is senior citizen
+        </label>
+    </div>
+    <div class="form-group">
+        <label>senior id number</label>
+        <input type="text" [(ngModel)]="seniorIdNumber" name="seniorIdNumber" class="form-control">
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" [(ngModel)]="receivePromo" name="receivePromo"> subscribe to receive promotions
+        </label>
+    </div>
+
+    <div class="container">
+        <h2>Sample Form</h2>
+        <div class="row">
+          <div class="col-md-4">
+            <label for="nameDropdown">Select a Name:</label>
+            <select class="form-control" id="nameDropdown" [(ngModel)]="selectedAction" name="selectedAction">
+              <option *ngFor="let name of availableNames" [value]="name">{{ name }}</option>
+            </select>
+            <button type="button" class="btn btn-primary mt-2" (click)="addName()">Add</button>
+          </div>
+          <div class="col-md-4">
+            <label for="nameListbox">Selected Names:</label>
+            <select class="form-control" id="nameListbox" multiple [(ngModel)]="selectedActions">
+              <option *ngFor="let name of selectedActions" [value]="name">{{ name }}</option>
+            </select>
+            <button type="button" class="btn btn-danger mt-2" (click)="removeName()">Remove</button>
+          </div>
+        </div>
+      </div>
+
+
     <input type="submit" class="btn btn-primary" value="Submit">
 
 </form>

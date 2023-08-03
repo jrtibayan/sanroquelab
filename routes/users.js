@@ -26,8 +26,13 @@ function prepareNewUser (user) {
       mobile: user.mobile,
       email: user.email,
     },
+    receivePromo: user.receivePromo,
+    allowedActions: user.allowedActions,
     license: user.license,
     password: newPassword,
+    isSeniorCitizen: user.isSeniorCitizen,
+    seniorIdNumber: user.seniorIdNumber,
+    signatoryName: user.signatoryName,
     role: user.role
   })
 

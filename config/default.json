@@ -1,7 +1,7 @@
 { 
   "DBHost": "mongodb://localhost:27017/dbsanroque",
   "secret": "yoursecret",
-  "debug" : false,
+  "debug" : true,
   "defaultAdmin": {
     "firstName": "Jeric",
     "middleName": "Padua",

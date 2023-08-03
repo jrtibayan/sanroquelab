@@ -12,16 +12,40 @@ import { Router } from '@angular/router';
 export class RegisterComponent {
   user: any;
 
-  firstname!: String;
-  middlename!: String;
-  lastname!: String; 
+  firstName!: String;
+  middleName!: String;
+  lastName!: String; 
   dateOfBirth!: String;
   email!: String;
+  mobile!: String;
   role!: String;
   license!: String;
+  receivePromo!: Boolean;
   signatoryName!: String;
   gender!: String;
   address!: String;
+  isSeniorCitizen!: Boolean;
+  seniorIdNumber!: String;
+
+  
+  availableNames: string[] = ['Name 1', 'Name 2', 'Name 3', 'Name 4', 'Name 5'];
+  selectedAction: string = '';
+  selectedActions: string[] = [];
+
+  addName() {
+    if (this.selectedAction) {
+      this.selectedActions.push(this.selectedAction);
+      this.availableNames = this.availableNames.filter(name => name !== this.selectedAction);
+      this.selectedAction = '';
+    }
+  }
+
+  removeName() {
+    if (this.selectedActions.length > 0) {
+      const removedName = this.selectedActions.pop();
+      this.availableNames.push(removedName);
+    }
+  }
 
   constructor(
     private validateService: ValidateService,
@@ -43,16 +67,21 @@ export class RegisterComponent {
 
   onRegisterSubmit() {
     const user = {
-      firstname: this.firstname,
-      middlename: this.middlename,
-      lastname: this.lastname,
+      firstName: this.firstName,
+      middleName: this.middleName,
+      lastName: this.lastName,
       dateOfBirth: this.dateOfBirth,
+      mobile: this.mobile,
       email: this.email,
       role: this.role,
       license: this.license,
+      receivePromo: this.receivePromo,
       signatoryName: this.signatoryName,
+      allowedActions: this.selectedActions,
       gender: this.gender,
-      address: this.address
+      address: this.address,
+      isSeniorCitizen: this.isSeniorCitizen,
+      seniorIdNumber: this.seniorIdNumber
     }
 
     if(!this.validateService.validateRegister(user)) {

@@ -34,6 +34,11 @@ const UserSchema = mongoose.Schema({
     email: String,  
     mobile: String,
   },
+  receivePromo: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
   isSeniorCitizen: {
     type: Boolean,
     default: false
