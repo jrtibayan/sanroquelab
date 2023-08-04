@@ -27,15 +27,23 @@ export class RegisterComponent {
   isSeniorCitizen!: Boolean;
   seniorIdNumber!: String;
 
-  
-  availableNames: string[] = ['Name 1', 'Name 2', 'Name 3', 'Name 4', 'Name 5'];
+  availableRoles: string[] = ['admin', 'cashier', 'drirector', 'medtech', 'radtech'];
+  selectedRole: string = '';
+
+  availableActions: string[] = [
+    'Add All User',
+    'Add Cashier',
+    'Add Director',
+    'Add Medtech',
+    'Add Radtech'
+  ];
   selectedAction: string = '';
   selectedActions: string[] = [];
 
   addName() {
     if (this.selectedAction) {
       this.selectedActions.push(this.selectedAction);
-      this.availableNames = this.availableNames.filter(name => name !== this.selectedAction);
+      this.availableActions = this.availableActions.filter(name => name !== this.selectedAction);
       this.selectedAction = '';
     }
   }
@@ -43,7 +51,7 @@ export class RegisterComponent {
   removeName() {
     if (this.selectedActions.length > 0) {
       const removedName = this.selectedActions.pop();
-      this.availableNames.push(removedName);
+      this.availableActions.push(removedName);
     }
   }
 

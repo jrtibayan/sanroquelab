@@ -16,6 +16,18 @@
         <label>dateOfBirth</label>
         <input type="text" [(ngModel)]="dateOfBirth" name="dateOfBirth" class="form-control">
     </div>
+    <div class="form-check">
+        <input id="male" name="gender" type="radio" class="form-check-input" [(ngModel)]="gender" value="Male" required>
+        <label class="form-check-label" for="male">Male</label>
+    </div>
+    <div class="form-check">
+        <input id="female" name="gender" type="radio" class="form-check-input" [(ngModel)]="gender" value="Female" required>
+        <label class="form-check-label" for="female">Female</label>
+    </div>
+    <div class="form-group">
+        <label>address</label>
+        <input type="text" [(ngModel)]="address" name="address" class="form-control">
+    </div>
     <div class="form-group">
         <label>mobile number</label>
         <input type="text" [(ngModel)]="mobile" name="mobile" class="form-control">
@@ -24,9 +36,13 @@
         <label>email</label>
         <input type="text" [(ngModel)]="email" name="email" class="form-control">
     </div>
-    <div class="form-group">
-        <label>role</label>
-        <input type="text" [(ngModel)]="role" name="role" class="form-control">
+    <div class="form-group row">
+        <div class="col-md-12">
+            <label for="roleDropdown">Select a Role:</label>
+            <select class="form-control" id="roleDropdown" [(ngModel)]="role" name="role">
+                <option *ngFor="let name of availableRoles" [value]="name">{{ name }}</option>
+            </select>
+        </div>
     </div>
     <div class="form-group">
         <label>license</label>
@@ -36,17 +52,9 @@
         <label>signatoryname</label>
         <input type="text" [(ngModel)]="signatoryName" name="signatoryName" class="form-control">
     </div>
-    <div class="form-group">
-        <label>gender</label>
-        <input type="text" [(ngModel)]="gender" name="gender" class="form-control">
-    </div>
-    <div class="form-group">
-        <label>address</label>
-        <input type="text" [(ngModel)]="address" name="address" class="form-control">
-    </div>
     <div class="checkbox">
         <label>
-            <input type="checkbox" [(ngModel)]="isSeniorCitizen" name="isSeniorCitizen"> is senior citizen
+            <input class="form-check-input" type="checkbox" [(ngModel)]="isSeniorCitizen" name="isSeniorCitizen"> is senior citizen
         </label>
     </div>
     <div class="form-group">
@@ -55,31 +63,24 @@
     </div>
     <div class="checkbox">
         <label>
-            <input type="checkbox" [(ngModel)]="receivePromo" name="receivePromo"> subscribe to receive promotions
+            <input class="form-check-input" type="checkbox" [(ngModel)]="receivePromo" name="receivePromo"> subscribe to receive promotions
         </label>
-    </div>
-
-    <div class="container">
-        <h2>Sample Form</h2>
-        <div class="row">
-          <div class="col-md-4">
+    </div>  
+    <div class="row">
+        <div class="col-md-6">
             <label for="nameDropdown">Select a Name:</label>
             <select class="form-control" id="nameDropdown" [(ngModel)]="selectedAction" name="selectedAction">
-              <option *ngFor="let name of availableNames" [value]="name">{{ name }}</option>
+                <option *ngFor="let name of availableActions" [value]="name">{{ name }}</option>
             </select>
             <button type="button" class="btn btn-primary mt-2" (click)="addName()">Add</button>
-          </div>
-          <div class="col-md-4">
+        </div>
+        <div class="col-md-6">
             <label for="nameListbox">Selected Names:</label>
             <select class="form-control" id="nameListbox" multiple [(ngModel)]="selectedActions">
-              <option *ngFor="let name of selectedActions" [value]="name">{{ name }}</option>
+                <option *ngFor="let name of selectedActions" [value]="name">{{ name }}</option>
             </select>
             <button type="button" class="btn btn-danger mt-2" (click)="removeName()">Remove</button>
-          </div>
         </div>
-      </div>
-
-
+    </div>
     <input type="submit" class="btn btn-primary" value="Submit">
-
 </form>
