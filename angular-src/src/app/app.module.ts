@@ -7,7 +7,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+import { RegisterPatientComponent } from './components/patient/register-patient/register-patient.component';
+import { RegisterUserComponent } from './components/user/register-user/register-user.component';
 import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -16,12 +17,11 @@ import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { FlashMessagesModule } from 'flash-messages-angular';
-import { RegisterPatientComponent } from './components/patient/register-patient/register-patient.component';
-import { RegisterUserComponent } from './components/user/register-user/register-user.component';
+
 
 const appRoutes: Routes = [
   {path:'', component: HomeComponent},
-  {path:'register', component: RegisterComponent},
+  {path:'user/register', component: RegisterUserComponent},
   {path:'login', component: LoginComponent},
   {path:'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]}
@@ -32,12 +32,11 @@ const appRoutes: Routes = [
     AppComponent,
     NavbarComponent,
     LoginComponent,
-    RegisterComponent,
+    RegisterPatientComponent,
+    RegisterUserComponent,
     HomeComponent,
     DashboardComponent,
-    ProfileComponent,
-    RegisterPatientComponent,
-    RegisterUserComponent
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
