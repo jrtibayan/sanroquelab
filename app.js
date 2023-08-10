@@ -42,6 +42,7 @@ if (conf.util.getEnv('NODE_ENV') !== 'test') {
 }
 
 const users = require('./routes/users')
+const patients = require('./routes/patients')
 
 const port = 3000
 // const port = process.env.PORT || 8080;
@@ -65,6 +66,7 @@ app.use(passport.session())
 require('./config/passport')(passport)
 
 app.use('/users', users)
+app.use('/patients', patients)
 
 //  Index Route
 app.get('/', (req, res) => {

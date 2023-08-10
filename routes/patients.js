@@ -3,63 +3,51 @@ const router = express.Router()
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const conf = require('config')
-const defaultAdmin = conf.defaultAdmin
 
 const h = require('../misc/helper')
 
 const User = require('../models/person')
 
-function prepareNewUser (user) {
-  let newPassword = null
-  if (conf.util.getEnv('NODE_ENV') === 'test') newPassword = 'password'
-  else newPassword = h.randomString(12, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
-  h.dlog('Generated random password for the user')
-
-  const newUser = new User({
+function prepareNewPatient (user) {
+  const newPatient = new User({
     firstName: user.firstName,
     middleName: user.middleName,
     lastName: user.lastName,
     dateOfBirth: user.dateOfBirth,
     gender: user.gender,
     address: user.address,
-    mobile: user.mobile,
-    email: user.email,
+    contact: {
+      mobile: user.mobile,
+      email: user.email
+    },
     receivePromo: user.receivePromo,
-    allowedActions: user.allowedActions,
-    license: user.license,
-    password: newPassword,
     isSeniorCitizen: user.isSeniorCitizen,
-    seniorIdNumber: user.seniorIdNumber,
-    signatoryName: user.signatoryName,
-    role: user.role
+    seniorIdNumber: user.seniorIdNumber
   })
 
-  // will always make default password upon registering "password"
-  // commenting out this line will make the default password a random password that is supposed to be emailed to user
-  newUser.password = 'password'
+  h.dlog('Prepared newPatient')
 
-  h.dlog('Prepared newUser')
-
-  return newUser
+  return newPatient
 }
 
-function registerUser (newUser, newPassword, res) {
-  User.getUserByEmail(
-    newUser.email,
+function registerPatient (newUser, newPassword, res) {
+  User.getPersonByFirstAndLastName(
+    newUser.firstName,
+    newUser.lastName,
     (err, user) => {
-      h.dlog('Finding user with email: ' + newUser.email)
+      h.dlog('Finding patient with fullname: ' + newUser.firstName + ' ' + newUser.lastName)
 
       if (err) throw err
 
       if (user) {
-        h.dlog('User already exist')
-        return res.json({ success: false, msg: 'User already exist' })
+        h.dlog('Patient already exist')
+        return res.json({ success: false, msg: 'Patient already exist' })
       }
 
-      h.dlog('User not found. Will add the user')
+      h.dlog('Patient not found. Will add the patient')
 
-      h.dlog('Forward newUser to addUser function to add the user')
-      User.addUser(newUser, (err, user) => {
+      h.dlog('Forward newPatient to addPatient function to add the patient')
+      User.addPatient(newUser, (err, user) => {
         if (err) {
           h.dlog('Error adding user')
           return res.json({ success: false, msg: 'Error adding user' })
@@ -85,17 +73,16 @@ router.post(
   '/register',
   passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
-    h.dlog('\n\n\nInside USER Route - REGISTER Start')
-    h.dlog('Adding user with emailad ' + req.body.email)
+    h.dlog('\n\n\nInside PATIENTS Route - REGISTER Start')
+    h.dlog('Adding patient with fullname: ' + req.body.firstName + ' ' + req.body.lastName)
 
-    const action = 'register ' + req.body.role
-    const newUser = prepareNewUser(req.body)
-    
-    if (h.canAddNewRole(action, req.user.role, req.user.allowedActions, req.body.role)) {
-      return registerUser(newUser, newUser.password, res)
+    const newPatient = prepareNewPatient(req.body)
+
+    if (true) {
+      return registerPatient(newPatient, null, res)
     } else {
-      h.dlog('User not allowed to register ' + newUser.role)
-      return res.json({ success: false, msg: 'User not allowed to register ' + newUser.role })
+      h.dlog('User not allowed to register ')
+      return res.json({ success: false, msg: 'User not allowed to register '})
     }
   }
 )
@@ -190,7 +177,7 @@ router.post(
             h.dlog('No user in the database')
             h.dlog('Adding default admin user')
 
-            const newUser = prepareNewUser(conf.defaultAdmin)
+            const newUser = prepareNewPatient(conf.defaultAdmin)
 
             return registerUser(newUser, newUser.password, res)
           }
@@ -262,7 +249,6 @@ router.get(
         role: req.user.role
       }
     })
-
   }
 )
 

@@ -22,6 +22,7 @@ import { FlashMessagesModule } from 'flash-messages-angular';
 const appRoutes: Routes = [
   {path:'', component: HomeComponent},
   {path:'user/register', component: RegisterUserComponent},
+  {path:'patient/register', component: RegisterPatientComponent},
   {path:'login', component: LoginComponent},
   {path:'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]}

@@ -30,9 +30,11 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  contact: {
-    email: String,  
-    mobile: String,
+  email: {
+    type: String
+  },
+  mobile: {
+    type: String
   },
   receivePromo: {
     type: Boolean,
@@ -46,22 +48,19 @@ const UserSchema = mongoose.Schema({
   seniorIdNumber: {
     type: String
   },
-  // Referring, Patho, Medtech, Radtech
-  license: {
+  license: { // Patho, Medtech, Radtech
     type: String
   },
-  // Referring, Patho, Medtech, Radtech
-  signatoryName: {
+  signatoryName: { // Patho, Medtech, Radtech
     type: String
   },
-  password: {
+  password: { // all user
     type: String
   },
-  // User (Admin, Manager, Cashier, Medtech, Radtech)
-  role: {
+  role: {  // all user
     type: String
   },
-  allowedActions: {
+  allowedActions: { // all user
     type: [String]
   }
 })
@@ -77,7 +76,15 @@ module.exports.getPatientById = function (id, callback) {
 }
 
 module.exports.getUserByEmail = function (email, callback) {
-  const query = { 'contact.email': email }
+  const query = { 'email': email }
+  User.findOne(query, callback)
+}
+
+module.exports.getPersonByFirstAndLastName = function (firstName, lastName, callback) {
+  const query = {
+    firstName: firstName,
+    lastName: lastName
+  }
   User.findOne(query, callback)
 }
 
@@ -141,7 +148,7 @@ module.exports.changePassword = function (email, password) {
 
         newPassword = hash
 
-        query = { 'contact.email': email }
+        query = { 'email': email }
         update = { $set: { password: newPassword } }
 
         User.updateUser(query, update)

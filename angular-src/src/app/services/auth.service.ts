@@ -13,9 +13,9 @@ export class AuthService {
 
   constructor(
     private http:HttpClient
-    ) { }
+  ) { }
 
-    registerUser(user) {
+  registerUser(user) {
     const httpOptions = {headers: new HttpHeaders({
       'Content-Type':  'application/json',
       'Authorization': localStorage.getItem('id_token')
@@ -23,6 +23,18 @@ export class AuthService {
     return this.http.post(
       'http://localhost:3000/users/register', 
       user, 
+      httpOptions
+    ).pipe(map(res => res));
+  }
+
+  registerPatient(patient) {
+    const httpOptions = {headers: new HttpHeaders({
+    'Content-Type':  'application/json',
+    'Authorization': localStorage.getItem('id_token')
+    })};
+    return this.http.post(
+      'http://localhost:3000/patients/register', 
+      patient, 
       httpOptions
     ).pipe(map(res => res));
   }
