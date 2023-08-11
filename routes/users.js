@@ -8,6 +8,7 @@ const defaultAdmin = conf.defaultAdmin
 const h = require('../misc/helper')
 
 const User = require('../models/person')
+const Labtest = require('../models/labtest')
 
 function prepareNewUser (user) {
   let newPassword = null
@@ -69,6 +70,18 @@ function registerUser (newUser, newPassword, res) {
           if (conf.util.getEnv('NODE_ENV') !== 'test') {
             h.emailRegistrationSuccessful(newUser.email, newPassword, user)
           }
+
+          // since adding admin user is success
+          // initialize other collection
+          const newLabtest = new Labtest({})
+          Labtest.addInitialItems(newLabtest, (err, user) => {
+            if (err) {
+              h.dlog('Error adding user')
+              return res.json({ success: false, msg: 'Error adding user' })
+            } else {
+              h.dlog('Labtest initialized')
+            }
+          })
 
           return res.json(h.appRes(
             { success: true, msg: 'User added' },
