@@ -7,7 +7,10 @@ const h = require('../misc/helper')
 const LabtestSchema = mongoose.Schema({
   tests: [{
     testName: String,
-    price: Number
+    price: Number,
+    testType: String,
+    femaleNormalValue: String,
+    maleNormalValue: String
   }],
   packages: [{
     packageName: String,
@@ -24,16 +27,25 @@ module.exports.addInitialItems = function (newLabtest, callback) {
   newLabtest.packages = []
 
   newLabtest.tests.push({
-    testName: 'FBS',
+    testName: 'Glucose',
     price: 100,
+    testType: 'type 1',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
   })
   newLabtest.tests.push({
     testName: 'Chole',
     price: 200,
+    testType: 'type 1',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
   })
   newLabtest.tests.push({
     testName: 'Trigly',
     price: 300,
+    testType: 'type 1',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
   })
 
   newLabtest.packages.push({
