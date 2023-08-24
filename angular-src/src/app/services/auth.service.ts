@@ -21,8 +21,8 @@ export class AuthService {
       'Authorization': localStorage.getItem('id_token')
     })};
     return this.http.post(
-      'http://localhost:3000/users/register', 
-      user, 
+      'http://localhost:3000/users/register',
+      user,
       httpOptions
     ).pipe(map(res => res));
   }
@@ -33,8 +33,8 @@ export class AuthService {
     'Authorization': localStorage.getItem('id_token')
     })};
     return this.http.post(
-      'http://localhost:3000/patients/register', 
-      patient, 
+      'http://localhost:3000/patients/register',
+      patient,
       httpOptions
     ).pipe(map(res => res));
   }
@@ -58,6 +58,42 @@ export class AuthService {
     })};
     return this.http.get(
       'http://localhost:3000/users/profile',
+      httpOptions
+    ).pipe(map(res => res));
+  }
+
+  getLabTests() {
+    this.loadToken();
+    const httpOptions = {headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': this.authToken
+    })};
+    return this.http.get(
+      'http://localhost:3000/labtests/getall',
+      httpOptions
+    ).pipe(map(res => res));
+  }
+
+  updateLabTests(tests) {
+    const httpOptions = {headers: new HttpHeaders({
+    'Content-Type':  'application/json',
+    'Authorization': localStorage.getItem('id_token')
+    })};
+    return this.http.post(
+      'http://localhost:3000/labtests/update',
+      tests,
+      httpOptions
+    ).pipe(map(res => res));
+  }
+
+  insertNewTest(newTest) {
+    const httpOptions = {headers: new HttpHeaders({
+    'Content-Type':  'application/json',
+    'Authorization': localStorage.getItem('id_token')
+    })};
+    return this.http.post(
+      'http://localhost:3000/labtests/tests/insert',
+      newTest,
       httpOptions
     ).pipe(map(res => res));
   }
