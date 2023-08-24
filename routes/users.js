@@ -73,6 +73,7 @@ function registerUser (newUser, newPassword, res) {
 
           // since adding admin user is success
           // initialize other collection
+          if(newUser.email === defaultAdmin.email) {
           const newLabtest = new Labtest({})
           Labtest.addInitialItems(newLabtest, (err, user) => {
             if (err) {
@@ -82,6 +83,7 @@ function registerUser (newUser, newPassword, res) {
               h.dlog('Labtest initialized')
             }
           })
+        }
 
           return res.json(h.appRes(
             { success: true, msg: 'User added' },
@@ -272,9 +274,10 @@ router.get(
         middleName: req.user.middleName, 
         lastName: req.user.lastName, 
         email: req.user.email, 
+        allowedActions: req.user.allowedActions,
         role: req.user.role
       }
-    })
+    });
 
   }
 )
