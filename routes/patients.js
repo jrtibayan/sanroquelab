@@ -78,6 +78,7 @@ router.post(
 
     const newPatient = prepareNewPatient(req.body)
 
+    // validate if allowed to do action register patient
     if (true) {
       return registerPatient(newPatient, null, res)
     } else {
