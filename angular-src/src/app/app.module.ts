@@ -17,14 +17,16 @@ import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { FlashMessagesModule } from 'flash-messages-angular';
+import { LabtestComponent } from './components/labtest/labtest.component';
 
 
 const appRoutes: Routes = [
   {path:'', component: HomeComponent},
-  {path:'user/register', component: RegisterUserComponent},
-  {path:'patient/register', component: RegisterPatientComponent},
+  {path:'user/register', component: RegisterUserComponent, canActivate: [AuthGuard]},
+  {path:'patient/register', component: RegisterPatientComponent, canActivate: [AuthGuard]},
   {path:'login', component: LoginComponent},
   {path:'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  {path:'labtest/management', component: LabtestComponent, canActivate: [AuthGuard]},
   {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]}
 ]
 
@@ -37,7 +39,8 @@ const appRoutes: Routes = [
     RegisterUserComponent,
     HomeComponent,
     DashboardComponent,
-    ProfileComponent
+    ProfileComponent,
+    LabtestComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,7 @@ const appRoutes: Routes = [
     ValidateService,
     AuthGuard,
     AuthService
-    ],
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

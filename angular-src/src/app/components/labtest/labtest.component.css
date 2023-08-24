@@ -1,0 +1,17 @@
+.reagent-item {
+  background-color: lightcoral; /* Light red by default */
+  padding: 4px;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.test-item {
+  background-color: lightcoral; /* Light red by default */
+  padding: 4px;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: lightblue; /* Light blue if selected */
+}

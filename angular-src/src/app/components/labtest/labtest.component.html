@@ -1,0 +1,147 @@
+<div *ngIf="user">
+    <div class="container">
+        <br />
+        <h2>Lab Tests List</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Test Name</th>
+                    <th>Price</th>
+                    <th>Test Type</th>
+                    <th>Male Normal Value</th>
+                    <th>Female Normal Value</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="6">
+                        <button class="btn btn-sm btn-primary" (click)="showAddTestInputRow()" [disabled]="!userHasPermission('Add Test')">Add New Test</button>
+                    </td>
+                </tr>
+                <tr *ngIf="showAddTestRow">
+                    <td><input type="text" class="form-control" id="testName" name="testName" [(ngModel)]="newTest.testName" required></td>
+                    <td><input type="number" class="form-control" id="price" name="price" [(ngModel)]="newTest.price" required></td>
+                    <td><input type="text" class="form-control" id="testType" name="testType" [(ngModel)]="newTest.testType" required></td>
+                    <td><input type="text" class="form-control" id="maleNormalValue" name="maleNormalValue" [(ngModel)]="newTest.maleNormalValue" required></td>
+                    <td><input type="text" class="form-control" id="femaleNormalValue" name="femaleNormalValue" [(ngModel)]="newTest.femaleNormalValue" required></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" (click)="addTest()">Add</button>
+                        <button class="btn btn-sm btn-secondary" (click)="cancelAddTest()">Cancel</button>
+                    </td>
+                </tr>
+                <ng-container *ngFor="let test of tests; let i = index">
+                    <ng-container *ngIf="test.isDeleted === false">
+                        <tr>
+                            <ng-container *ngIf="editingIndex !== i; else editRow">
+                                <td>{{ test.testName }}</td>
+                                <td>{{ test.price }}</td>
+                                <td>{{ test.testType }}</td>
+                                <td>{{ test.maleNormalValue }}</td>
+                                <td>{{ test.femaleNormalValue }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary" (click)="editTest(i)" [disabled]="!userHasPermission('Edit Test')">Edit</button>
+                                    <button class="btn btn-sm btn-danger" (click)="deleteTest(i)" [disabled]="!userHasPermission('Delete Test')">Delete</button>
+                                </td>
+                            </ng-container>
+                            <ng-template #editRow>
+                                <td><input type="text" [(ngModel)]="tests[i].testName" [disabled]="true" required></td>
+                                <td><input type="number" [(ngModel)]="tests[i].price" required></td>
+                                <td><input type="text" [(ngModel)]="tests[i].testType" [disabled]="true" required></td>
+                                <td><input type="text" [(ngModel)]="tests[i].maleNormalValue" required></td>
+                                <td><input type="text" [(ngModel)]="tests[i].femaleNormalValue" required></td>
+                                <td>
+                                    <button class="btn btn-sm btn-success" (click)="saveEditTest(i)" [disabled]="!userHasPermission('Edit Test')">Save</button>
+                                    <button class="btn btn-sm btn-secondary" (click)="cancelEditTest()">Cancel</button>
+                                </td>
+                            </ng-template>
+                        </tr> 
+                    </ng-container>
+                </ng-container>           
+            </tbody>
+        </table>
+        <br />
+        <h2>Lab Packages List</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Package Name</th>
+                    <th>Price</th>
+                    <th>Reagents</th>
+                    <th>Test Included</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="5">
+                        <button class="btn btn-sm btn-primary" (click)="showAddPackageInputRow()" [disabled]="!userHasPermission('Add Package')">Add New Package</button>
+                    </td>
+                </tr>
+                <tr *ngIf="showAddPackageRow">
+                    <td><input type="text" class="form-control" id="packageName" name="packageName" [(ngModel)]="newPackage.packageName" required></td>
+                    <td><input type="number" class="form-control" id="packagePrice" name="packagePrice" [(ngModel)]="newPackage.price" required></td>
+                    <td>
+                        <div *ngFor="let reagent of this.allReagents"
+                            class="reagent-item"
+                            [ngClass]="{'selected': newPackage?.reagents.includes(reagent)}" 
+                            (click)="toggleReagent(newPackage.reagents, reagent)">
+                            {{ reagent }}
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngFor="let testItem of completeTests"
+                            class="test-item"
+                            [ngClass]="{'selected': newPackage?.testIncluded.includes(testItem)}" 
+                            (click)="toggleTest(newPackage.testIncluded, testItem)">
+                            {{ testItem }}
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" (click)="addPackage()" [disabled]="!userHasPermission('Add Package')">Add</button>
+                        <button class="btn btn-sm btn-secondary" (click)="cancelAddPackage()">Cancel</button>
+                    </td>
+                </tr>
+                <ng-container  *ngFor="let package of packages; let i = index">
+                    <ng-container *ngIf="package.isDeleted === false">
+                <tr>
+                    <ng-container *ngIf="editingPackageIndex !== i; else editRow">
+                        <td>{{ package.packageName }}</td>
+                        <td>{{ package.price }}</td>
+                        <td>{{ package.reagents }}</td>
+                        <td>{{ package.testIncluded }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" (click)="editPackage(i)" [disabled]="!userHasPermission('Edit Package')">Edit</button>
+                            <button class="btn btn-sm btn-danger" (click)="deletePackage(i)" [disabled]="!userHasPermission('Delete Package')">Delete</button>
+                        </td>
+                    </ng-container>
+                    <ng-template #editRow>
+                        <td><input type="text" [(ngModel)]="packages[i].packageName" [disabled]="true" required></td>
+                        <td><input type="number" [(ngModel)]="packages[i].price" required></td>
+                        <td>
+                            <div *ngFor="let reagent of this.allReagents"
+                                class="reagent-item"
+                                [ngClass]="{'selected': packages[i]?.reagents.includes(reagent)}" 
+                                (click)="toggleReagent(packages[i].reagents, reagent)">
+                                {{ reagent }}
+                            </div>
+                        </td>
+                        <td>
+                            <div *ngFor="let testItem of completeTests"
+                                class="test-item"
+                                [ngClass]="{'selected': packages[i]?.testIncluded.includes(testItem)}" 
+                                (click)="toggleTest(packages[i].testIncluded, testItem)">
+                                {{ testItem }}
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-success" (click)="saveEditPackage(i)" [disabled]="!userHasPermission('Edit Package')">Save</button>
+                            <button class="btn btn-sm btn-secondary" (click)="cancelEditPackage()">Cancel</button>
+                        </td>
+                    </ng-template>
+                </tr>
+            </ng-container>  </ng-container>  
+            </tbody>
+        </table>
+    </div>
+</div>
