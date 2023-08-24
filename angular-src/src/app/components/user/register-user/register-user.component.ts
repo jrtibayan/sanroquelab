@@ -35,7 +35,13 @@ export class RegisterUserComponent {
     'Add Cashier',
     'Add Director',
     'Add Medtech',
-    'Add Radtech'
+    'Add Radtech',
+    'Add Test',
+    'Edit Test',
+    'Delete Test',
+    'Add Package',
+    'Edit Package',
+    'Delete Package',
   ];
   selectedAction: string = '';
   selectedActions: string[] = [];
