@@ -3,8 +3,13 @@ const defaultAdmin = conf.defaultAdmin
 sender = require('../config/gmail')
 nodemailer = require('nodemailer')
 
-exports.dlog = function (msg) {
-  if (conf.debug) console.log(msg)
+exports.dlog = function (msg, logType=null) {
+  if (conf.debug) {
+    if(logType === 'error') console.error(msg);
+    else if(logType === 'warn') console.warn(msg);
+    else if(logType === 'debug') console.debug(msg);
+    else console.log(msg);
+  }
 }
 
 exports.randomString = function (length, chars) {
