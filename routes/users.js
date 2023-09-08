@@ -20,7 +20,7 @@ function prepareNewUser (user) {
     firstName: user.firstName,
     middleName: user.middleName,
     lastName: user.lastName,
-    dateOfBirth: user.dateOfBirth,
+    dateOfBirth: new Date(user.dateOfBirth),
     gender: user.gender,
     address: user.address,
     mobile: user.mobile,
