@@ -18,6 +18,7 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { FlashMessagesModule } from 'flash-messages-angular';
 import { LabtestComponent } from './components/labtest/labtest.component';
+import { TransactionComponent } from './components/transaction/transaction.component';
 
 
 const appRoutes: Routes = [
@@ -26,6 +27,7 @@ const appRoutes: Routes = [
   {path:'patient/register', component: RegisterPatientComponent, canActivate: [AuthGuard]},
   {path:'login', component: LoginComponent},
   {path:'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  {path:'transaction/management', component: TransactionComponent, canActivate: [AuthGuard]},
   {path:'labtest/management', component: LabtestComponent, canActivate: [AuthGuard]},
   {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]}
 ]
@@ -40,6 +42,7 @@ const appRoutes: Routes = [
     HomeComponent,
     DashboardComponent,
     ProfileComponent,
+    TransactionComponent,
     LabtestComponent
   ],
   imports: [

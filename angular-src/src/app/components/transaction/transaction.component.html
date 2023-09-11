@@ -1,0 +1,200 @@
+<div *ngIf="user">
+    <div class="container" *ngIf="showAddTransactionRow">
+        <br />
+        <h2>Adding New Transaction</h2>
+        <div *ngIf="showSelectPatientSection">
+            <br />
+            <label>Select Patient</label>
+            <div class="list-group" style="max-height: 100px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;"> 
+                <a
+                    href="javascript:void(0);"
+                    class="list-group-item list-group-item-action"
+                    *ngFor="let patient of patients"
+                    (click)="selectPatient(patient)"
+                    [class.active]="patient === selectedPatient"
+                >
+                    {{ patient.firstname }} {{ patient.lastname }}
+                </a>
+            </div>        
+            <br />
+        </div>
+        <div *ngIf="showSelectPackageSection">
+            <label>Select Packages</label>
+            <div *ngFor="let testPackage of testPackages">
+                <div class="form-check">
+                    <input
+                    type="checkbox"
+                    class="form-check-input"
+                    [value]="testPackage"
+                    [(ngModel)]="testPackage.isSelected"
+                    (change)="onPackageSelectionChange()"
+                    />
+                    <label class="form-check-label">{{ testPackage.packageName }} - ₱ {{ testPackage.price }}</label>
+                </div>
+            </div>
+            <br />
+        </div>
+        <div *ngIf="showSelectDiscountSection">
+            <h3>Discount Options</h3>
+            
+            <!-- Percentage Discount -->
+            <div class="form-check">
+              <input
+                type="radio"
+                class="form-check-input"
+                [(ngModel)]="discountType"
+                value="percentage"
+              />
+              <label class="form-check-label">Percentage Discount</label>
+              <input
+                type="number"
+                [(ngModel)]="percentageDiscount"
+                [disabled]="discountType !== 'percentage'"
+              />
+              %
+            </div>
+            
+            <!-- Fixed Amount Discount -->
+            <div class="form-check">
+              <input
+                type="radio"
+                class="form-check-input"
+                [(ngModel)]="discountType"
+                value="fixed"
+              />
+              <label class="form-check-label">Fixed Amount Discount</label>
+              <input
+                type="number"
+                [(ngModel)]="fixedDiscount"
+                [disabled]="discountType !== 'fixed'"
+              />
+            </div>
+            
+            <!-- Special Discounts -->
+            <div class="form-check">
+              <input
+                type="radio"
+                class="form-check-input"
+                [(ngModel)]="discountType"
+                value="seniorCitizen"
+              />
+              <label class="form-check-label">Senior Citizen (20% Discount)</label>
+            </div>
+            <div class="form-check">
+              <input
+                type="radio"
+                class="form-check-input"
+                [(ngModel)]="discountType"
+                value="pwd"
+              />
+              <label class="form-check-label">PWD (20% Discount)</label>
+            </div>
+            
+            <!-- Set Discount Button -->
+            <button class="btn btn-primary" (click)="applyDiscount()">Set Discount</button>
+          </div>
+        <br />
+        <h3>Summary</h3>
+        <p>Date and Time: {{ getCurrentDateTime() }}</p>
+<p>Patient: {{ selectedPatient?.firstname }} {{ selectedPatient?.lastname }}</p>
+<p>Address: {{ selectedPatient?.address }}</p>
+<p>Gender: {{ selectedPatient?.gender }}</p>
+<p>Age: {{ getAge(this.sampleDateOfBirth) }}</p>
+        <label>Selected Packages</label>
+    <!-- Display selected packages with their details -->
+    <div class="selected-packages">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Package Name</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let selectedPackage of selectedPackages">
+                    <td>{{ selectedPackage.packageName }}</td>
+                    <td>₱ {{ selectedPackage.price }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Calculate subtotal -->
+    <div>
+        <label>Subtotal:</label>
+        ₱ {{ calculateSubtotal() }}
+    </div>
+    
+    <!-- Display discount and calculate total -->
+    <div>
+        <label>Discount:</label>
+        ₱ {{ discountAmount }}
+    </div>
+    <div>
+        <label>Total:</label>
+        ₱ {{ calculateTotal() }}
+    </div>
+        <br />
+        <button class="btn btn-primary" (click)="showSelectedPatient()">Show Selected Patient</button>
+        <button class="btn btn-primary" (click)="showSelectedPackages()">Show Selected Packages</button>
+        <button class="btn btn-sm btn-primary" (click)="addTransaction()">Add</button>
+        <button class="btn btn-sm btn-secondary" (click)="cancelAddTransaction()">Cancel</button>
+    </div>
+    <div class="container" *ngIf="showTransactionListRow">
+        <br />
+        <h2>Transaction List</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date - Time</th>
+                    <th>Patient</th>
+                    <th>Subtotal</th>
+                    <th>Discount</th>
+                    <th>Total</th>
+                    <th>Paid</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="6">
+                        <button class="btn btn-sm btn-primary" (click)="showAddTransactionInputRow()" [disabled]="!userHasPermission('Add Transaction')">Add New Transaction</button>
+                    </td>
+                </tr>
+                <ng-container *ngFor="let transaction of transactions; let i = index">
+                    <ng-container *ngIf="transaction.isDeleted === false">
+                        <tr>
+                            <ng-container *ngIf="editingIndex !== i; else editRow">
+                                <td>{{ transaction.transactionDate }}</td>
+                                <td>{{ transaction.patient }}</td>
+                                <td>{{ transaction.subtotal }}</td>
+                                <td>{{ transaction.discount }}</td>
+                                <td>{{ transaction.total }}</td>
+                                <td>{{ transaction.isFullyPaid }}</td>
+                                <td>{{ transaction.hasResult }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary" (click)="editTransaction(i)" [disabled]="!userHasPermission('Edit Transaction')">Edit</button>
+                                    <button class="btn btn-sm btn-danger" (click)="deleteTransaction(i)" [disabled]="!userHasPermission('Delete Transaction')">Delete</button>
+                                </td>
+                            </ng-container>
+                            <ng-template #editRow>
+                                <td><input type="text" [(ngModel)]="transactions[i].transactionDate" [disabled]="true" required></td>
+                                <td><input type="number" [(ngModel)]="transactions[i].patient" required></td>
+                                <td><input type="text" [(ngModel)]="transactions[i].subtotal" [disabled]="true" required></td>
+                                <td><input type="text" [(ngModel)]="transactions[i].discount" required></td>
+                                <td><input type="text" [(ngModel)]="transactions[i].total" required></td>
+                                <td><input type="text" [(ngModel)]="transactions[i].isFullyPaid" required></td>
+                                <td><input type="text" [(ngModel)]="transactions[i].hasResult" required></td>
+                                <td>
+                                    <button class="btn btn-sm btn-success" (click)="saveEditTransaction(i)" [disabled]="!userHasPermission('Edit Transaction')">Save</button>
+                                    <button class="btn btn-sm btn-secondary" (click)="cancelEditTransaction()">Cancel</button>
+                                </td>
+                            </ng-template>
+                        </tr> 
+                    </ng-container>
+                </ng-container>           
+            </tbody>
+        </table>
+        
+    </div>
+</div>

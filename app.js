@@ -44,6 +44,7 @@ if (conf.util.getEnv('NODE_ENV') !== 'test') {
 const users = require('./routes/users')
 const patients = require('./routes/patients')
 const labtests = require('./routes/labtests')
+const transactions = require('./routes/transactions')
 
 const port = 3000
 // const port = process.env.PORT || 8080;
@@ -69,6 +70,7 @@ require('./config/passport')(passport)
 app.use('/users', users)
 app.use('/patients', patients)
 app.use('/labtests', labtests)
+app.use('/transactions', transactions)
 
 //  Index Route
 app.get('/', (req, res) => {
