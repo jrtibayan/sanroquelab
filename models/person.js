@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 
 const h = require('../misc/helper');
 
+
 // Person Schema
 const UserSchema = mongoose.Schema({
     firstName: {
@@ -65,20 +66,14 @@ const UserSchema = mongoose.Schema({
     }
 });
 
+
 const User = module.exports = mongoose.model('User', UserSchema);
 
-module.exports.getUserById = function (id, callback) {
-    User.findById(id, callback);
-};
 
-module.exports.getPatientById = function (id, callback) {
-    User.findById(id, callback);
-};
+/*************************************************************************************************************************************
+ * Person
+ *************************************************************************************************************************************/
 
-module.exports.getUserByEmail = function (email, callback) {
-    const query = { 'email': email };
-    User.findOne(query, callback);
-};
 
 module.exports.getPersonByFirstAndLastName = function (firstName, lastName, callback) {
     const query = {
@@ -88,13 +83,27 @@ module.exports.getPersonByFirstAndLastName = function (firstName, lastName, call
     User.findOne(query, callback);
 };
 
+
+/*************************************************************************************************************************************
+ * User
+ *************************************************************************************************************************************/
+
+
 module.exports.getUsers = function (query, callback) {
     User.find(query, callback);
 };
 
-module.exports.addPatient = function (newPatient, callback) {
-    newPatient.save(callback);
+
+module.exports.getUserById = function (id, callback) {
+    User.findById(id, callback);
 };
+
+
+module.exports.getUserByEmail = function (email, callback) {
+    const query = { 'email': email };
+    User.findOne(query, callback);
+};
+
 
 module.exports.addUser = function (newUser, callback) {
     h.dlog('Will now encrypt the password');
@@ -117,6 +126,7 @@ module.exports.addUser = function (newUser, callback) {
     h.dlog('Inside User Model - ADDUSER End');
 };
 
+
 module.exports.updateUser = function (query, set) {
     options = { multi: true };
 
@@ -125,6 +135,7 @@ module.exports.updateUser = function (query, set) {
         h.dlog('User update successful');
     });
 };
+
 
 module.exports.comparePassword = function (candidatePassword, hash, callback) {
     bcrypt.compare(
@@ -136,6 +147,7 @@ module.exports.comparePassword = function (candidatePassword, hash, callback) {
         }
     );
 };
+
 
 module.exports.changePassword = function (email, password) {
     bcrypt.genSalt(
@@ -156,4 +168,19 @@ module.exports.changePassword = function (email, password) {
             });
         }
     );
+};
+
+
+/*************************************************************************************************************************************
+ * Patient
+ *************************************************************************************************************************************/
+
+
+module.exports.getPatientById = function (id, callback) {
+    User.findById(id, callback);
+};
+
+
+module.exports.addPatient = function (newPatient, callback) {
+    newPatient.save(callback);
 };
