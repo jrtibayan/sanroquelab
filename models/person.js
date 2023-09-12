@@ -84,6 +84,11 @@ module.exports.getPersonByFirstAndLastName = function (firstName, lastName, call
 };
 
 
+module.exports.getPersons = function (query, fieldsToSelect, callback) {
+    User.find(query).select(fieldsToSelect).exec(callback);
+};
+
+
 /*************************************************************************************************************************************
  * User
  *************************************************************************************************************************************/

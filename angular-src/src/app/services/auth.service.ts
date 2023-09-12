@@ -76,6 +76,19 @@ export class AuthService {
     }
 
 
+    getAllActivePatients() {
+        this.loadToken();
+        const httpOptions = {headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': this.authToken
+        })};
+        return this.http.get(
+            'http://localhost:3000/patients/getall/active',
+            httpOptions
+        ).pipe(map(res => res));
+    }
+
+
 /*************************************************************************************************************************************
  * Transactions Route
  *************************************************************************************************************************************/

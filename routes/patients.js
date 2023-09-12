@@ -68,6 +68,41 @@ function registerPatient (newUser, newPassword, res) {
   )
 }
 
+
+// Returns an array containing all active patients
+router.get(
+  '/getall/active',
+  passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+    console.log("--------------------")
+      // Since any person can be a patient we can just use the get person function and query only those that are with inActive = false
+      const query = {};
+      const fieldsToSelect = 'firstName middleName lastName address dateOfBirth gender address isSeniorCitizen seniorIdNumber ';
+      
+      //const query = {isInactive: false};
+      User.getPersons(
+          query,
+          fieldsToSelect,
+          (err, patients) => {
+              if (err) {
+                  return res.json({ success: false, msg: 'There was and error while getting all patients.' });
+              }
+
+              if (patients && patients.length > 0) {
+                  return res.json({
+                      success: true,
+                      msg: 'Successfuly retrieved active patients!',
+                      patients: patients
+                  });
+              } else {
+                  return res.json({ success: false, msg: 'There are no active patients found.' });
+              }
+          }
+      )
+  }
+)
+
+
 // Register
 router.post(
   '/register',
