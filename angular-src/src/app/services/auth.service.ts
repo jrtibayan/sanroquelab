@@ -95,8 +95,6 @@ export class AuthService {
 
 
     getTransactions() {
-        this.loadToken();
-        console.log('-------------------------------111');
         const httpOptions = {headers: new HttpHeaders({
             'Content-Type':  'application/json',
             'Authorization': this.authToken
@@ -111,10 +109,13 @@ export class AuthService {
     registerTransaction(transaction) {
         const httpOptions = {headers: new HttpHeaders({
             'Content-Type':  'application/json',
-            'Authorization': localStorage.getItem('id_token')
+            'Authorization': this.authToken
         })};
+        console.log(' going to /transactions/register from auth service');
+        console.log(' authorization');
+        console.log(localStorage.getItem('id_token'));
         return this.http.post(
-          'http://localhost:3000/transactions/register',
+            'http://localhost:3000/transactions/register',
            transaction,
            httpOptions
         ).pipe(map(res => res));

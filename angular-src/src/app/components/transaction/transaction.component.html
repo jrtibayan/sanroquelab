@@ -2,9 +2,15 @@
     <div class="container" *ngIf="showAddTransactionRow">
         <br />
         <h2>Adding New Transaction</h2>
+        <br />
+        <button class="btn btn-primary" (click)="showSelectedPatient()">Show Selected Patient</button>
+        <button class="btn btn-primary" (click)="showSelectPackages()">Show Selected Packages</button>
+        <button class="btn btn-primary" (click)="showSetDiscount()">Set Discount</button>
+        <br />
+        <br />
         <div *ngIf="showSelectPatientSection">
             <br />
-            <label>Select Patient</label>
+            <h3>Select Patient</h3>
             <div class="list-group" style="max-height: 100px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;"> 
                 <a
                     href="javascript:void(0);"
@@ -13,13 +19,14 @@
                     (click)="selectPatient(patient)"
                     [class.active]="patient === selectedPatient"
                 >
-                    {{ patient.firstname }} {{ patient.lastname }}
+                    {{ patient.firstName }} {{ patient.lastName }}
                 </a>
             </div>        
             <br />
         </div>
         <div *ngIf="showSelectPackageSection">
-            <label>Select Packages</label>
+            <br />
+            <h3>Select Packages</h3>
             <div *ngFor="let testPackage of testPackages">
                 <div class="form-check">
                     <input
@@ -35,7 +42,8 @@
             <br />
         </div>
         <div *ngIf="showSelectDiscountSection">
-            <h3>Discount Options</h3>
+            <br />
+            <h3>Apply Discount</h3>
             
             <!-- Percentage Discount -->
             <div class="form-check">
@@ -94,12 +102,13 @@
             <button class="btn btn-primary" (click)="applyDiscount()">Set Discount</button>
           </div>
         <br />
+        <hr>
         <h3>Summary</h3>
         <p>Date and Time: {{ getCurrentDateTime() }}</p>
-<p>Patient: {{ selectedPatient?.firstname }} {{ selectedPatient?.lastname }}</p>
+<p>Patient: {{ patientName }}</p>
 <p>Address: {{ selectedPatient?.address }}</p>
 <p>Gender: {{ selectedPatient?.gender }}</p>
-<p>Age: {{ getAge(this.sampleDateOfBirth) }}</p>
+<p>Age: {{ this.age }}</p>
         <label>Selected Packages</label>
     <!-- Display selected packages with their details -->
     <div class="selected-packages">
@@ -135,9 +144,7 @@
         ₱ {{ calculateTotal() }}
     </div>
         <br />
-        <button class="btn btn-primary" (click)="showSelectedPatient()">Show Selected Patient</button>
-        <button class="btn btn-primary" (click)="showSelectedPackages()">Show Selected Packages</button>
-        <button class="btn btn-sm btn-primary" (click)="addTransaction()">Add</button>
+        <button class="btn btn-sm btn-primary" (click)="addTransaction()" [disabled]="selectedPackages.length === 0 || !selectedPatient">Add</button>
         <button class="btn btn-sm btn-secondary" (click)="cancelAddTransaction()">Cancel</button>
     </div>
     <div class="container" *ngIf="showTransactionListRow">
@@ -165,10 +172,10 @@
                     <ng-container *ngIf="transaction.isDeleted === false">
                         <tr>
                             <ng-container *ngIf="editingIndex !== i; else editRow">
-                                <td>{{ transaction.transactionDate }}</td>
-                                <td>{{ transaction.patient }}</td>
-                                <td>{{ transaction.subtotal }}</td>
-                                <td>{{ transaction.discount }}</td>
+                                <td>{{ getMMDDYYYY(transaction.dateDone) }}</td>
+                                <td>{{ transaction.patientName }}</td>
+                                <td>{{ transaction.subTotal }}</td>
+                                <td>{{ transaction.discount.amount }}</td>
                                 <td>{{ transaction.total }}</td>
                                 <td>{{ transaction.isFullyPaid }}</td>
                                 <td>{{ transaction.hasResult }}</td>

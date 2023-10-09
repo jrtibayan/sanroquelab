@@ -5,48 +5,81 @@ const h = require('../misc/helper');
 
 // Transaction Schema
 const TransactionSchema = mongoose.Schema({
-    personId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Person', // Reference to Person Collection
-        required: false
-    },
-    transactionDate: {
-        type: String,
-        required: true
-    },
-    patient: {
-        type: String,
-        required: true
-    },
-    subtotal: {
-        type: Number,
-        required: true
-    },
-    discount: {
-        type: Number,
-        required: true
-    },
-    total: {
-        type: Number,
-        required: true
-    },
-    totalPayment: {
-        type: Number,
-        required: true
-    },
-    isFullyPaid: {
-        type: Boolean,
-        required: true
-    },
-    hasResult: {
-        type: Boolean,
-        required: true
-    },
     isDeleted: {
         type: Boolean,
-        required: true
-    }
-});
+        required: true,
+    },
+    dateDone: {
+      type: Date,
+      required: true,
+    },
+    patientId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    patientName: {
+        type: String,
+      required: true
+    },
+    patientAge: {
+      type: String,
+      required: true,
+    },
+    subTotal: {
+      type: Number,
+      required: true,
+    },
+    discount: {
+      amount: {
+        type: Number,
+        required: false,
+      },
+      discountType: {
+        type: String,
+        required: false,
+      }
+    },
+    total: {
+      type: Number,
+      required: true,
+    },
+    packages: [
+      {
+        _id: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+        },
+        packageName: {
+          type: String,
+          required: true,
+        },
+        price: {
+          type: Number,
+          required: true,
+        },
+        reagents: {
+          type: [String],
+          required: false,
+        },
+        testIncluded: {
+          type: [String],
+          required: false,
+        },
+      }
+    ],
+    payments: [
+        {
+            paymentDate: {
+                type: Date,
+                required: true
+            },
+            amountPaid: {
+                type: Number,
+                required: false
+            }
+        }
+      ]
+  });
 
 
 const Transaction = module.exports = mongoose.model('Transaction', TransactionSchema);

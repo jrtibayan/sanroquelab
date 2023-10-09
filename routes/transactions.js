@@ -45,17 +45,18 @@ router.get(
 
 
 router.post(
-    '/transactions/insert',
+    '/register',
     passport.authenticate('jwt', { session: false }),
     (req, res, next) => {
+        console.log('on route transactions/register')
         const newTransaction = req.body;
         newTransaction.isDeleted = false; // all transaction added will have false value on isDeleted property
         newTransaction.isFullyPaid = false;
         newTransaction.hasResult = false;
 
-
+        
         if(req.user && req.user.role && (req.user.role === "admin" || req.user.allowedActions && req.user.allowedActions.includes("Add Transaction"))) {
-            Transaction.addTransaction(newTransaction, (err, updatedTransaction) => {
+            Transaction.addTransaction(new Transaction(newTransaction), (err, updatedTransaction) => {
                 if (err) {
                     return res.status(500).json({ 
                         success: false,

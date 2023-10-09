@@ -24,12 +24,12 @@ export class TransactionComponent {
     showSelectPatientSection: boolean = false;
     showSelectPackageSection: boolean = false;
     showSelectDiscountSection: boolean = false;
+    patientAge: any = {years: 0, months: 0, days: 0};
+    age: string = this.patientAge.years + 'yo ' +  this.patientAge.months + 'mo ' + this.patientAge.days + 'd';
     
 
     transactionForm: FormGroup;
 
-    // Sample data arrays
-    
 
     // Sample data array for testPackages
     testPackages: any[] = [
@@ -39,12 +39,9 @@ export class TransactionComponent {
     ];
     selectedPackages: any[] = [];
 
-    patients: any[] = [
-        { _id: 1, firstname: 'John', lastname: 'Doe' },
-        { _id: 2, firstname: 'Jane', lastname: 'Smith' },
-        { _id: 3, firstname: 'Alice', lastname: 'Johnson' },
-    ];
+    patients: any[] = [];
     selectedPatient: any = null;
+    patientName: string = '';
 
 
     constructor(
@@ -67,16 +64,23 @@ export class TransactionComponent {
         }
     }
     
+    showSelectedPatient() {
+        this.showSelectPatientSection = true;
+        this.showSelectPackageSection = false;
+        this.showSelectDiscountSection = false;
+    }
 
     
     
     showSelectPackages() {
+        this.showSelectPatientSection = false;
         this.showSelectPackageSection = true;
         this.showSelectDiscountSection = false;
         // ... other logic
     }
     
     showSetDiscount() {
+        this.showSelectPatientSection = false;
         this.showSelectPackageSection = false;
         this.showSelectDiscountSection = true;
         // ... other logic
@@ -93,6 +97,13 @@ export class TransactionComponent {
                 profile = res;
                 this.user = profile.user;
 
+                console.log("---------------------------------------------------------hello");
+                // Fetch active patients here
+                this.getPatients();
+
+                // Fetch active patients here
+                this.getTestPackages();
+
                 // get transactions here
                 this.getTransactions();
             },
@@ -105,17 +116,13 @@ export class TransactionComponent {
 
     selectPatient(patient: any) {
         this.selectedPatient = patient;
+        this.patientName = this.selectedPatient.lastName + ", " + this.selectedPatient.firstName;
+        if(this.selectedPatient.middleName) this.patientName = this.patientName + ' ' + this.selectedPatient.middleName;
+        this.patientAge = this.getAge(this.selectedPatient.dateOfBirth);
+        this.age = this.patientAge.years + 'yo ' +  this.patientAge.months + 'mo ' + this.patientAge.days + 'd';
     }
 
-    showSelectedPatient() {
-        if (this.selectedPatient) {
-            alert('Selected Patient: ' + JSON.stringify(this.selectedPatient));
-        } else {
-            //alert('No patient selected.');
-            const userInput = prompt('Please enter a value:');
-            console.log('User input:', userInput);
-        }
-    }
+    
 
     onPackageSelectionChange() {
         // Filter selected packages and store them in the selectedPackages array
@@ -123,12 +130,8 @@ export class TransactionComponent {
     }
 
     showSelectedPackages() {
-        // Alert and display the selected packages
-        if (this.selectedPackages.length === 0) {
-            alert('No packages selected.');
-        } else {
-            alert('Selected Packages: ' + JSON.stringify(this.selectedPackages));
-        }
+        this.showSelectPackageSection = true;
+        this.showSelectDiscountSection = false;
     }
 
 
@@ -146,6 +149,36 @@ export class TransactionComponent {
             },
             error: (error) => {
                 console.log('Error fetching lab transactions and packages:', error);
+            }
+        });
+    }
+
+    getTestPackages() {
+        this.authService.getLabTests().subscribe({
+            next: (res) => {
+                let allRes = {} as any;
+                allRes = res;
+                console.log("test apckages res");
+                console.log(res);
+                this.testPackages = allRes.packages;
+            },
+            error: (error) => {
+                console.log('Error fetching patients:', error);
+            }
+        });
+    }
+
+    getPatients() {
+        this.authService.getAllActivePatients().subscribe({
+            next: (res) => {
+                let allRes = {} as any;
+                allRes = res;
+                console.log(res);
+
+                this.patients = allRes.patients;
+            },
+            error: (error) => {
+                console.log('Error fetching patients:', error);
             }
         });
     }
@@ -174,9 +207,28 @@ export class TransactionComponent {
         if (this.userHasPermission('Add Transaction')) {
             // checks if there is both patient and package selected
             if (!(this.selectedPackages.length === 0 || !this.selectedPatient)) {
-                this.newTransaction.patient = this.selectedPatient;
-                this.newTransaction.items = this.selectedPackages;
-                this.newTransaction.date = "date now";
+                // make an object similart but only get the properties you want
+                const selectedProperties = this.selectedPackages.map((item) => ({
+                    _id: item._id,
+                    packageName: item.packageName,
+                    price: item.price,
+                    reagents: item.reagents,
+                    testIncluded: item.testIncluded
+                  }));
+
+                this.newTransaction = {
+                    dateDone: this.getCurrentDateTime(),
+                    patientId: this.selectedPatient._id,
+                    patientName: this.patientName,
+                    patientAge: this.age,
+                    subTotal: this.calculateSubtotal(),
+                    discount: {
+                        amount: this.discountAmount,
+                        discountType: this.discType
+                    },
+                    total: this.calculateTotal(),
+                    packages: selectedProperties
+                }
 
                 alert('Going to add new transaction: ' + JSON.stringify(this.newTransaction));
                 this.authService.registerTransaction(this.newTransaction).subscribe({      
@@ -187,12 +239,12 @@ export class TransactionComponent {
                         this.showAddTransactionRow = false;
                         this.showTransactionListRow = true;
                         this.flashMessage.show('New Transaction Added!', { cssClass: 'alert-success', timeout: 3000 });
-                        this.router.navigate(['/labtransaction/management']);
+                        this.router.navigate(['/transaction/management']);
                     },
                     error: (error) => {
                         console.error('Error adding new transaction:', error);
                         this.flashMessage.show('Failed to add transaction!', {cssClass: 'alert-danger', timeout: 3000});
-                        this.router.navigate(['labtransaction/management']);
+                        this.router.navigate(['transaction/management']);
                         // Handle error notifications or other actions here
                     }
                 });
@@ -203,6 +255,7 @@ export class TransactionComponent {
     // ...
 
     discountAmount: number = 0; // Initialize discount amount
+    discType: string = "NA";
 
     // ...
 
@@ -230,10 +283,10 @@ export class TransactionComponent {
     pwdDiscount: number = 20; // PWD discount percentage
 
     sampleDateOfBirth: Date = new Date('1985-03-11'); // Replace with your desired date
-    getAge(dateOfBirth: Date): string {
+    getAge(dateOfBirth: Date): any {
         const today = new Date();
         const birthDate = new Date(dateOfBirth);
-    
+
         let years = today.getFullYear() - birthDate.getFullYear();
         let months = today.getMonth() - birthDate.getMonth();
         let days = today.getDate() - birthDate.getDate();
@@ -251,7 +304,14 @@ export class TransactionComponent {
             }
         }
     
-        return `${years}yr, ${months}mo, ${days}d`;
+        return {years: years, months: months, days: days};
+        //return `${years}yr, ${months}mo, ${days}d`;
+    }
+
+    getMMDDYYYY(gDate): string {
+        const givenDate = new Date(gDate);
+        const formattedDateTime = `${givenDate.toLocaleDateString()}`;
+        return formattedDateTime;
     }
     
 
@@ -270,15 +330,19 @@ export class TransactionComponent {
     if (this.discountType === 'percentage') {
       // Calculate discount based on percentage
       this.discountAmount = (this.percentageDiscount / 100) * this.calculateSubtotal();
+      this.discType = 'Courtesy';
     } else if (this.discountType === 'fixed') {
       // Use fixed discount amount
       this.discountAmount = this.fixedDiscount;
+      this.discType = 'Courtesy';
     } else if (this.discountType === 'seniorCitizen') {
       // Apply Senior Citizen discount
       this.discountAmount = (this.seniorCitizenDiscount / 100) * this.calculateSubtotal();
+      this.discType = 'Senior';
     } else if (this.discountType === 'pwd') {
       // Apply PWD discount
       this.discountAmount = (this.pwdDiscount / 100) * this.calculateSubtotal();
+      this.discType = 'PWD';
     }
   }
 
