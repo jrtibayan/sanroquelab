@@ -73,9 +73,13 @@ const TransactionSchema = mongoose.Schema({
                 type: Date,
                 required: true
             },
+            receiptNumber: {
+              type: Number,
+              required: true
+            },
             amountPaid: {
                 type: Number,
-                required: false
+                required: true
             }
         }
       ]
@@ -108,6 +112,11 @@ module.exports.getTransactions = function (query, callback) {
     Transaction.find(query, callback)
 }
 
+module.exports.getTransactionById = function (queryId, callback) {
+  const query = {_id: queryId};
+  Transaction.findOne(query, callback)
+}
+
 
 module.exports.addTransaction = function (newTransaction, callback) {
     newTransaction.save(callback);
@@ -122,7 +131,17 @@ module.exports.updateTransaction = function (query, set) {
       if (err) return h.derror(err)
       h.dlog('Transaction update successful');
     })
-  }
+}
+
+module.exports.updateTransactionPayments = function (idToUpdate, payments) {
+
+
+  query = { '_id': idToUpdate };
+  update = { $set: { payments: payments } };
+
+  Transaction.updateTransaction(query, update);
+}
+
 
 
   module.exports.deleteTransaction = function(query, callback) {

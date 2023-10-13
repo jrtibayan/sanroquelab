@@ -14,12 +14,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 export class TransactionComponent {
     user: any;
+    newPaymentAmount: number = null;
+    newPaymentReceiptNumber: number = null;
+    idToUpdate: string = null;
     transactions: any[] = [];
     newTransaction: any = {};
     editingIndex: number | null = null;
     editingTransactionIndex: number | null = null;
     newUpdates: any = {};
     showTransactionListRow: boolean = true;
+    showAddPaymentTransactionRow: boolean = false;
     showAddTransactionRow: boolean = false;
     showSelectPatientSection: boolean = false;
     showSelectPackageSection: boolean = false;
@@ -188,6 +192,12 @@ export class TransactionComponent {
  * Managing Transactions
  *************************************************************************************************************************************/
 
+resetSelections() {
+    this.testPackages.forEach(testPackage => {
+      testPackage.isSelected = false;
+    });
+    this.selectedPackages = [];
+  }
     showAddTransactionInputRow() {
         this.showSelectPatientSection = true;
         this.showAddTransactionRow = true;
@@ -197,6 +207,10 @@ export class TransactionComponent {
 
 
     cancelAddTransaction() {
+        
+        this.resetSelections();
+        this.discountAmount = 0;
+        this.discType = "NA";
         this.showAddTransactionRow = false;
         this.showTransactionListRow = true;
         this.newTransaction = {};
@@ -325,6 +339,11 @@ export class TransactionComponent {
         return formattedDateTime;
     }
 
+    getTotalPaid(payments): string {
+        const total = payments.reduce((sum, payment) => sum + payment.amountPaid, 0);
+        return total;
+    }
+
 
   applyDiscount(): void {
     if (this.discountType === 'percentage') {
@@ -376,6 +395,44 @@ export class TransactionComponent {
             // this.transactions.splice(index, 1);
             this.submitTransactionsToBackend('Transaction Deleted!',  'Failed to delete transaction!', 'Delete Transaction');
         }
+    }
+
+    submitNewPaymentForm() {
+        if (this.userHasPermission('Add Transaction Payment')) {
+            if(this.newPaymentAmount && this.newPaymentReceiptNumber) {
+                const newPayment = {
+                    idToUpdate: this.idToUpdate,
+                    paymentDate: this.getCurrentDateTime(),
+                    receiptNumber: this.newPaymentReceiptNumber,
+                    amountPaid: this.newPaymentAmount
+                };
+
+                this.authService.updateTransactionWithNewPayment(newPayment).subscribe({      
+                    next: (response) => {
+                        // Handle any UI updates or notifications here
+                        this.getTransactions(); // after adding test i need to call this function to refresh the list displayed
+                        // this.newTest = {}; // this reset text inside the input boxes
+                        this.showTransactionListRow = true;
+                        this.showAddPaymentTransactionRow = false;
+                        this.flashMessage.show('Payment Added!', { cssClass: 'alert-success', timeout: 3000 });
+                        this.router.navigate(['/transactions/management']);
+                    },
+                    error: (error) => {
+                        console.error('Error adding new test:', error);
+                        this.flashMessage.show('Failed to add test!', {cssClass: 'alert-danger', timeout: 3000});
+                        this.router.navigate(['transactions/management']);
+                        // Handle error notifications or other actions here
+                    }
+                });
+            }
+        }
+    }
+
+    addPaymentTransaction(index: number) {
+        // alert(JSON.stringify(this.transactions[index]));
+        this.idToUpdate = this.transactions[index]._id;
+        this.showAddPaymentTransactionRow = true;
+        this.showTransactionListRow = false;
     }
 
     userHasPermission(permission: string): boolean {

@@ -1,4 +1,17 @@
 <div *ngIf="user">
+    <div class="container" *ngIf="showAddPaymentTransactionRow">
+        <form>
+            <div class="form-group">
+              <label for="newPaymentAmount">Amount Paid</label>
+              <input type="number" class="form-control" id="newPaymentAmount" name="newPaymentAmount" [(ngModel)]="newPaymentAmount">
+            </div>
+            <div class="form-group">
+              <label for="receiptNumber">Receipt Number</label>
+              <input type="text" class="form-control" id="newPaymentReceiptNumber" name="newPaymentReceiptNumber" [(ngModel)]="newPaymentReceiptNumber">
+            </div>
+            <button class="btn btn-primary" (click)="submitNewPaymentForm()">Submit</button>
+          </form>
+    </div>
     <div class="container" *ngIf="showAddTransactionRow">
         <br />
         <h2>Adding New Transaction</h2>
@@ -164,7 +177,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="6">
+                    <td colspan="12">
                         <button class="btn btn-sm btn-primary" (click)="showAddTransactionInputRow()" [disabled]="!userHasPermission('Add Transaction')">Add New Transaction</button>
                     </td>
                 </tr>
@@ -177,11 +190,12 @@
                                 <td>{{ transaction.subTotal }}</td>
                                 <td>{{ transaction.discount.amount }}</td>
                                 <td>{{ transaction.total }}</td>
-                                <td>{{ transaction.isFullyPaid }}</td>
+                                <td>{{ getTotalPaid(transaction.payments) }}</td>
                                 <td>{{ transaction.hasResult }}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-primary" (click)="editTransaction(i)" [disabled]="!userHasPermission('Edit Transaction')">Edit</button>
-                                    <button class="btn btn-sm btn-danger" (click)="deleteTransaction(i)" [disabled]="!userHasPermission('Delete Transaction')">Delete</button>
+                                    <!-- <button class="btn btn-sm btn-primary" (click)="editTransaction(i)" [disabled]="!userHasPermission('Edit Transaction')">Edit</button> -->
+                                    <button class="btn btn-sm btn-danger" (click)="deleteTransaction(i)" [disabled]="!userHasPermission('Delete Transaction')">Void</button>
+                                    <button class="btn btn-sm btn-primary" (click)="addPaymentTransaction(i)" [disabled]="!userHasPermission('Edit Transaction')">Pay</button>
                                 </td>
                             </ng-container>
                             <ng-template #editRow>

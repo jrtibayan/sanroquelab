@@ -133,6 +133,18 @@ export class AuthService {
         ).pipe(map(res => res));
     }
 
+    updateTransactionWithNewPayment(newPayment) {
+        const httpOptions = {headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': localStorage.getItem('id_token')
+        })};
+        return this.http.post(
+            'http://localhost:3000/transactions/payment/register',
+            newPayment,
+            httpOptions
+        ).pipe(map(res => res));
+    }
+
     deleteTransaction(updatedTransaction) {
         const httpOptions = {headers: new HttpHeaders({
             'Content-Type':  'application/json',

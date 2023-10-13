@@ -134,4 +134,92 @@ router.post(
   }
 )
 
+
+router.post(
+    '/payment/register',
+    passport.authenticate('jwt', { session: false }),
+    (req, res, next) => {
+      h.dlog('\n\n\nAdding Payment To Transaction')
+      const newPayment = req.body;
+      console.log('*******************************');
+      console.log(newPayment);
+      console.log('*********************************');
+      const action = req.body.action;
+  
+      // const email = req.body.email
+      // check if new is equals old
+      /*if (newPassword === confirmPassword) {
+        h.dlog('Cannot update. There are no changes to apply.')
+        return res.json({ success: false, msg: 'Cannot update. There are no changes to apply.'})
+      }*/
+  
+      // find retrieve record
+      
+      if(req.user && req.user.role && (req.user.role === "admin" || req.user.allowedActions && req.user.allowedActions.includes(action))) {
+          // get record to update
+          Transaction.getTransactionById(
+            newPayment.idToUpdate,
+            (err, transaction) => {
+              h.dlog('Finding transaction with id '+newPayment.idToUpdate);
+      
+              if (err) {
+                h.dlog('Failed to get labtests')
+                return res.json({ success: false, msg: 'Failed to get transaction' })
+              }
+      
+              if (transaction) {
+                h.dlog('Labtest found')
+                h.dlog(transaction)
+                console.log("--------------------------------------");
+                console.log(transaction.payments);
+                console.log("--------------------------------------");
+                
+                const currentPaid = transaction.payments.reduce((sum, payment) => sum + payment.amountPaid, 0);
+                
+                if(currentPaid + newPayment.amountPaid > transaction.total) {
+                  h.dlog('Amount exceeds total')
+                  return res.status(400).json({ success: false, msg: 'Payment exceeds total amount to be paid!'});
+                }
+
+                if(newPayment.amountPaid <=0 ) {
+                  h.dlog('Amount exceeds total')
+                  return res.status(400).json({ success: false, msg: 'Payment must be greater than 0!'});
+                }
+
+                if(transaction.payments.length<1){
+                  transaction.payments.push({
+                    paymentDate: new Date(newPayment.paymentDate),
+                    receiptNumber: newPayment.receiptNumber,
+                    amountPaid: newPayment.amountPaid
+                  });
+                } else {
+                  transaction.payments.unshift({
+                    paymentDate: new Date(newPayment.paymentDate),
+                    receiptNumber: newPayment.receiptNumber,
+                    amountPaid: newPayment.amountPaid
+                  });
+                }
+                console.log(transaction.payments);
+
+                Transaction.updateTransactionPayments(newPayment.idToUpdate, transaction.payments);
+
+                return res.json({
+                  success: true,
+                  msg: 'Payment Added'
+                })
+              } else {
+                h.dlog('No transaction in the database')
+                return res.json({ success: false, msg: 'No transaction in the database' })
+              }
+            }
+          );
+      } else {
+          return res.status(401).json({
+              success: false,
+              error: 'Aunauthorized Access' 
+          });
+      }
+    }
+  )
+
 module.exports = router
