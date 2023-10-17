@@ -30,7 +30,7 @@ export class TransactionComponent {
     showSelectDiscountSection: boolean = false;
     patientAge: any = {years: 0, months: 0, days: 0};
     age: string = this.patientAge.years + 'yo ' +  this.patientAge.months + 'mo ' + this.patientAge.days + 'd';
-    
+
 
     transactionForm: FormGroup;
 
@@ -61,28 +61,28 @@ export class TransactionComponent {
         // Handle form submission here
         const formData = this.transactionForm.value;
         console.log(formData);
-    
+
         // You can send the form data to your backend or perform any other action here
         } else {
         // Form is not valid, display error messages or take appropriate action
         }
     }
-    
+
     showSelectedPatient() {
         this.showSelectPatientSection = true;
         this.showSelectPackageSection = false;
         this.showSelectDiscountSection = false;
     }
 
-    
-    
+
+
     showSelectPackages() {
         this.showSelectPatientSection = false;
         this.showSelectPackageSection = true;
         this.showSelectDiscountSection = false;
         // ... other logic
     }
-    
+
     showSetDiscount() {
         this.showSelectPatientSection = false;
         this.showSelectPackageSection = false;
@@ -126,7 +126,7 @@ export class TransactionComponent {
         this.age = this.patientAge.years + 'yo ' +  this.patientAge.months + 'mo ' + this.patientAge.days + 'd';
     }
 
-    
+
 
     onPackageSelectionChange() {
         // Filter selected packages and store them in the selectedPackages array
@@ -207,7 +207,6 @@ resetSelections() {
 
 
     cancelAddTransaction() {
-        
         this.resetSelections();
         this.discountAmount = 0;
         this.discType = "NA";
@@ -245,7 +244,7 @@ resetSelections() {
                 }
 
                 alert('Going to add new transaction: ' + JSON.stringify(this.newTransaction));
-                this.authService.registerTransaction(this.newTransaction).subscribe({      
+                this.authService.registerTransaction(this.newTransaction).subscribe({
                     next: (response) => {
                         // Handle any UI updates or notifications here
                         this.getTransactions(); // after adding transaction i need to call this function to refresh the list displayed
@@ -304,20 +303,20 @@ resetSelections() {
         let years = today.getFullYear() - birthDate.getFullYear();
         let months = today.getMonth() - birthDate.getMonth();
         let days = today.getDate() - birthDate.getDate();
-    
+
         // Check if days are negative and borrow from months
         if (days < 0) {
             const borrow = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
             days += borrow;
             months--;
-    
+
             // If months are negative, borrow from years
             if (months < 0) {
                 months += 12;
                 years--;
             }
         }
-    
+
         return {years: years, months: months, days: days};
         //return `${years}yr, ${months}mo, ${days}d`;
     }
@@ -327,15 +326,15 @@ resetSelections() {
         const formattedDateTime = `${givenDate.toLocaleDateString()}`;
         return formattedDateTime;
     }
-    
+
 
     getCurrentDateTime(): string {
         // Create a new Date object to get the current date and time
         const now = new Date();
-    
+
         // Format the date and time as a string
         const formattedDateTime = `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
-    
+
         return formattedDateTime;
     }
 
@@ -407,15 +406,17 @@ resetSelections() {
                     amountPaid: this.newPaymentAmount
                 };
 
-                this.authService.updateTransactionWithNewPayment(newPayment).subscribe({      
+                this.authService.updateTransactionWithNewPayment(newPayment).subscribe({
                     next: (response) => {
                         // Handle any UI updates or notifications here
-                        this.getTransactions(); // after adding test i need to call this function to refresh the list displayed
-                        // this.newTest = {}; // this reset text inside the input boxes
-                        this.showTransactionListRow = true;
+
+                        // after adding test i need to call this function to get updated list of transactions
+                        this.getTransactions();
+
+                        // hide the add payment section then show the list of transaction with a success flashmessage
                         this.showAddPaymentTransactionRow = false;
+                        this.showTransactionListRow = true;
                         this.flashMessage.show('Payment Added!', { cssClass: 'alert-success', timeout: 3000 });
-                        this.router.navigate(['/transactions/management']);
                     },
                     error: (error) => {
                         console.error('Error adding new test:', error);
@@ -425,14 +426,32 @@ resetSelections() {
                     }
                 });
             }
+            else {
+                this.flashMessage.show('Please fill needed info.', { cssClass: 'alert-success', timeout: 3000 });
+            }
         }
+
+    }
+
+    cancelNewPayment() {
+        // hide the section for adding payment then show the list of transactions
+        this.showAddPaymentTransactionRow = false;
+        this.showTransactionListRow = true;
     }
 
     addPaymentTransaction(index: number) {
         // alert(JSON.stringify(this.transactions[index]));
+
+        // this will be the transaction id to be updated
         this.idToUpdate = this.transactions[index]._id;
-        this.showAddPaymentTransactionRow = true;
+
+        // made these null instead of 0 so user can easily input data in blank textbox
+        this.newPaymentAmount = null;
+        this.newPaymentReceiptNumber = null;
+
+        // hide the list of transaction then show the section where user can input data needed
         this.showTransactionListRow = false;
+        this.showAddPaymentTransactionRow = true;
     }
 
     userHasPermission(permission: string): boolean {
@@ -467,7 +486,7 @@ resetSelections() {
             this.flashMessage.show('No transaction to submit', {cssClass: 'alert-danger', timeout: 3000});
         }
     }
-    
+
 }
 
 
