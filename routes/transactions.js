@@ -7,6 +7,7 @@ const conf = require('config');
 const h = require('../misc/helper');
 
 const Transaction = require('../models/transaction')
+const PendingTest = require('../models/pendingtest')
 
 
 // Returns an array containing all transactions
@@ -168,10 +169,11 @@ router.post(
               }
       
               if (transaction) {
-                h.dlog('Labtest found')
+                h.dlog('TRANSACTION found')
                 h.dlog(transaction)
                 console.log("--------------------------------------");
-                console.log(transaction.payments);
+                console.log('transaction.testIncluded');
+                //console.log(transaction.testIncluded);
                 console.log("--------------------------------------");
                 
                 const currentPaid = transaction.payments.reduce((sum, payment) => sum + payment.amountPaid, 0);
@@ -182,7 +184,7 @@ router.post(
                 }
 
                 if(newPayment.amountPaid <=0 ) {
-                  h.dlog('Amount exceeds total')
+                  h.dlog('Amount must be greater than 0')
                   return res.status(400).json({ success: false, msg: 'Payment must be greater than 0!'});
                 }
 
@@ -199,9 +201,38 @@ router.post(
                     amountPaid: newPayment.amountPaid
                   });
                 }
-                console.log(transaction.payments);
+                console.log('Adding of Payments -------------------------------------');
 
+                // if all are good the payments in the transaction is updated
                 Transaction.updateTransactionPayments(newPayment.idToUpdate, transaction.payments);
+                console.log('aFTER Adding of Payments -------------------------------------');
+                // if after payment is now fully paid, add the tests to queue for making test results
+                if(currentPaid + newPayment.amountPaid === transaction.total) {
+
+                   for(const package of transaction.packages) {
+                      for(const test of package.testIncluded) {
+
+                        let ptest = {
+                          dateDone: transaction.dateDone,
+                          patientId: transaction.patientId,
+                          patientName: transaction.patientName,
+                          testName: test
+                        };
+
+                        PendingTest.insert(new PendingTest(ptest), (err, pendingTest) => {
+                          if (err) {
+                              return res.status(500).json({
+                                  success: false,
+                                  msg: 'Error adding to queue'
+                              });
+                          }
+                        });
+
+                      }
+                   }
+
+                   console.log(transaction.testIncluded);
+                }
 
                 return res.json({
                   success: true,
