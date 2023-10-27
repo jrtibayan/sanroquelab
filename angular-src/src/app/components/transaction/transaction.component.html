@@ -186,7 +186,7 @@
                     <ng-container *ngIf="transaction.isDeleted === false">
                         <tr>
                             <ng-container *ngIf="editingIndex !== i; else editRow">
-                                <td>{{ getMMDDYYYY(transaction.dateDone) }}</td>
+                                <td>{{ utilities.formatDateToMMDDYYYY(transaction.dateDone) }}</td>
                                 <td>{{ transaction.patientName }}</td>
                                 <td>{{ transaction.subTotal }}</td>
                                 <td>{{ transaction.discount.amount }}</td>

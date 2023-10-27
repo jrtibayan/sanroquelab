@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FlashMessagesService} from 'flash-messages-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { Utilities } from '../../shared/utilities.functions';
 
 @Component({
     selector: 'app-transaction',
@@ -13,6 +14,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 export class TransactionComponent {
+    public utilities = Utilities;
+
     user: any;
     newPaymentAmount: number = null;
     newPaymentReceiptNumber: number = null;
