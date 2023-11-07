@@ -87,6 +87,29 @@ exports.canAddNewRole = function (action, loggedUserRole, loggedUserAllowedActio
   return false
 }
 
+exports.userCanDoAction = function (action, loggedUserRole, loggedUserAllowedActions = []) {
+  const allowed = {}
+
+  allowed.admin = [
+    'register testresult',
+    'register director',
+    'register manager',
+    'register medtech',
+    'register radtech',
+    'register cashier'
+  ]
+
+  allowed.manager = [
+    'register medtech',
+    'register radtech',
+    'register cashier'
+  ]
+
+  if (loggedUserAllowedActions.includes(action) || allowed[loggedUserRole].includes(action)) return true
+
+  return false
+}
+
 // result is the actual response to be returned
 // and testProps are additional properties if ever it is only running a test
 exports.appRes = function (result, testProps) {
