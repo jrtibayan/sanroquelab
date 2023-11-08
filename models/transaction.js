@@ -21,7 +21,15 @@ const TransactionSchema = mongoose.Schema({
         type: String,
       required: true
     },
+    patientAddress: {
+      type: String,
+      required: true,
+    },
     patientAge: {
+      type: String,
+      required: true,
+    },
+    patientGender: {
       type: String,
       required: true,
     },

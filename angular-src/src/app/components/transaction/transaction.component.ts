@@ -33,6 +33,8 @@ export class TransactionComponent {
     showSelectDiscountSection: boolean = false;
     patientAge: any = {years: 0, months: 0, days: 0};
     age: string = this.patientAge.years + 'yo ' +  this.patientAge.months + 'mo ' + this.patientAge.days + 'd';
+    gender: string = '';
+    address: string = '';
 
 
     transactionForm: FormGroup;
@@ -124,6 +126,8 @@ export class TransactionComponent {
     selectPatient(patient: any) {
         this.selectedPatient = patient;
         this.patientName = this.selectedPatient.lastName + ", " + this.selectedPatient.firstName;
+        this.gender = this.selectedPatient.gender;
+        this.address = this.selectedPatient.address;
         if(this.selectedPatient.middleName) this.patientName = this.patientName + ' ' + this.selectedPatient.middleName;
         this.patientAge = this.getAge(this.selectedPatient.dateOfBirth);
         this.age = this.patientAge.years + 'yo ' +  this.patientAge.months + 'mo ' + this.patientAge.days + 'd';
@@ -236,7 +240,9 @@ resetSelections() {
                     dateDone: this.getCurrentDateTime(),
                     patientId: this.selectedPatient._id,
                     patientName: this.patientName,
+                    patientAddress: this.address,
                     patientAge: this.age,
+                    patientGender: this.gender,
                     subTotal: this.calculateSubtotal(),
                     discount: {
                         amount: this.discountAmount,

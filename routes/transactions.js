@@ -214,8 +214,12 @@ router.post(
 
                         let ptest = {
                           dateDone: transaction.dateDone,
+                          transactionId: transaction._id,
                           patientId: transaction.patientId,
                           patientName: transaction.patientName,
+                          patientAddress: transaction.patientAddress,
+                          patientGender: transaction.patientGender,
+                          patientAge: transaction.patientAge,
                           testName: test
                         };
 
