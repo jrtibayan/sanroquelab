@@ -199,6 +199,44 @@ export class AuthService {
         ).pipe(map(res => res));
     }
 
+    getPendingTests() {
+        const httpOptions = {headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': this.authToken
+        })};
+        return this.http.get(
+            'http://localhost:3000/labtests/pending/getall',
+            httpOptions
+        ).pipe(map(res => res));
+    }
+
+    getFinalizedResults() {
+        const httpOptions = {headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': this.authToken
+        })};
+        return this.http.get(
+            'http://localhost:3000/finalizedresults/getall',
+            httpOptions
+        ).pipe(map(res => res));
+    }
+
+
+/*************************************************************************************************************************************
+ * TestResult Route
+ *************************************************************************************************************************************/
+
+    addResult(result) {
+        const httpOptions = {headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': localStorage.getItem('id_token')
+        })};
+        return this.http.post(
+        'http://localhost:3000/testresults/register',
+        result,
+        httpOptions
+        ).pipe(map(res => res));
+    }
 
 /*************************************************************************************************************************************
  * Labtests Route

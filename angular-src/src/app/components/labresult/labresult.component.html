@@ -1,0 +1,91 @@
+<p>labresult works!</p>
+<div *ngIf="user">
+    <div class="container" *ngIf="showLabResultsList">
+        <br />
+        <h2>Lab Results</h2>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date - Time</th>
+                    <th>Patient</th>
+                    <th>Test</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="12">
+                        <button class="btn btn-sm btn-primary" (click)="showLabResultManagerSection()" [disabled]="!userHasPermission('Add Lab Result')">Prepare Lab Result</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>sample</td>
+                    <td>sample</td>
+                    <td>sample</td>
+                </tr>       
+            </tbody>
+        </table>
+    </div>
+    <div class="container" *ngIf="showLabResultManager">
+        <br />
+        <h2>Lab Result Manager</h2>
+        
+        <button class="btn btn-sm btn-primary" (click)="showTestSelectionSection()" [disabled]="!userHasPermission('Add Lab Result')">Select Tests</button>
+        <button class="btn btn-sm btn-primary" (click)="submitResult()" [disabled]="!userHasPermission('Add Lab Result')">Submit</button>
+
+        <table class="table" *ngIf="showTestSelection">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Date - Time</th>
+                    <th>Patient</th>
+                    <th>Test</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ptest of visiblePendingTests">
+                    <td>
+                        <input type="checkbox" [(ngModel)]="ptest.isSelected" (change)="refreshList(ptest)">
+                    </td>
+                    <td>{{ utilities.formatDateToMMDDYYYY(ptest.dateDone) }}</td>
+                    <td>{{ ptest.patientName }}</td>
+                    <td>{{ ptest.testName }}</td>
+                </tr>       
+            </tbody>
+        </table>
+
+        <table class="table" *ngIf="showTestSelection">
+            <thead>
+              <tr>
+                <th>Test Name</th>
+                <th>Result</th>
+                <th>Normal Values</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ptest of selectedTests">
+                <td>{{ ptest.testName }}</td>
+                <td><input [(ngModel)]="ptest.resultValue" type="text"></td>
+                <td>{{ ptest.normalValue }}</td>
+              </tr>
+            </tbody>
+          </table>
+        <table class="table" *ngIf="showDataInput">
+            <thead>
+                <tr>
+                    <th>Date - Time</th>
+                    <th>Patient</th>
+                    <th>Test</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>sample2</td>
+                    <td>sample2</td>
+                    <td>sample2</td>
+                </tr>       
+            </tbody>
+        </table>
+        
+    </div>
+</div>

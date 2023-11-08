@@ -8,6 +8,7 @@ const defaultAdmin = conf.defaultAdmin
 const h = require('../misc/helper')
 
 const Labtest = require('../models/labtest')
+const PendingTest = require('../models/pendingtest')
 
 
 // Profile
@@ -120,6 +121,31 @@ router.post(
         });
     }
   }
+)
+
+// Pending Test
+router.get(
+    '/pending/getall',
+    passport.authenticate('jwt', { session: false }),
+    (req, res, next) => {
+        PendingTest.getAll(
+            (err, pendingTests) => {
+                if (err) {
+                    return res.json({ success: false, msg: 'Failed to get pending tests' });
+                }
+
+                if (pendingTests.length > 0) {
+                    return res.json({
+                        success: true,
+                        msg: 'Successfuly retrieved pending tests!',
+                        tests: pendingTests
+                    });
+                } else {
+                    return res.json({ success: false, msg: 'No labtests in the database' });
+                }
+            }
+        )
+    }
 )
 
 module.exports = router
