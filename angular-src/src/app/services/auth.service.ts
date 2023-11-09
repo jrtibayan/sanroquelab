@@ -216,7 +216,7 @@ export class AuthService {
             'Authorization': this.authToken
         })};
         return this.http.get(
-            'http://localhost:3000/finalizedresults/getall',
+            'http://localhost:3000/testresults/getall',
             httpOptions
         ).pipe(map(res => res));
     }
