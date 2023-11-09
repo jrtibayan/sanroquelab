@@ -10,6 +10,33 @@ const h = require('../misc/helper');
 const TestResult = require('../models/testresult');
 const PendingTest = require('../models/pendingtest');
 
+// Returns an array containing all results
+router.get(
+    '/getall',
+    passport.authenticate('jwt', { session: false }),
+    (req, res, next) => {
+        const query = {};
+        TestResult.getAll(
+            query,
+            (err, testresults) => {
+                if (err) {
+                    return res.json({ success: false, msg: 'Failed to get testresults' });
+                }
+
+                if (testresults.length > 0) {
+                    return res.json({
+                        success: true,
+                        msg: 'Successfuly retrieved testresults!',
+                        testresults: testresults
+                    });
+                } else {
+                    return res.json({ success: false, msg: 'No testresults in the database' });
+                }
+            }
+        )
+    }
+)
+
  // Register
 router.post(
     '/register',
