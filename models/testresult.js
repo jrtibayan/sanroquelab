@@ -66,6 +66,10 @@ const TestResult = module.exports = mongoose.model('TestResult', TestResultSchem
  * Test Result
  *************************************************************************************************************************************/
 
+module.exports.getAll = function (query = {}, callback) {
+    TestResult.find(query, callback)
+}
+
 module.exports.addResult = function (newResult, callback) {
     newResult.save(callback);
 };
