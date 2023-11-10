@@ -1,5 +1,5 @@
 { 
-  "DBHost": "mongodb://localhost:27017/dbsanroque",
+  "DBHost": "mongodb+srv://sanroqueadmin:sanroqueadmin@sanroqueprototype.uto8pg8.mongodb.net/?retryWrites=true&w=majority",
   "secret": "yoursecret",
   "debug" : true,
   "defaultAdmin": {
