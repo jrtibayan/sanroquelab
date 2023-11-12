@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from "@auth0/angular-jwt";
 
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +13,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 
 
 export class AuthService {
+    private apiUrl = environment.apiUrl;
     authToken: any;
     user: any;
 
@@ -28,9 +31,9 @@ export class AuthService {
             'Authorization': localStorage.getItem('id_token')
         })};
         return this.http.post(
-          'http://localhost:3000/users/register',
-           user,
-           httpOptions
+            `${this.apiUrl}/users/register`,
+            user,
+            httpOptions
         ).pipe(map(res => res));
     }
 
@@ -40,9 +43,9 @@ export class AuthService {
         'Content-Type':  'application/json'
         })};
         return this.http.post(
-        'http://localhost:3000/users/authenticate',
-        user,
-        httpOptions
+            `${this.apiUrl}/users/authenticate`,
+            user,
+            httpOptions
         ).pipe(map(res => res));
     }
 
@@ -54,8 +57,8 @@ export class AuthService {
         'Authorization': this.authToken
         })};
         return this.http.get(
-        'http://localhost:3000/users/profile',
-        httpOptions
+            `${this.apiUrl}/users/profile`,
+            httpOptions
         ).pipe(map(res => res));
     }
 
@@ -69,9 +72,9 @@ export class AuthService {
         'Authorization': localStorage.getItem('id_token')
         })};
         return this.http.post(
-        'http://localhost:3000/patients/register',
-        patient,
-        httpOptions
+            `${this.apiUrl}/patients/register`,
+            patient,
+            httpOptions
         ).pipe(map(res => res));
     }
 
@@ -83,7 +86,7 @@ export class AuthService {
             'Authorization': this.authToken
         })};
         return this.http.get(
-            'http://localhost:3000/patients/getall/active',
+            `${this.apiUrl}/patients/getall/active`,
             httpOptions
         ).pipe(map(res => res));
     }
@@ -100,7 +103,7 @@ export class AuthService {
             'Authorization': this.authToken
         })};
         return this.http.get(
-            'http://localhost:3000/transactions/getall',
+            `${this.apiUrl}/transactions/getall`,
             httpOptions
         ).pipe(map(res => res));
     }
@@ -115,9 +118,9 @@ export class AuthService {
         console.log(' authorization');
         console.log(localStorage.getItem('id_token'));
         return this.http.post(
-            'http://localhost:3000/transactions/register',
-           transaction,
-           httpOptions
+            `${this.apiUrl}/transactions/register`,
+            transaction,
+            httpOptions
         ).pipe(map(res => res));
     }
 
@@ -127,7 +130,7 @@ export class AuthService {
             'Authorization': localStorage.getItem('id_token')
         })};
         return this.http.post(
-            'http://localhost:3000/transactions/update',
+            `${this.apiUrl}/transactions/update`,
             updatedTransaction,
             httpOptions
         ).pipe(map(res => res));
@@ -139,7 +142,7 @@ export class AuthService {
             'Authorization': localStorage.getItem('id_token')
         })};
         return this.http.post(
-            'http://localhost:3000/transactions/payment/register',
+            `${this.apiUrl}/transactions/payment/register`,
             newPayment,
             httpOptions
         ).pipe(map(res => res));
@@ -151,7 +154,7 @@ export class AuthService {
             'Authorization': localStorage.getItem('id_token')
         })};
         return this.http.post(
-            'http://localhost:3000/transactions/delete',
+            `${this.apiUrl}/transactions/delete`,
             updatedTransaction,
             httpOptions
         ).pipe(map(res => res));
@@ -170,8 +173,8 @@ export class AuthService {
         'Authorization': this.authToken
         })};
         return this.http.get(
-        'http://localhost:3000/labtests/getall',
-        httpOptions
+            `${this.apiUrl}/labtests/getall`,
+            httpOptions
         ).pipe(map(res => res));
     }
 
@@ -181,7 +184,7 @@ export class AuthService {
         'Authorization': localStorage.getItem('id_token')
         })};
         return this.http.post(
-        'http://localhost:3000/labtests/update',
+            `${this.apiUrl}/labtests/update`,
         tests,
         httpOptions
         ).pipe(map(res => res));
@@ -193,9 +196,9 @@ export class AuthService {
         'Authorization': localStorage.getItem('id_token')
         })};
         return this.http.post(
-        'http://localhost:3000/labtests/tests/insert',
-        newTest,
-        httpOptions
+            `${this.apiUrl}/labtests/tests/insert`,
+            newTest,
+            httpOptions
         ).pipe(map(res => res));
     }
 
@@ -205,7 +208,7 @@ export class AuthService {
             'Authorization': this.authToken
         })};
         return this.http.get(
-            'http://localhost:3000/labtests/pending/getall',
+            `${this.apiUrl}/labtests/pending/getall`,
             httpOptions
         ).pipe(map(res => res));
     }
@@ -216,7 +219,7 @@ export class AuthService {
             'Authorization': this.authToken
         })};
         return this.http.get(
-            'http://localhost:3000/testresults/getall',
+            `${this.apiUrl}/testresults/getall`,
             httpOptions
         ).pipe(map(res => res));
     }
@@ -232,9 +235,9 @@ export class AuthService {
             'Authorization': localStorage.getItem('id_token')
         })};
         return this.http.post(
-        'http://localhost:3000/testresults/register',
-        result,
-        httpOptions
+            `${this.apiUrl}/testresults/register`,
+            result,
+            httpOptions
         ).pipe(map(res => res));
     }
 
