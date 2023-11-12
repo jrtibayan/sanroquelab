@@ -18,11 +18,13 @@
                         <button class="btn btn-sm btn-primary" (click)="showLabResultManagerSection()" [disabled]="!userHasPermission('Add Lab Result')">Prepare Lab Result</button>
                     </td>
                 </tr>
-                <tr>
-                    <td>sample</td>
-                    <td>sample</td>
-                    <td>sample</td>
-                </tr>       
+                <tr *ngFor="let result of this.finalizedResults">
+                    <td>{{ this.utilities.formatDateToMMDDYYYY(result.dateDone) }}</td>
+                    <td>{{ result.patientName }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" (click)="previewResult(result)">Preview</button>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

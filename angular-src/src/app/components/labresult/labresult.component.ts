@@ -164,23 +164,85 @@ export class LabresultComponent {
         });
     }
 
-    getFinalizedResults() {
+    previewResult(result) {
+        // You can customize the way you want to display the content of the object here.
+        // For example, displaying it in an alert:
+        //alert(JSON.stringify(result, null, 2));
 
-        this.finalizedResults = [];
-        /*
+        const printWindow = window.open('', '_blank', 'width=1000,height=800,scrollbars=yes');
+
+        if (printWindow) {
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Printable Result</title>
+                    <!-- Link your print-friendly CSS here -->
+                    <link rel="stylesheet" href="printable-result.css" media="print">
+                </head>
+                <body>
+                    <header>
+                        <!-- Company Logo and Name -->
+                        <div>
+                            <img src="company-logo.png" alt="Company Logo" width="100" height="50">
+                            <h2>Company Name</h2>
+                        </div>
+                    </header>
+
+                    <div>
+                        <h1>Test Result</h1>
+                        <p>Date: ${this.utilities.formatDateToMMDDYYYY(result.dateDone)}</p>
+                        <p>Patient: ${result.patientName}</p>
+                        <p>Address: ${result.patientAddress}</p>
+                        <p>Gender: ${result.patientGender}</p>
+                        <p>Age: ${result.patientAge}</p>
+                        <table>
+                        <tr *ngFor="let test of result.testsAndResults">
+
+                        </tr>
+                        </table>
+                    </div>
+
+                    <footer>
+                        <!-- Additional Company Information -->
+                        <div>
+                            <p>Company Address: Your Company Address</p>
+                            <p>Contact Number: Your Contact Number</p>
+                        </div>
+                    </footer>
+                </body>
+                </html>
+            `);
+
+            printWindow.document.close();
+            printWindow.print();
+        }
+    }
+
+    getFinalizedResults() {
         this.authService.getFinalizedResults().subscribe({
             next: (res) => {
-                //let allTransactions = {} as any;
-                //allTransactions = res;
-
-                //this.finalizedResults = allTransactions.transactions;
-                this.finalizedResults = []; //put
+                let httpRes = {} as any;
+                httpRes = res;
+                this.finalizedResults = httpRes.testresults || [];
+                this.finalizedResults = httpRes.testresults.map(({date_done, patient_name, patient_address, patient_gender, patient_age, medtech, pathologist, tests_and_results}) => ({
+                    dateDone: date_done,
+                    patientName: patient_name,
+                    patientAddress: patient_address,
+                    patientGender: patient_gender,
+                    patientAge: patient_age,
+                    medtech: medtech,
+                    pathologist: pathologist,
+                    testsAndResults: tests_and_results.map(({test_name, result_value, normal_values}) => ({
+                        testName: test_name,
+                        resultValue: result_value,
+                        normalValues: normal_values
+                    }))
+                }));
             },
             error: (error) => {
                 console.log('Error fetching lab transactions and packages:', error);
             }
         });
-        */
     }
 
     showLabResultManagerSection() {
