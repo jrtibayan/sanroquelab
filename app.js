@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
@@ -47,8 +48,7 @@ const labtests = require('./routes/labtests')
 const transactions = require('./routes/transactions')
 const testresults = require('./routes/testresults')
 
-const port = 3000
-// const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 //  CORS Middleware
 app.use(cors())
