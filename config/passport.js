@@ -6,7 +6,7 @@ const conf = require('config')
 module.exports = function (passport) {
   const opts = {}
   opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt')
-  opts.secretOrKey = conf.secret
+  opts.secretOrKey = process.env.SECRET_KEY
 
   passport.use(new JwtStrategy(
     opts,
