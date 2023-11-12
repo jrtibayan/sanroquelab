@@ -243,7 +243,7 @@ router.post(
                   return JSON.parse(JSON.stringify(src))
                 }
 
-                const token = jwt.sign(convertToPlainObj(user), conf.secret)
+                const token = jwt.sign(convertToPlainObj(user), process.env.SECRET_KEY)
 
                 return res.json({
                   success: true,
