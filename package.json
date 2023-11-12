@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A MEAN Stack App made for San Roque Lab that would record lab services rendered and print lab results.",
   "main": "app.js",
+  "engines": {
+    "node": ">=18 <19"
+  },
   "scripts": {
     "test": "node_modules/mocha/bin/mocha --require mock-local-storage --exit",
     "start": "set NODE_ENV=dev && node app.js"
