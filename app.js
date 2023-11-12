@@ -11,8 +11,9 @@ const morgan = require('morgan')
 const h = require('./misc/helper')
 
 //  Connect to database
+const dbHost = process.env.DB_CONNECTION_STRING;
 mongoose.connect(
-  conf.DBHost,
+  dbHost,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -21,7 +22,7 @@ mongoose.connect(
 
 //  On Connection
 mongoose.connection.on('connected', () => {
-  h.dlog('Connected to database ' + conf.DBHost)
+  h.dlog('Connected to database ' + dbHost)
 
   //  delete test database if we are running test
   if (conf.util.getEnv('NODE_ENV') === 'test') {

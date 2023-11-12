@@ -1,6 +1,4 @@
 { 
-  "DBHost": "mongodb+srv://sanroqueadmin:sanroqueadmin@sanroqueprototype.uto8pg8.mongodb.net/?retryWrites=true&w=majority",
-  "secret": "yoursecret",
   "debug" : true,
   "defaultAdmin": {
     "firstName": "Jeric",

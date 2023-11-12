@@ -10,13 +10,14 @@
     "buildback": "npm install && tsc",
     "buildfront": "cd angular-src && npm run build",
     "test": "node_modules/mocha/bin/mocha --require mock-local-storage --exit",
-    "start": "set NODE_ENV=dev && node app.js"
+    "start": "set NODE_ENV=dev && nodemon app.js"
   },
   "dependencies": {
     "bcryptjs": "*",
     "body-parser": "*",
     "config": "^1.20.1",
     "cors": "*",
+    "dotenv": "^16.3.1",
     "express": "*",
     "jsonwebtoken": "*",
     "mocha": "^8.2.1",
