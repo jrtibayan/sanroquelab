@@ -27,7 +27,7 @@ export class RegisterUserComponent {
   isSeniorCitizen!: Boolean;
   seniorIdNumber!: String;
 
-  availableRoles: string[] = ['admin', 'cashier', 'drirector', 'medtech', 'radtech'];
+  availableRoles: string[] = ['Admin', 'Cashier', 'Director', 'Medtech', 'Radtech'];
   selectedRole: string = '';
 
   availableActions: string[] = [
@@ -42,6 +42,10 @@ export class RegisterUserComponent {
     'Add Package',
     'Edit Package',
     'Delete Package',
+    'Add Patient',
+    'Add Transaction',
+    'Add Payment',
+    'Add Result',
   ];
   selectedAction: string = '';
   selectedActions: string[] = [];

@@ -111,10 +111,12 @@ router.post(
     h.dlog('\n\n\nInside PATIENTS Route - REGISTER Start')
     h.dlog('Adding patient with fullname: ' + req.body.firstName + ' ' + req.body.lastName)
 
+    const action = 'Add Patient';
+
     const newPatient = prepareNewPatient(req.body)
 
     // validate if allowed to do action register patient
-    if (true) {
+    if (h.userCanDoAction(action, req.user.role, req.user.allowedActions)) {
       return registerPatient(newPatient, null, res)
     } else {
       h.dlog('User not allowed to register ')

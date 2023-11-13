@@ -45,7 +45,7 @@ router.post(
         h.dlog('\n\n\nInside TESTRESULT Route - REGISTER Start');
         h.dlog('Adding result of patient ' + req.body.patientName);
 
-        const action = 'register testresult';
+        const action = 'Add Result';
 
         const newResult = new TestResult({
             date_done: new Date(req.body.dateDone),
@@ -64,7 +64,7 @@ router.post(
             }))
         });
 
-        if (h.userCanDoAction(action, req.user.role, req.user.allowedActions)) {
+        if(req.user && req.user.role && (req.user.role === "admin" || req.user.allowedActions && req.user.allowedActions.includes(action))) {
             TestResult.addResult(newResult, (err, result) => {
                 console.log(req.body);
                 console.log("    newResult to be added ----------------------------------------");

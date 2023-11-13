@@ -145,7 +145,7 @@ router.post(
       console.log('*******************************');
       console.log(newPayment);
       console.log('*********************************');
-      const action = req.body.action;
+      const action = "Add Transaction";
   
       // const email = req.body.email
       // check if new is equals old

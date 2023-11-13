@@ -104,7 +104,7 @@ router.post(
         h.dlog('\n\n\nInside USER Route - REGISTER Start');
         h.dlog('Adding user with emailad ' + req.body.email);
 
-        const action = 'register ' + req.body.role;
+        const action = 'Add ' + req.body.role;
         const newUser = prepareNewUser(req.body);
 
         if (h.canAddNewRole(action, req.user.role, req.user.allowedActions, req.body.role)) {
