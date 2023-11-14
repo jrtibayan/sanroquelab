@@ -68,6 +68,8 @@ export class LabtestComponent {
                 allTests = res;
                 this.tests = allTests.tests;
                 this.packages = allTests.packages;
+
+                this.completeTests = this.tests.map(testObject => testObject.testName);
             },
             error: (error) => {
                 console.log('Error fetching lab tests and packages:', error);
