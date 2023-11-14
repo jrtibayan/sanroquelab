@@ -55,6 +55,48 @@ exports.emailRegistrationSuccessful = function (email, password, user) {
     subject: 'San Roque | ' + user.firstName + ' ' + user.lastName + ' has been registered',
     text: 'A new staff has been registered!\n\nEmail: ' + email + '\nPassword: ' + password
   }
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      dlog('Failed to email the user')
+      dlog(error)
+    } else {
+      dlog('Email sent')
+    }
+  })
+}
+
+exports.sendEmail = function (email, subject, msg) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: sender.email,
+      pass: sender.password
+    }
+  })
+
+  let mailOptions = {
+    from: sender.email,
+    to: email,
+    subject: 'San Roque | ' + subject,
+    text: msg
+  }
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      dlog('Failed to email the user');
+    } else {
+      dlog('Email sent');
+    }
+  })
+
+  mailOptions = {
+    from: sender.email,
+    to: defaultAdmin.email,
+    subject: 'San Roque | ' + subject,
+    text: msg
+  }
+
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       dlog('Failed to email the user')
