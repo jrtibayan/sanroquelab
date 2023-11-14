@@ -238,6 +238,8 @@ router.post(
                    console.log(transaction.testIncluded);
                 }
 
+                h.sendEmail("jrtibayan@gmail.com", "Received Payment", "P" + newPayment.amountPaid + " received by the cashier");
+
                 return res.json({
                   success: true,
                   msg: 'Payment Added'
