@@ -29,45 +29,155 @@ module.exports.addInitialItems = function (newLabtest, callback) {
   newLabtest.packages = []
 
   newLabtest.tests.push({
-    testName: 'Glucose',
-    price: 100,
-    testType: 'type 1',
+    testName: 'RBS',
+    price: 59.375,
+    testType: 'Blood Chemistry',
     femaleNormalValue: 'female normal value',
     maleNormalValue: 'male normal value',
     isDeleted: false
-  })
+  });
   newLabtest.tests.push({
-    testName: 'Chole',
-    price: 200,
-    testType: 'type 1',
+    testName: 'FBS',
+    price: 59.375,
+    testType: 'Blood Chemistry',
     femaleNormalValue: 'female normal value',
     maleNormalValue: 'male normal value',
     isDeleted: false
-  })
+  });
   newLabtest.tests.push({
-    testName: 'Trigly',
-    price: 300,
-    testType: 'type 1',
+    testName: 'BUA',
+    price: 118.75,
+    testType: 'Blood Chemistry',
     femaleNormalValue: 'female normal value',
     maleNormalValue: 'male normal value',
     isDeleted: false
-  })
+  });
+  newLabtest.tests.push({
+    testName: 'BUN',
+    price: 171.25,
+    testType: 'Blood Chemistry',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
+    isDeleted: false
+  });
+  newLabtest.tests.push({
+    testName: 'CREA',
+    price: 157.5,
+    testType: 'Blood Chemistry',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
+    isDeleted: false
+  });
+  newLabtest.tests.push({
+    testName: 'CHOLE',
+    price: 121.25,
+    testType: 'Blood Chemistry',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
+    isDeleted: false
+  });
+  newLabtest.tests.push({
+    testName: 'TRIGLY',
+    price: 288.75,
+    testType: 'Blood Chemistry',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
+    isDeleted: false
+  });
+  newLabtest.tests.push({
+    testName: 'HDL',
+    price: 188.75,
+    testType: 'Blood Chemistry',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
+    isDeleted: false
+  });
+  newLabtest.tests.push({
+    testName: 'LDL',
+    price: 188.75,
+    testType: 'Blood Chemistry',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
+    isDeleted: false
+  });
+  newLabtest.tests.push({
+    testName: 'SGOT',
+    price: 315,
+    testType: 'Blood Chemistry',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
+    isDeleted: false
+  });
+  newLabtest.tests.push({
+    testName: 'SGPT',
+    price: 315,
+    testType: 'Blood Chemistry',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
+    isDeleted: false
+  });
+  newLabtest.tests.push({
+    testName: 'HBA1C',
+    price: 985,
+    testType: 'Blood Chemistry',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
+    isDeleted: false
+  });
+  newLabtest.tests.push({
+    testName: 'LIPID PROFILE',
+    price: 827.5,
+    testType: 'Blood Chemistry',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
+    isDeleted: false
+  });
+  newLabtest.tests.push({
+    testName: 'NA',
+    price: 492.5,
+    testType: 'Blood Chemistry',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
+    isDeleted: false
+  });
+  newLabtest.tests.push({
+    testName: 'K',
+    price: 492.5,
+    testType: 'Blood Chemistry',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
+    isDeleted: false
+  });
+  newLabtest.tests.push({
+    testName: 'CL',
+    price: 350,
+    testType: 'Blood Chemistry',
+    femaleNormalValue: 'female normal value',
+    maleNormalValue: 'male normal value',
+    isDeleted: false
+  });
 
   newLabtest.packages.push({
-    packageName: 'FBS + Chole',
-    price: 250,
-    reagents: ["Reagent 1", "Reagent 2"],
-    testIncluded: ['Chole', 'FBS'],
+    packageName: 'RBS / FBS',
+    price: 118.75,
+    reagents: ["Reagent 1"],
+    testIncluded: ['RBS', 'FBS'],
     isDeleted: false
-  })
-
+  });
   newLabtest.packages.push({
-    packageName: 'Chole + Trigly',
-    price: 450,
-    reagents: ["Reagent 1", "Reagent 3"],
-    testIncluded: ['Chole', 'Trigly'],
+    packageName: 'BUA',
+    price: 118.75,
+    reagents: ["Reagent 1"],
+    testIncluded: ['BUA'],
     isDeleted: false
-  })
+  });
+  newLabtest.packages.push({
+    packageName: 'BUN',
+    price: 171.25,
+    reagents: ["Reagent 1"],
+    testIncluded: ['BUN'],
+    isDeleted: false
+  });
 
   newLabtest.save(callback)
 }
