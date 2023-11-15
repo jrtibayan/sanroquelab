@@ -406,7 +406,7 @@ resetSelections() {
     }
 
     submitNewPaymentForm() {
-        if (this.userHasPermission('Add Transaction Payment')) {
+        if (this.userHasPermission('Add Payment')) {
             if(this.newPaymentAmount && this.newPaymentReceiptNumber) {
                 const newPayment = {
                     idToUpdate: this.idToUpdate,
