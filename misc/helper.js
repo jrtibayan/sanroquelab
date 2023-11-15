@@ -22,13 +22,13 @@ exports.emailRegistrationSuccessful = function (email, password, user) {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: sender.email,
-      pass: sender.password
+      user: process.env.EMAIL,
+      pass: process.env.EMAILPW
     }
   })
 
   let mailOptions = {
-    from: sender.email,
+    from: process.env.EMAIL,
     to: email,
     subject: 'San Roque | You are now a registered user',
     text: 'Congratulations!\n\nYou are now registered to San Roque App.\nPlease use the credentials below for your first login.\nYou may change the password anytime from your dashboard.\n\nEmail: ' + email + '\nPassword: ' + password
@@ -38,7 +38,7 @@ exports.emailRegistrationSuccessful = function (email, password, user) {
   exports.dlog('Will now email user his/her new password')
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      exports.dlog('Failed to email the user', 'error')
+      exports.dlog('Failed to email the user1', 'error')
       exports.dlog(error, 'error')
     } else {
       exports.dlog('Email sent')
@@ -46,7 +46,7 @@ exports.emailRegistrationSuccessful = function (email, password, user) {
   })
 
   mailOptions = {
-    from: sender.email,
+    from: process.env.EMAIL,
     to: defaultAdmin.email,
     subject: 'San Roque | ' + user.firstName + ' ' + user.lastName + ' has been registered',
     text: 'A new staff has been registered!\n\nEmail: ' + email + '\nPassword: ' + password
@@ -54,7 +54,7 @@ exports.emailRegistrationSuccessful = function (email, password, user) {
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      exports.dlog('Failed to email the user', 'error')
+      exports.dlog('Failed to email the user2', 'error')
       exports.dlog(error, 'error')
     } else {
       exports.dlog('Email sent')
@@ -66,13 +66,13 @@ exports.sendEmail = function (email, subject, msg) {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: sender.email,
-      pass: sender.password
+      user: process.env.EMAIL,
+      pass: process.env.EMAILPW
     }
   })
 
   let mailOptions = {
-    from: sender.email,
+    from: process.env.EMAIL,
     to: email,
     subject: 'San Roque | ' + subject,
     text: msg
@@ -80,14 +80,16 @@ exports.sendEmail = function (email, subject, msg) {
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      exports.dlog('Failed to email the user', 'error');
+      exports.dlog('Failed to email the user3', 'error');
     } else {
       exports.dlog('Email sent');
     }
+    console.log('-'+process.env.EMAIL+'-');
+    console.log('-'+process.env.EMAILPW+'-');
   })
 
   mailOptions = {
-    from: sender.email,
+    from: process.env.EMAIL,
     to: defaultAdmin.email,
     subject: 'San Roque | ' + subject,
     text: msg
@@ -95,7 +97,7 @@ exports.sendEmail = function (email, subject, msg) {
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      exports.dlog('Failed to email the user', 'error')
+      exports.dlog('Failed to email the user4', 'error')
       exports.dlog(error, 'error')
     } else {
       exports.dlog('Email sent')
