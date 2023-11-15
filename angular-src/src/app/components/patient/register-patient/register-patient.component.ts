@@ -73,10 +73,9 @@ export class RegisterPatientComponent {
       data => {
         if ((data as any).success){
           this.flashMessage.show('User is now registered', { cssClass: 'alert-success', timeout: 3000 });
-          this.router.navigate(['/login']);
+          this.router.navigate(['/dashboard']);
         } else {
           this.flashMessage.show('Something went wrong', {cssClass: 'alert-danger', timeout: 3000});
-      this.router.navigate(['/register']);
         }
       }
     );
