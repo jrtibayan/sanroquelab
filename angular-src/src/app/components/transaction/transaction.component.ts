@@ -252,7 +252,7 @@ resetSelections() {
                     packages: selectedProperties
                 }
 
-                alert('Going to add new transaction: ' + JSON.stringify(this.newTransaction));
+                //alert('Going to add new transaction: ' + JSON.stringify(this.newTransaction));
                 this.authService.registerTransaction(this.newTransaction).subscribe({
                     next: (response) => {
                         // Handle any UI updates or notifications here
