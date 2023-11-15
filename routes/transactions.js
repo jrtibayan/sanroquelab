@@ -55,7 +55,6 @@ router.post(
         newTransaction.isFullyPaid = false;
         newTransaction.hasResult = false;
 
-        
         if(req.user && req.user.role && (req.user.role === "admin" || req.user.allowedActions && req.user.allowedActions.includes("Add Transaction"))) {
             Transaction.addTransaction(new Transaction(newTransaction), (err, updatedTransaction) => {
                 if (err) {

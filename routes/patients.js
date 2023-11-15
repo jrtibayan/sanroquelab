@@ -49,7 +49,7 @@ function registerPatient (newUser, newPassword, res) {
       h.dlog('Forward newPatient to addPatient function to add the patient')
       User.addPatient(newUser, (err, user) => {
         if (err) {
-          h.dlog('Error adding user')
+          h.dlog('Error adding patient')
           return res.json({ success: false, msg: 'Error adding user' })
         } else {
           h.dlog('User registered')
@@ -116,7 +116,7 @@ router.post(
     const newPatient = prepareNewPatient(req.body)
 
     // validate if allowed to do action register patient
-    if (h.userCanDoAction(action, req.user.role, req.user.allowedActions)) {
+    if(req.user && req.user.role && (req.user.role === "admin" || req.user.allowedActions && req.user.allowedActions.includes(action))) {
       return registerPatient(newPatient, null, res)
     } else {
       h.dlog('User not allowed to register ')
