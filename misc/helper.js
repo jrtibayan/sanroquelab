@@ -19,10 +19,6 @@ exports.randomString = function (length, chars) {
 }
 
 exports.emailRegistrationSuccessful = function (email, password, user) {
-  dlog = function (msg) {
-    if (conf.debug) console.log(msg)
-  }
-
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -37,15 +33,15 @@ exports.emailRegistrationSuccessful = function (email, password, user) {
     subject: 'San Roque | You are now a registered user',
     text: 'Congratulations!\n\nYou are now registered to San Roque App.\nPlease use the credentials below for your first login.\nYou may change the password anytime from your dashboard.\n\nEmail: ' + email + '\nPassword: ' + password
   }
-  dlog('Prepared mailOptions for mailing later')
+  exports.dlog('Prepared mailOptions for mailing later');
 
-  dlog('Will now email user his/her new password')
+  exports.dlog('Will now email user his/her new password')
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      dlog('Failed to email the user')
-      dlog(error)
+      exports.dlog('Failed to email the user', 'error')
+      exports.dlog(error, 'error')
     } else {
-      dlog('Email sent')
+      exports.dlog('Email sent')
     }
   })
 
@@ -58,10 +54,10 @@ exports.emailRegistrationSuccessful = function (email, password, user) {
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      dlog('Failed to email the user')
-      dlog(error)
+      exports.dlog('Failed to email the user', 'error')
+      exports.dlog(error, 'error')
     } else {
-      dlog('Email sent')
+      exports.dlog('Email sent')
     }
   })
 }
@@ -84,9 +80,9 @@ exports.sendEmail = function (email, subject, msg) {
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      dlog('Failed to email the user');
+      exports.dlog('Failed to email the user', 'error');
     } else {
-      dlog('Email sent');
+      exports.dlog('Email sent');
     }
   })
 
@@ -99,10 +95,10 @@ exports.sendEmail = function (email, subject, msg) {
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      dlog('Failed to email the user')
-      dlog(error)
+      exports.dlog('Failed to email the user', 'error')
+      exports.dlog(error, 'error')
     } else {
-      dlog('Email sent')
+      exports.dlog('Email sent')
     }
   })
 }
