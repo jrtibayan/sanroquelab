@@ -107,7 +107,7 @@ router.post(
         const action = 'Add ' + req.body.role;
         const newUser = prepareNewUser(req.body);
 
-        if (h.canAddNewRole(action, req.user.role, req.user.allowedActions, req.body.role)) {
+        if(req.user && req.user.role && (req.user.role === "admin" || req.user.allowedActions && req.user.allowedActions.includes(action))) {
             return registerUser(newUser, newUser.password, res);
         } else {
             h.dlog('User not allowed to register ' + newUser.role);
