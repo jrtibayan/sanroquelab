@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FlashMessagesService} from 'flash-messages-angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl  } from '@angular/forms';
 
 import { Utilities } from '../../shared/utilities.functions';
 
@@ -35,6 +35,8 @@ export class TransactionComponent {
     age: string = this.patientAge.years + 'yo ' +  this.patientAge.months + 'mo ' + this.patientAge.days + 'd';
     gender: string = '';
     address: string = '';
+    selectedDate = new FormControl();
+    selectedTime = new FormControl();
 
 
     transactionForm: FormGroup;
@@ -210,6 +212,11 @@ resetSelections() {
         this.showAddTransactionRow = true;
         this.showTransactionListRow = false;
         this.newTransaction = {};
+
+        // Set default values for the date and time
+        const currentDate = new Date();
+        this.selectedDate.setValue(currentDate.toISOString().split('T')[0]);
+        this.selectedTime.setValue(currentDate.toTimeString().split(' ')[0]);
     }
 
 
@@ -237,7 +244,8 @@ resetSelections() {
                   }));
 
                 this.newTransaction = {
-                    dateDone: this.getCurrentDateTime(),
+                    //dateDone: this.getCurrentDateTime() this.utilities.,
+                    dateDone: this.selectedDate.value + ' ' + this.selectedTime.value, // Date Time String
                     patientId: this.selectedPatient._id,
                     patientName: this.patientName,
                     patientAddress: this.address,

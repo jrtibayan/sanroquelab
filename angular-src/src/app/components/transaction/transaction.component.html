@@ -118,7 +118,10 @@
         <br />
         <hr>
         <h3>Summary</h3>
-        <p>Date and Time: {{ getCurrentDateTime() }}</p>
+        <p>Date and Time:
+            <input type="date" [formControl]="selectedDate" name="selectedDate">
+            <input type="time" [formControl]="selectedTime" name="selectedTime">
+        </p>
 <p>Patient: {{ patientName }}</p>
 <p>Address: {{ selectedPatient?.address }}</p>
 <p>Gender: {{ selectedPatient?.gender }}</p>
