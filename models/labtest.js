@@ -210,7 +210,7 @@ module.exports.addTest = function (testToInsert, callback) {
     }
 
     if (!labtest) {
-      console.error('Labtest document not found.');
+      h.dlog('Labtest document not found.', 'error');
       return callback(new Error('Labtest document not found.'));
     }
 
@@ -218,7 +218,7 @@ module.exports.addTest = function (testToInsert, callback) {
 
     labtest.save((err, updatedLabtest) => {
       if (err) {
-        console.error(err);
+        h.dlog(err, 'error');
         return callback(err);
       }
       callback(null, updatedLabtest);

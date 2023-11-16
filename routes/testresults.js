@@ -81,12 +81,12 @@ router.post(
                     let pendingTestId = null;
                     for(const test of req.body.testsAndResults) {
                         pendingTestId = test._id;
-                        console.log("trying to delete record with id "+ pendingTestId);
+                        h.dlog("trying to delete record with id "+ pendingTestId);
                         PendingTest.deleteById(pendingTestId, (err) => {
                             if (err) {
-                                console.error('Error deleting document:', err);
+                                h.dlog('Error deleting document: ' + err, 'error');
                             } else {
-                                console.log('Document deleted successfully.');
+                                h.dlog('Document deleted successfully.');
                             }
                         });
                     }

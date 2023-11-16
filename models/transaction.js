@@ -174,7 +174,7 @@ module.exports.updateTestAndPackages = function (updatedTests) {
     // Use the replaceOne() method to update the document (no need for a specific filter)
     Labtest.replaceOne({}, replacementDocument, (err, result) => {
         if (err) {
-            console.error(err);
+          h.dlog(err, 'error');
         } else {
             h.dlog('Document replaced successfully ' + result);
         }
@@ -184,12 +184,12 @@ module.exports.updateTestAndPackages = function (updatedTests) {
 module.exports.addNew = function (testToInsert, callback) {
     Labtest.findOne({}, (err, labtest) => {
         if (err) {
-        console.error(err);
+          h.dlog(err, 'error');
         return callback(err);
         }
 
         if (!labtest) {
-        console.error('Labtest document not found.');
+          h.dlog('Labtest document not found.', 'error');
         return callback(new Error('Labtest document not found.'));
         }
 
@@ -197,7 +197,7 @@ module.exports.addNew = function (testToInsert, callback) {
 
         labtest.save((err, updatedLabtest) => {
         if (err) {
-            console.error(err);
+            h.dlog(err, 'error');
             return callback(err);
         }
         callback(null, updatedLabtest);
