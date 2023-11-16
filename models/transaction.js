@@ -134,8 +134,8 @@ module.exports.updateTransaction = function (query, set) {
     options = { multi: true }
   
     const res = Transaction.updateOne(query, set, options, function (err) {
-        console.log('query:', query);
-        console.log('set:', query);
+        h.dlog('query: ' + query);
+        h.dlog('set: ' + query);
       if (err) return h.derror(err)
       h.dlog('Transaction update successful');
     })
@@ -176,7 +176,7 @@ module.exports.updateTestAndPackages = function (updatedTests) {
         if (err) {
             console.error(err);
         } else {
-            console.log('Document replaced successfully', result);
+            h.dlog('Document replaced successfully ' + result);
         }
     });
 }

@@ -32,7 +32,7 @@ mongoose.connection.on('connected', () => {
 
 //  On Error
 mongoose.connection.on('error', (err) => {
-  console.log('Database error: ' + err)
+  h.dlog('Database error: ' + err, 'error');
 })
 
 const app = express()
@@ -91,16 +91,16 @@ function initializeDatabase () {
 /*
 //  Start Server
 app.listen(port, () => {
-console.log('Server started on port ' + port);
+h.dlog('Server started on port ' + port);
 
 // initializeDatabase();
 });
 */
 
 app.listen(port)
-console.log('*************************************************************************')
-console.log('********************   Server started on port ' + port + '   ********************')
-console.log('*************************************************************************')
+h.dlog('*************************************************************************')
+h.dlog('********************   Server started on port ' + port + '   ********************')
+h.dlog('*************************************************************************')
 // initializeDatabase();
 
 module.exports = app

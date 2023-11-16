@@ -84,8 +84,6 @@ exports.sendEmail = function (email, subject, msg) {
     } else {
       exports.dlog('Email sent');
     }
-    console.log('-'+process.env.EMAIL+'-');
-    console.log('-'+process.env.EMAILPW+'-');
   })
 
   mailOptions = {

@@ -66,9 +66,9 @@ router.post(
 
         if(req.user && req.user.role && (req.user.role === "admin" || req.user.allowedActions && req.user.allowedActions.includes(action))) {
             TestResult.addResult(newResult, (err, result) => {
-                console.log(req.body);
-                console.log("    newResult to be added ----------------------------------------");
-                console.log(newResult);
+                h.dlog(req.body);
+                h.dlog("    newResult to be added ----------------------------------------");
+                h.dlog(newResult);
                 if (err) {
                     h.dlog('Error adding user');
                     return res.status(500).json({

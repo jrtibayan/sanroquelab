@@ -195,9 +195,9 @@ module.exports.updateTestAndPackages = function (updatedTests) {
   // Use the replaceOne() method to update the document (no need for a specific filter)
   Labtest.replaceOne({}, replacementDocument, (err, result) => {
     if (err) {
-      console.error(err);
+      h.dlog(err, 'error');
     } else {
-      console.log('Document replaced successfully', result);
+      h.dlog('Document replaced successfully ' + result);
     }
   });
 }
@@ -205,7 +205,7 @@ module.exports.updateTestAndPackages = function (updatedTests) {
 module.exports.addTest = function (testToInsert, callback) {
   Labtest.findOne({}, (err, labtest) => {
     if (err) {
-      console.error(err);
+      h.dlog(err, 'error');
       return callback(err);
     }
 

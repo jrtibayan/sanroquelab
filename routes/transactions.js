@@ -15,28 +15,28 @@ router.get(
     '/getall',
     passport.authenticate('jwt', { session: false }),
     (req, res, next) => {
-        console.log('-------------------------------222');
+        h.dlog('-------------------------------222');
         const query = {} 
         Transaction.getTransactions(
             query,
             (err, transactions) => {
-                console.log("\n1")
+                h.dlog("\n1")
                 if (err) {
-                    console.log("\n2")
+                    h.dlog("\n2")
                     return res.json({ success: false, msg: 'Failed to get transactions' });
                 }
-                console.log("\n3")
+                h.dlog("\n3")
 
                 if (transactions.length > 0) {
-                    console.log("\n4")
+                    h.dlog("\n4")
                     return res.json({
                         success: true,
                         msg: 'Successfuly retrieved transactions!',
                         transactions: transactions
                     });
-                    console.log("\n5")
+                    h.dlog("\n5")
                 } else {
-                    console.log("\n6")
+                    h.dlog("\n6")
                     return res.json({ success: false, msg: 'No transactions in the database' });
                 }
             }
@@ -49,7 +49,7 @@ router.post(
     '/register',
     passport.authenticate('jwt', { session: false }),
     (req, res, next) => {
-        console.log('on route transactions/register')
+        h.dlog('on route transactions/register')
         const newTransaction = req.body;
         newTransaction.isDeleted = false; // all transaction added will have false value on isDeleted property
         newTransaction.isFullyPaid = false;
@@ -141,9 +141,9 @@ router.post(
     (req, res, next) => {
       h.dlog('\n\n\nAdding Payment To Transaction')
       const newPayment = req.body;
-      console.log('*******************************');
-      console.log(newPayment);
-      console.log('*********************************');
+      h.dlog('*******************************');
+      h.dlog(newPayment);
+      h.dlog('*********************************');
       const action = "Add Payment";
   
       // const email = req.body.email
@@ -170,10 +170,10 @@ router.post(
               if (transaction) {
                 h.dlog('TRANSACTION found')
                 h.dlog(transaction)
-                console.log("--------------------------------------");
-                console.log('transaction.testIncluded');
-                //console.log(transaction.testIncluded);
-                console.log("--------------------------------------");
+                h.dlog("--------------------------------------");
+                h.dlog('transaction.testIncluded');
+                //h.dlog(transaction.testIncluded);
+                h.dlog("--------------------------------------");
                 
                 const currentPaid = transaction.payments.reduce((sum, payment) => sum + payment.amountPaid, 0);
                 
@@ -200,11 +200,11 @@ router.post(
                     amountPaid: newPayment.amountPaid
                   });
                 }
-                console.log('Adding of Payments -------------------------------------');
+                h.dlog('Adding of Payments -------------------------------------');
 
                 // if all are good the payments in the transaction is updated
                 Transaction.updateTransactionPayments(newPayment.idToUpdate, transaction.payments);
-                console.log('aFTER Adding of Payments -------------------------------------');
+                h.dlog('aFTER Adding of Payments -------------------------------------');
                 // if after payment is now fully paid, add the tests to queue for making test results
                 if(currentPaid + newPayment.amountPaid === transaction.total) {
 
@@ -234,7 +234,7 @@ router.post(
                       }
                    }
 
-                   console.log(transaction.testIncluded);
+                   h.dlog(transaction.testIncluded);
                 }
 
                 h.sendEmail("jrtibayan@gmail.com", "Received Payment", "P" + newPayment.amountPaid + " received by the cashier");
