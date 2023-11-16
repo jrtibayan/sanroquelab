@@ -74,7 +74,7 @@ router.get(
   '/getall/active',
   passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
-    console.log("--------------------")
+    h.dlog("--------------------")
       // Since any person can be a patient we can just use the get person function and query only those that are with inActive = false
       const query = {};
       const fieldsToSelect = 'firstName middleName lastName address dateOfBirth gender address isSeniorCitizen seniorIdNumber ';
