@@ -79,7 +79,7 @@ export class LabresultComponent {
                 this.labTests = allTests.tests;
             },
             error: (error) => {
-                console.log('Error fetching lab tests and packages:', error);
+                this.utilities.dlog('Error fetching lab tests and packages: ' + error, 'error');
             }
         });
     }
@@ -102,8 +102,8 @@ export class LabresultComponent {
         this.getPendingTests();
 
         this.selectedTests = this.visiblePendingTests.filter((test) => test.isSelected === true);
-        console.log("--------------------");
-        console.log(this.selectedTests);
+        this.utilities.dlog('--------------------');
+        this.utilities.dlog(this.selectedTests);
 
         for (const sTest of this.selectedTests) {
             const labTest = this.labTests.find((lTest) => lTest.testName === sTest.testName);
@@ -159,7 +159,7 @@ export class LabresultComponent {
                 this.visiblePendingTests = this.pendingTests.filter(test => !test.isHidden);
             },
             error: (error) => {
-                console.log('Error fetching lab transactions and packages:', error);
+                this.utilities.dlog('Error fetching lab transactions and packages: ' + error, 'error');
             }
         });
     }
@@ -240,7 +240,7 @@ export class LabresultComponent {
                 }));
             },
             error: (error) => {
-                console.log('Error fetching lab transactions and packages:', error);
+                this.utilities.dlog('Error fetching lab transactions and packages: ' + error, 'error');
             }
         });
     }
@@ -259,14 +259,14 @@ export class LabresultComponent {
     submitResult() {
         //this.showTestSelection = false;
         //this.showDataInput = true;
-        console.log('allPendingTests');
-        console.log(this.allPendingTests);
-        console.log('selected tests');
-        console.log(this.selectedTests);
-        console.log('selected patient id');
-        console.log(this.selectedPatientId);
-        console.log('lab tests');
-        console.log(this.labTests);
+        this.utilities.dlog('allPendingTests');
+        this.utilities.dlog(this.allPendingTests);
+        this.utilities.dlog('selected tests');
+        this.utilities.dlog(this.selectedTests);
+        this.utilities.dlog('selected patient id');
+        this.utilities.dlog(this.selectedPatientId);
+        this.utilities.dlog('lab tests');
+        this.utilities.dlog(this.labTests);
         const validationErrors = [];
 
         if (!this.userHasPermission('Add Result')) {
@@ -322,7 +322,7 @@ export class LabresultComponent {
                     });
                 },
                 error: (error) => {
-                    console.error('Error adding new transaction:', error);
+                    this.utilities.dlog('Error adding new transaction: ' + error, 'error');
                     this.flashMessage.show('Failed to add result!', {cssClass: 'alert-danger', timeout: 3000});
                     this.router.navigate(['/labresult/management']);
                     // Handle error notifications or other actions here

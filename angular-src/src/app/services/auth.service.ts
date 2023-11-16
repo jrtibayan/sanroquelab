@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { Utilities } from '../../app/shared/utilities.functions';
 
 import { environment } from '../../environments/environment';
 
@@ -16,6 +17,8 @@ export class AuthService {
     private apiUrl = environment.apiUrl;
     authToken: any;
     user: any;
+
+    public utilities = Utilities;
 
     constructor(
         private http:HttpClient
@@ -114,9 +117,9 @@ export class AuthService {
             'Content-Type':  'application/json',
             'Authorization': this.authToken
         })};
-        console.log(' going to /transactions/register from auth service');
-        console.log(' authorization');
-        console.log(localStorage.getItem('id_token'));
+        this.utilities.dlog(' going to /transactions/register from auth service');
+        this.utilities.dlog(' authorization');
+        this.utilities.dlog(localStorage.getItem('id_token'));
         return this.http.post(
             `${this.apiUrl}/transactions/register`,
             transaction,

@@ -65,7 +65,7 @@ export class TransactionComponent {
         if (this.transactionForm.valid) {
         // Handle form submission here
         const formData = this.transactionForm.value;
-        console.log(formData);
+        this.utilities.dlog(formData);
 
         // You can send the form data to your backend or perform any other action here
         } else {
@@ -106,7 +106,7 @@ export class TransactionComponent {
                 profile = res;
                 this.user = profile.user;
 
-                console.log("---------------------------------------------------------hello");
+                this.utilities.dlog('---------------------------------------------------------hello');
                 // Fetch active patients here
                 this.getPatients();
 
@@ -150,7 +150,7 @@ export class TransactionComponent {
      * Calls the authservice getLabTransactions() which retrives and stores the list of transactions to this.transaction and packages to this.packages
      */
     getTransactions() {
-        console.log('-------------------------------');
+        this.utilities.dlog('-------------------------------');
         this.authService.getTransactions().subscribe({
             next: (res) => {
                 let allTransactions = {} as any;
@@ -159,7 +159,7 @@ export class TransactionComponent {
                 this.transactions = allTransactions.transactions;
             },
             error: (error) => {
-                console.log('Error fetching lab transactions and packages:', error);
+                this.utilities.dlog('Error fetching lab transactions and packages: ' + error, 'error');
             }
         });
     }
@@ -169,12 +169,12 @@ export class TransactionComponent {
             next: (res) => {
                 let allRes = {} as any;
                 allRes = res;
-                console.log("test apckages res");
-                console.log(res);
+                this.utilities.dlog("test apckages res");
+                this.utilities.dlog(res);
                 this.testPackages = allRes.packages;
             },
             error: (error) => {
-                console.log('Error fetching patients:', error);
+                this.utilities.dlog('Error fetching patients: ' + error, 'error');
             }
         });
     }
@@ -184,12 +184,12 @@ export class TransactionComponent {
             next: (res) => {
                 let allRes = {} as any;
                 allRes = res;
-                console.log(res);
+                this.utilities.dlog(res);
 
                 this.patients = allRes.patients;
             },
             error: (error) => {
-                console.log('Error fetching patients:', error);
+                this.utilities.dlog('Error fetching patients: ' + error, 'error');
             }
         });
     }
@@ -264,7 +264,7 @@ resetSelections() {
                         this.router.navigate(['/transaction/management']);
                     },
                     error: (error) => {
-                        console.error('Error adding new transaction:', error);
+                        this.utilities.dlog('Error adding new transaction: ' + error, 'error');
                         this.flashMessage.show('Failed to add transaction!', {cssClass: 'alert-danger', timeout: 3000});
                         this.router.navigate(['transaction/management']);
                         // Handle error notifications or other actions here
@@ -428,7 +428,7 @@ resetSelections() {
                         this.flashMessage.show('Payment Added!', { cssClass: 'alert-success', timeout: 3000 });
                     },
                     error: (error) => {
-                        console.error('Error adding new test:', error);
+                        this.utilities.dlog('Error adding new test: ' + error, 'error');
                         this.flashMessage.show('Failed to add test!', {cssClass: 'alert-danger', timeout: 3000});
                         this.router.navigate(['transactions/management']);
                         // Handle error notifications or other actions here
@@ -474,7 +474,7 @@ resetSelections() {
 
     submitTransactionsToBackend(successMsg, failMsg, action) {
         if (this.transactions.length > 0) {
-            console.log('Submitting transactions to backend:', this.transactions);
+            this.utilities.dlog('Submitting transactions to backend: ' + this.transactions);
 
             this.newUpdates.transactions = this.transactions;
             this.newUpdates.action = action;

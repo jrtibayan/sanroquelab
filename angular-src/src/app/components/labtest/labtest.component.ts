@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FlashMessagesService} from 'flash-messages-angular';
+import { Utilities } from '../../shared/utilities.functions';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class LabtestComponent {
         'Test 7', 'Test 8', 'Test 9', 'Test 10', 'Test 11', 'Test 12'
     ];
 
+    public utilities = Utilities;
 
     constructor(
         private authService: AuthService,
@@ -72,7 +74,7 @@ export class LabtestComponent {
                 this.completeTests = this.tests.map(testObject => testObject.testName);
             },
             error: (error) => {
-                console.log('Error fetching lab tests and packages:', error);
+                this.utilities.dlog('Error fetching lab tests and packages: ' + error, 'error');
             }
         });
     }
@@ -119,7 +121,7 @@ export class LabtestComponent {
                         this.router.navigate(['/labtest/management']);
                     },
                     error: (error) => {
-                        console.error('Error adding new test:', error);
+                        this.utilities.dlog('Error adding new test: ' + error, 'error');
                         this.flashMessage.show('Failed to add test!', {cssClass: 'alert-danger', timeout: 3000});
                         this.router.navigate(['labtest/management']);
                         // Handle error notifications or other actions here
@@ -267,7 +269,7 @@ export class LabtestComponent {
      */
     submitTestsToBackend(successMsg, failMsg, action) {
         if (this.tests.length > 0) {
-            console.log('Submitting tests to backend:', this.tests);
+            this.utilities.dlog('Submitting tests to backend: ' + this.tests, 'error');
 
             this.newUpdates.tests = this.tests;
             this.newUpdates.packages = this.packages;

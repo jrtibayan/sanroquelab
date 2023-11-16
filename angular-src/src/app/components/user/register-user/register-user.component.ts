@@ -3,6 +3,7 @@ import { ValidateService } from '../../../services/validate.service';
 import { AuthService } from '../../../services/auth.service';
 import { FlashMessagesService} from 'flash-messages-angular';
 import { Router } from '@angular/router';
+import { Utilities } from '../../../shared/utilities.functions';
 
 @Component({
   selector: 'app-register-user',
@@ -11,6 +12,8 @@ import { Router } from '@angular/router';
 })
 export class RegisterUserComponent {
   user: any;
+
+  public utilities = Utilities;
 
   firstName!: String;
   middleName!: String;
@@ -78,7 +81,7 @@ export class RegisterUserComponent {
       profile = res;
       this.user = profile.user;
     }, err => {
-      console.log(err);
+      this.utilities.dlog(err, 'error');
       return false
     });
   }

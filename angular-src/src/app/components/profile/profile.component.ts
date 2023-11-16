@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { Utilities } from '../../shared/utilities.functions';
 
 @Component({
   selector: 'app-profile',
@@ -9,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class ProfileComponent implements OnInit{
   user: any;
+
+  public utilities = Utilities;
 
   constructor(
     private authService: AuthService,
@@ -21,7 +24,7 @@ export class ProfileComponent implements OnInit{
       profile = res;
       this.user = profile.user;
     }, err => {
-      console.log(err);
+      this.utilities.dlog(err);
       return false
     });
   }

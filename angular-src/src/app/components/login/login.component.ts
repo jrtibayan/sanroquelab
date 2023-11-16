@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FlashMessagesService} from 'flash-messages-angular';
 import { Router } from '@angular/router';
+import { Utilities } from '../../shared/utilities.functions';
 
 
 @Component({
@@ -11,6 +12,8 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   user: any;
+
+  public utilities = Utilities;
 
   email!: String;
   password!: String;
@@ -27,7 +30,7 @@ export class LoginComponent implements OnInit {
       profile = res;
       this.user = profile.user;
     }, err => {
-      console.log(err);
+      this.utilities.dlog(err);
       return false
     });
   }
