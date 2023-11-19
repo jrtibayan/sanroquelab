@@ -7,7 +7,8 @@ const conf = require('config');
 const h = require('../misc/helper');
 
 const Transaction = require('../models/transaction')
-const PendingTest = require('../models/pendingtest')
+const PendingTest = require('../models/pendingtest');
+const { collapseTextChangeRangesAcrossMultipleVersions } = require('typescript');
 
 
 // Returns an array containing all transactions
@@ -42,6 +43,40 @@ router.get(
             }
         )
     }
+)
+
+
+// Returns an array containing all transactions
+router.get(
+  '/getbydate',
+  passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+    const startDate = req.query.startDate;
+    const endDate = req.query.endDate;
+      Transaction.getTransactionsByDate(
+          startDate,
+          endDate,
+          (err, transactions) => {
+              if (err) {
+                  return res.json({ success: false, msg: 'Failed to get transactions' });
+              }
+
+              if (transactions.length > 0) {
+                  return res.json({
+                      success: true,
+                      msg: 'Successfuly retrieved transactions!',
+                      transactions: transactions
+                  });
+              } else {
+                  return res.json({
+                    success: false,
+                    msg: 'No transactions found within the selected dates',
+                    transactions: []
+                  });
+              }
+          }
+      )
+  }
 )
 
 
