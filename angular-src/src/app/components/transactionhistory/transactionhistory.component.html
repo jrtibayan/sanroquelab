@@ -1,0 +1,51 @@
+<!-- transaction-history.component.html -->
+
+<div class="container mt-5">
+    <h2 class="mb-4">Transaction History</h2>
+  
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="selectedStartDate" class="form-label">Start Date</label>
+        <input type="date" class="form-control" id="selectedStartDate" [(ngModel)]="selectedStartDate">
+      </div>
+      <div class="col-md-6">
+        <label for="selectedEndDate" class="form-label">End Date</label>
+        <input type="date" class="form-control" id="selectedEndDate" [(ngModel)]="selectedEndDate">
+      </div>
+    </div>
+  
+    <div class="mb-3">
+      <button class="btn btn-primary" (click)="getTransactionHistory()">Show Report</button>
+    </div>
+  
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Receipt No</th>
+            <th>Patient</th>
+            <th>Items</th>
+            <th>Subtotal</th>
+            <th>Discount</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of transactionHistory">
+            <td>{{ transaction.receiptNo }}</td>
+            <td>{{ transaction.patientName }}</td>
+            <td>{{ transaction.items }}</td>
+            <td>{{ transaction.subTotal | currency }}</td>
+            <td>{{ transaction.discount | currency }}</td>
+            <td>{{ transaction.total | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="mt-3">
+      <h4>Summary</h4>
+      <p>Total Subtotal: {{ getTotal('subTotal') | currency }}</p>
+      <p>Total Discount: {{ getTotal('discount') | currency }}</p>
+      <p>Total: {{ getTotal('total') | currency }}</p>
+    </div>
+  </div>

@@ -20,6 +20,7 @@ import { FlashMessagesModule } from 'flash-messages-angular';
 import { LabtestComponent } from './components/labtest/labtest.component';
 import { TransactionComponent } from './components/transaction/transaction.component';
 import { LabresultComponent } from './components/labresult/labresult.component';
+import { TransactionhistoryComponent } from './components/transactionhistory/transactionhistory.component';
 
 
 const appRoutes: Routes = [
@@ -32,6 +33,7 @@ const appRoutes: Routes = [
   {path:'labresult/management', component: LabresultComponent, canActivate: [AuthGuard]},
   {path:'labresult/management/temp', component: LoginComponent, canActivate: [AuthGuard]},
   {path:'labtest/management', component: LabtestComponent, canActivate: [AuthGuard]},
+  {path:'transaction/history', component: TransactionhistoryComponent, canActivate: [AuthGuard]},
   {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]}
 ]
 
@@ -47,7 +49,8 @@ const appRoutes: Routes = [
     ProfileComponent,
     TransactionComponent,
     LabresultComponent,
-    LabtestComponent
+    LabtestComponent,
+    TransactionhistoryComponent
   ],
   imports: [
     BrowserModule,
