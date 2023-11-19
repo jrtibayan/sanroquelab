@@ -111,6 +111,16 @@ export class AuthService {
         ).pipe(map(res => res));
     }
 
+    getTransactionsByDate(startDate: string, endDate: string) {
+        const httpOptions = {headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': this.authToken
+        })};
+        return this.http.get(
+            `${this.apiUrl}/transactions/getbydate?startDate=${startDate}&endDate=${endDate}`,
+            httpOptions
+        ).pipe(map(res => res));
+    }
 
     registerTransaction(transaction) {
         const httpOptions = {headers: new HttpHeaders({
