@@ -15,7 +15,7 @@
             <tbody>
                 <tr>
                     <td colspan="12">
-                        <button class="btn btn-sm btn-primary" (click)="showLabResultManagerSection()" [disabled]="!userHasPermission('Add Lab Result')">Prepare Lab Result</button>
+                        <button class="btn btn-sm btn-primary" (click)="showLabResultManagerSection()" [disabled]="!userHasPermission('Add Result')">Prepare Lab Result</button>
                     </td>
                 </tr>
                 <tr *ngFor="let result of this.finalizedResults">
