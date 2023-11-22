@@ -76,6 +76,7 @@ export class RegisterUserComponent {
     ) { }
 
   ngOnInit(): void { 
+    this.gender = "Male";
     this.authService.getProfile().subscribe(res => {
       let profile = {} as any;
       profile = res;
