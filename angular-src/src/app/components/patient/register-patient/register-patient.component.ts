@@ -35,6 +35,9 @@ export class RegisterPatientComponent {
   ) { }
 
   ngOnInit(): void { 
+    this.gender = "Male";
+    //this.dateOfBirth = this.utilities.formatDateForInput(new Date());
+
     this.authService.getProfile().subscribe(res => {
       let profile = {} as any;
       profile = res;
