@@ -48,6 +48,20 @@ export class RegisterPatientComponent {
     });
   }
 
+  resetInputs() {
+    this.firstName = '';
+    this.middleName = '';
+    this.lastName = '';
+    this.dateOfBirth = '';
+    this.email = '';
+    this.mobile = '';
+    this.receivePromo = false;
+    this.gender = 'Male';
+    this.address = '';
+    this.isSeniorCitizen = false;
+    this.seniorIdNumber = '';
+  }
+
   onRegisterSubmit() {
     const user = {
       firstName: this.firstName,
@@ -78,8 +92,8 @@ export class RegisterPatientComponent {
     this.authService.registerPatient(user).subscribe(
       data => {
         if ((data as any).success){
-          this.flashMessage.show('User is now registered', { cssClass: 'alert-success', timeout: 3000 });
-          this.router.navigate(['/dashboard']);
+          this.flashMessage.show('Patient is now registered', { cssClass: 'alert-success position-fixed top-0 start-0 w-100', timeout: 3000 });
+          this.resetInputs();
         } else {
           this.flashMessage.show('Something went wrong', {cssClass: 'alert-danger', timeout: 3000});
         }
