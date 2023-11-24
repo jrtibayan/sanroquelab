@@ -89,6 +89,7 @@ router.post(
         newTransaction.isDeleted = false; // all transaction added will have false value on isDeleted property
         newTransaction.isFullyPaid = false;
         newTransaction.hasResult = false;
+        newTransaction.createdBy = req.user._id;
 
         if(req.user && req.user.role && (req.user.role === "admin" || req.user.allowedActions && req.user.allowedActions.includes("Add Transaction"))) {
             Transaction.addTransaction(new Transaction(newTransaction), (err, updatedTransaction) => {
@@ -224,12 +225,14 @@ router.post(
 
                 if(transaction.payments.length<1){
                   transaction.payments.push({
+                    createdBy: req.user._id,
                     paymentDate: new Date(newPayment.paymentDate),
                     receiptNumber: newPayment.receiptNumber,
                     amountPaid: newPayment.amountPaid
                   });
                 } else {
                   transaction.payments.unshift({
+                    createdBy: req.user._id,
                     paymentDate: new Date(newPayment.paymentDate),
                     receiptNumber: newPayment.receiptNumber,
                     amountPaid: newPayment.amountPaid

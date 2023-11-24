@@ -9,6 +9,10 @@ const TransactionSchema = mongoose.Schema({
         type: Boolean,
         required: true,
     },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
     dateDone: {
       type: Date,
       required: true,
@@ -77,6 +81,10 @@ const TransactionSchema = mongoose.Schema({
     ],
     payments: [
         {
+            createdBy: {
+                type: mongoose.Schema.Types.ObjectId,
+                required: true
+            },
             paymentDate: {
                 type: Date,
                 required: true

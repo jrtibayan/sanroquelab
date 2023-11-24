@@ -112,6 +112,7 @@ router.post(
     const action = 'Add Patient';
 
     const newPatient = prepareNewPatient(req.body)
+    newPatient.createdBy = req.user._id;
 
     // validate if allowed to do action register patient
     if(req.user && req.user.role && (req.user.role === "admin" || req.user.allowedActions && req.user.allowedActions.includes(action))) {

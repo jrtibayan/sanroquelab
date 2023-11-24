@@ -6,6 +6,10 @@ const h = require('../misc/helper');
 
 // Person Schema
 const UserSchema = mongoose.Schema({
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+    },
     firstName: {
         type: String,
         required: true
