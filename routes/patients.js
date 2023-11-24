@@ -16,10 +16,8 @@ function prepareNewPatient (user) {
     dateOfBirth: new Date(user.dateOfBirth),
     gender: user.gender,
     address: user.address,
-    contact: {
-      mobile: user.mobile,
-      email: user.email
-    },
+    mobile: user.mobile,
+    email: user.email,
     receivePromo: user.receivePromo,
     isSeniorCitizen: user.isSeniorCitizen,
     seniorIdNumber: user.seniorIdNumber
