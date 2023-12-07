@@ -11,6 +11,7 @@ const LabtestSchema = mongoose.Schema({
     testType: String,
     femaleNormalValue: String,
     maleNormalValue: String,
+    resultParameters: [String],
     isDeleted: Boolean
   }],
   packages: [{
