@@ -33,6 +33,10 @@ const PendingTestSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    resultParameters: [String],
+    testType: {
+        type: String
+    },
     testName: {
         type: String,
         required: true

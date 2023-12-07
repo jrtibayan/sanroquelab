@@ -249,6 +249,19 @@ router.post(
                    for(const package of transaction.packages) {
                       for(const test of package.testIncluded) {
 
+                        const testList = req.app.locals.sanRoqueData.tests;
+                        const foundTest = testList.find(test2 => test2.testName === test);
+
+                        let paramToPass = [];
+                        let testType = null;
+
+                        if (foundTest) {
+                          paramToPass = Array.isArray(foundTest.resultParameters) ? JSON.parse(JSON.stringify(foundTest.resultParameters)) : [];
+                          testType = foundTest.testType ? foundTest.testType : "UNIDENTIFIED";
+                        } else {
+                          h.dlog('Test not found');
+                        }
+
                         let ptest = {
                           dateDone: transaction.dateDone,
                           transactionId: transaction._id,
@@ -257,6 +270,8 @@ router.post(
                           patientAddress: transaction.patientAddress,
                           patientGender: transaction.patientGender,
                           patientAge: transaction.patientAge,
+                          resultParameters: paramToPass,
+                          testType: testType,
                           testName: test
                         };
 
