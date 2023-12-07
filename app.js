@@ -104,13 +104,10 @@ LabTest.getAll(
     if (err) h.dlog('Failed to get labtests');
 
     if (data.length > 0) {
-      console.log('Successfuly retrieved labtests and packages!');
-      app.locals.yourData = {
+      app.locals.sanRoqueData = {
         tests: data[0].tests,
         packages: data[0].packages
       };
-    } else {
-      return res.json({ success: false, msg: 'No labtests in the database' });
     }
   }
 );
