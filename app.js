@@ -10,6 +10,8 @@ const morgan = require('morgan')
 
 const h = require('./misc/helper')
 
+const LabTest = require('./models/labtest');
+
 //  Connect to database
 const dbHost = process.env.DB_CONNECTION_STRING;
 mongoose.connect(
@@ -96,6 +98,22 @@ h.dlog('Server started on port ' + port);
 // initializeDatabase();
 });
 */
+
+LabTest.getAll(
+  (err, data) => {
+    if (err) h.dlog('Failed to get labtests');
+
+    if (data.length > 0) {
+      console.log('Successfuly retrieved labtests and packages!');
+      app.locals.yourData = {
+        tests: data[0].tests,
+        packages: data[0].packages
+      };
+    } else {
+      return res.json({ success: false, msg: 'No labtests in the database' });
+    }
+  }
+);
 
 app.listen(port)
 h.dlog('*************************************************************************')
