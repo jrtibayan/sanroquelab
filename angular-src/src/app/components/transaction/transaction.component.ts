@@ -15,6 +15,7 @@ import { Utilities } from '../../shared/utilities.functions';
 
 export class TransactionComponent {
     public utilities = Utilities;
+    currentDate: Date = new Date();
 
     user: any;
     newPaymentAmount: number = null;
@@ -37,6 +38,7 @@ export class TransactionComponent {
     address: string = '';
     selectedDate = new FormControl();
     selectedTime = new FormControl();
+    listFilterDate: string = '';
 
 
     transactionForm: FormGroup;
@@ -102,6 +104,8 @@ export class TransactionComponent {
      * Checks if user is logged in, if user is, calls getLabtransactions() to retrieve the list of transactions and reagents
      */
     ngOnInit(): void {
+        this.listFilterDate = this.utilities.formatDateForInput(this.currentDate);
+
         this.authService.getProfile().subscribe({
             next: (res) => {
                 let profile = {} as any;
@@ -116,7 +120,7 @@ export class TransactionComponent {
                 this.getTestPackages();
 
                 // get transactions here
-                this.getTransactions();
+                this.refreshTransactionList();
             },
             error: (err) => {
                 return false;
@@ -151,19 +155,22 @@ export class TransactionComponent {
     /**
      * Calls the authservice getLabTransactions() which retrives and stores the list of transactions to this.transaction and packages to this.packages
      */
-    getTransactions() {
-        this.utilities.dlog('-------------------------------');
-        this.authService.getTransactions().subscribe({
-            next: (res) => {
+    getTransactionByDate(filterDate) {
+        this.authService.getTransactionsByDate(filterDate, filterDate).subscribe({
+            next: (response) => {
                 let allTransactions = {} as any;
-                allTransactions = res;
+                allTransactions = response;
 
                 this.transactions = allTransactions.transactions;
             },
             error: (error) => {
-                this.utilities.dlog('Error fetching lab transactions and packages: ' + error, 'error');
+                this.utilities.dlog('Error adding new transaction: ' + error, 'error');
             }
         });
+    }
+
+    refreshTransactionList() {
+        this.getTransactionByDate(this.listFilterDate);
     }
 
     getTestPackages() {
@@ -264,7 +271,7 @@ resetSelections() {
                 this.authService.registerTransaction(this.newTransaction).subscribe({
                     next: (response) => {
                         // Handle any UI updates or notifications here
-                        this.getTransactions(); // after adding transaction i need to call this function to refresh the list displayed
+                        this.refreshTransactionList(); // after adding transaction i need to call this function to refresh the list displayed
                         this.newTransaction = {}; // this reset text inside the input boxes
                         this.showAddTransactionRow = false;
                         this.showTransactionListRow = true;
@@ -428,7 +435,7 @@ resetSelections() {
                         // Handle any UI updates or notifications here
 
                         // after adding test i need to call this function to get updated list of transactions
-                        this.getTransactions();
+                        this.refreshTransactionList();
 
                         // hide the add payment section then show the list of transaction with a success flashmessage
                         this.showAddPaymentTransactionRow = false;

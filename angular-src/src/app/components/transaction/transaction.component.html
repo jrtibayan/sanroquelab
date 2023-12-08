@@ -164,9 +164,19 @@
         <button class="btn btn-sm btn-primary" (click)="addTransaction()" [disabled]="selectedPackages.length === 0 || !selectedPatient">Add</button>
         <button class="btn btn-sm btn-secondary" (click)="cancelAddTransaction()">Cancel</button>
     </div>
-    <div class="container" *ngIf="showTransactionListRow">
-        <br />
-        <h2>Transaction List</h2>
+    <div class="container mt-5" *ngIf="showTransactionListRow">
+        <h2 class="mb-4">Transaction List</h2>
+
+        <div class="row mb-3">
+            <div class="col-sm-6 col-md-4 mb-2">
+                <label for="listFilterDate" class="form-label">Select Date</label>
+                <input type="date" class="form-control" id="listFilterDate" [(ngModel)]="listFilterDate">
+            </div>
+            <div class="col-sm-6 col-md-4 mt-auto mb-2">
+                <button class="btn btn-primary" (click)="refreshTransactionList()">Refresh List</button>
+            </div>
+        </div>
+
         <table class="table">
             <thead>
                 <tr>
