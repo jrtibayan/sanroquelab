@@ -149,7 +149,8 @@ module.exports.getTransactionsByDate = function (startDate, endDate, callback) {
       }
   };
 
-  Transaction.find(query, callback);
+  // Transaction.find(query, callback);
+  Transaction.find(query).sort({ dateDone: -1 }).exec(callback);
 };
 
 module.exports.addTransaction = function (newTransaction, callback) {
