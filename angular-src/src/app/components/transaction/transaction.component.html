@@ -25,7 +25,11 @@
         <div *ngIf="showSelectPatientSection">
             <br />
             <h3>Select Patient</h3>
-            <div class="list-group" style="max-height: 100px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;"> 
+            <div class="row">
+                <div class="col-md-8"><input type="text" class="form-control" id="searchName" name="searchName" [(ngModel)]="searchName"  placeholder="Enter patient firstname or lastname"></div>
+                <div class="col-md-4"><button class="btn btn-primary w-100" (click)="refreshPatientList()">Search</button></div>
+            </div>
+            <div class="mt-2 list-group" style="max-height: 70vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px;"> 
                 <a
                     href="javascript:void(0);"
                     class="list-group-item list-group-item-action"

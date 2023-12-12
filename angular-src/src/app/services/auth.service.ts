@@ -82,14 +82,13 @@ export class AuthService {
     }
 
 
-    getAllActivePatients() {
-        this.loadToken();
+    getAllActivePatientsByName(filterName: string) {
         const httpOptions = {headers: new HttpHeaders({
             'Content-Type':  'application/json',
             'Authorization': this.authToken
         })};
         return this.http.get(
-            `${this.apiUrl}/patients/getall/active`,
+            `${this.apiUrl}/patients/getall/active?name=${filterName}`,
             httpOptions
         ).pipe(map(res => res));
     }
@@ -249,6 +248,18 @@ export class AuthService {
         })};
         return this.http.post(
             `${this.apiUrl}/testresults/register`,
+            result,
+            httpOptions
+        ).pipe(map(res => res));
+    }
+
+    registerUrinalysisResult(result) {
+        const httpOptions = {headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': localStorage.getItem('id_token')
+        })};
+        return this.http.post(
+            `${this.apiUrl}/testresults/urinalysis/register`,
             result,
             httpOptions
         ).pipe(map(res => res));

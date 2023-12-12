@@ -72,9 +72,35 @@ router.get(
   '/getall/active',
   passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
-    h.dlog("--------------------")
+    const filterName = req.query.name;
+
+    // Split the filterName if it contains a comma
+    const nameParts = filterName ? filterName.split(',').map(part => part.trim()) : [];
+
+     // Create a query object
+    let query = {};
+
+    if (nameParts.length === 1) {
+      // If there is no comma, search for the filterName in firstName, lastName, and middleName
+      query = {
+        $or: [
+          { firstName: { $regex: new RegExp(filterName, 'i') } },
+          { lastName: { $regex: new RegExp(filterName, 'i') } },
+          { middleName: { $regex: new RegExp(filterName, 'i') } },
+        ],
+      };
+    } else if (nameParts.length === 2) {
+      // If there is a comma, use the first part as lastName and the second part as firstName
+      query = {
+        lastName: { $regex: new RegExp(nameParts[0], 'i') },
+        firstName: { $regex: new RegExp(nameParts[1], 'i') },
+      };
+    }
+
+    // Exclude documents where isActive is explicitly set to false
+    query.isActive = { $ne: false };
+
       // Since any person can be a patient we can just use the get person function and query only those that are with inActive = false
-      const query = {};
       const fieldsToSelect = 'firstName middleName lastName address dateOfBirth gender address isSeniorCitizen seniorIdNumber ';
       
       //const query = {isInactive: false};

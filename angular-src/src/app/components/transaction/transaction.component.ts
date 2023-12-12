@@ -18,6 +18,7 @@ export class TransactionComponent {
     currentDate: Date = new Date();
 
     user: any;
+    searchName: string = '';
     newPaymentAmount: number = null;
     newPaymentReceiptNumber: number = null;
     idToUpdate: string = null;
@@ -114,7 +115,7 @@ export class TransactionComponent {
 
                 this.utilities.dlog('---------------------------------------------------------hello');
                 // Fetch active patients here
-                this.getPatients();
+                this.refreshPatientList();
 
                 // Fetch active patients here
                 this.getTestPackages();
@@ -188,12 +189,11 @@ export class TransactionComponent {
         });
     }
 
-    getPatients() {
-        this.authService.getAllActivePatients().subscribe({
+    getPatientsByName(filterName) {
+        this.authService.getAllActivePatientsByName(filterName).subscribe({
             next: (res) => {
                 let allRes = {} as any;
                 allRes = res;
-                this.utilities.dlog(res);
 
                 this.patients = allRes.patients;
             },
@@ -201,6 +201,10 @@ export class TransactionComponent {
                 this.utilities.dlog('Error fetching patients: ' + error, 'error');
             }
         });
+    }
+
+    refreshPatientList() {
+        this.getPatientsByName(this.searchName);
     }
 
 
