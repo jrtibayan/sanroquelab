@@ -18,6 +18,7 @@ export class TransactionhistoryComponent {
   selectedStartDate: string = '';
   selectedEndDate: string = '';
   transactionHistory: any[] = [];
+  refunds: any[] = [];
   retrievedTransactions: any = [];
 
   constructor(
@@ -32,6 +33,7 @@ export class TransactionhistoryComponent {
 
   getTotal(field: string): number {
     return this.transactionHistory.reduce((acc, transaction) => acc + transaction[field], 0);
+    //return this.transactionHistory.reduce((acc, transaction) => acc + (transaction[field] || 0), 0);
   }
 
   getTransactionHistory() {
@@ -64,6 +66,9 @@ export class TransactionhistoryComponent {
                   total: transaction.total,
                   transactionId: transaction._id,        // Assuming you want the _id of the transaction
                   items: packageNames,
+                  receiptCancelled: payment?.receiptCancelled ?? false,
+                  refundAmount: payment?.refundAmount ?? 0,
+                  remarks: payment?.remarks ?? "",
                 };
               });
 
@@ -75,8 +80,10 @@ export class TransactionhistoryComponent {
           }, []);
           this.transactionHistory = formattedTransactions;
 
-          console.log('formattedTransactions');
-          console.log(formattedTransactions);
+          this.refunds = this.transactionHistory.filter(transaction => transaction.refundAmount > 0);
+
+          console.log('this.refunds');
+          console.log(this.refunds);
       },
       error: (error) => {
           this.utilities.dlog('Error adding new transaction: ' + error, 'error');

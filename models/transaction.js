@@ -93,6 +93,15 @@ const TransactionSchema = mongoose.Schema({
               type: Number,
               required: true
             },
+            receiptCancelled:{
+              type: Boolean
+            },
+            refundAmount:{
+              type: Number
+            },
+            remarks: {
+              type: String
+            },
             amountPaid: {
                 type: Number,
                 required: true
