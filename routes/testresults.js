@@ -70,7 +70,7 @@ router.post(
                 h.dlog("    newResult to be added ----------------------------------------");
                 h.dlog(newResult);
                 if (err) {
-                    h.dlog('Error adding user');
+                    h.dlog('Error adding user2');
                     return res.status(500).json({
                         success: false,
                         msg: 'Error adding to result'
@@ -103,6 +103,71 @@ router.post(
             return res.status(401).json({
                 success: false,
                 msg: 'Aunauthorized Access: User not allowed to ' + action
+            });
+        }
+    }
+);
+
+
+ // Register
+router.post(
+    '/urinalysis/register',
+    passport.authenticate('jwt', { session: false }),
+    (req, res, next) => {
+        h.dlog('\n\n\nInside TESTRESULT Urinalysis Route - REGISTER Start');
+        h.dlog('Adding result of patient ' + req.body.patientName);
+        console.log('------------------------------------');
+        console.log('------------------------------------');
+        console.log('------------------------------------');
+        console.log('req.body');
+        console.log(req.body);
+
+        const action = 'Add Result';
+
+        const newResult = {
+            date_done: new Date(req.body.dateDone),
+            patient: req.body.patient,
+            requesting_physician: req.body.requestingPhysician,
+            medtech: req.body.medtech,
+            pathologist: req.body.pathologist,
+            test: req.body.test
+        };
+
+        if(req.user && req.user.role && (req.user.role === "admin" || req.user.allowedActions && req.user.allowedActions.includes(action))) {
+            TestResult.addResult(new TestResult(newResult), (err, result) => {
+                if (err) {
+                    return res.status(500).json({
+                        success: false,
+                        msg: 'Error adding to result'
+                    });
+                } else {
+                    h.dlog('Result registered');
+
+                    /*
+                    let pendingTestId = null;
+                    for(const test of req.body.testsAndResults) {
+                        pendingTestId = test._id;
+                        h.dlog("trying to delete record with id "+ pendingTestId);
+                        PendingTest.deleteById(pendingTestId, (err) => {
+                            if (err) {
+                                h.dlog('Error deleting document: ' + err, 'error');
+                            } else {
+                                h.dlog('Document deleted successfully.');
+                            }
+                        });
+                    }*/
+
+                    return res.json(h.appRes(
+                        { success: true, msg: 'Result added' },
+                        { id: result._id, patientName: result.patientName }
+                    ));
+                }
+            });
+        } else {
+            h.dlog('User not allowed to ' + action);
+            return res.status(401).json({
+                success: false,
+                msg: 'Unauthorized Access: User not allowed to ' + action
             });
         }
     }

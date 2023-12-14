@@ -21,6 +21,7 @@ import { LabtestComponent } from './components/labtest/labtest.component';
 import { TransactionComponent } from './components/transaction/transaction.component';
 import { LabresultComponent } from './components/labresult/labresult.component';
 import { TransactionhistoryComponent } from './components/transactionhistory/transactionhistory.component';
+import { UrinalysisComponent } from './components/result-forms/urinalysis/urinalysis.component';
 
 
 const appRoutes: Routes = [
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
   {path:'labresult/management/temp', component: LoginComponent, canActivate: [AuthGuard]},
   {path:'labtest/management', component: LabtestComponent, canActivate: [AuthGuard]},
   {path:'transaction/history', component: TransactionhistoryComponent, canActivate: [AuthGuard]},
-  {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]}
+  {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path:'forms/urinalysis', component: UrinalysisComponent, canActivate: [AuthGuard]},
 ]
 
 @NgModule({
@@ -50,7 +52,8 @@ const appRoutes: Routes = [
     TransactionComponent,
     LabresultComponent,
     LabtestComponent,
-    TransactionhistoryComponent
+    TransactionhistoryComponent,
+    UrinalysisComponent
   ],
   imports: [
     BrowserModule,

@@ -9,54 +9,74 @@ const TestResultSchema = mongoose.Schema({
         type: Date,
         required: true
     },
-    patient_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
-    },
-    patient_name: {
-        type: String,
-        required: true
-    },
-    patient_address: {
-        type: String,
-        required: true
-    },
-    patient_age: {
-        type: String,
-        required: true
-    },
-    patient_gender: {
-        type: String,
-        required: true
+    patient:{
+        id: {
+            type: mongoose.Schema.Types.ObjectId
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        address: {
+            type: String,
+            required: true
+        },
+        age: {
+            type: String,
+            required: true
+        },
+        gender: {
+            type: String,
+            required: true
+        },
     },
     medtech: {
-        type: String,
-        required: true
+        name: {
+            type: String,
+            required: true
+        },
+        license: {
+            type: String,
+            required: true
+        },
     },
     pathologist: {
-        type: String,
-        required: true
+        name: {
+            type: String,
+            required: true
+        },
+        license: {
+            type: String,
+            required: true
+        },
     },
-    tests_and_results: [
-        {
-            transaction_id: {
-                type: mongoose.Schema.Types.ObjectId,
-                required: true,
-            },
-            test_name: {
-                type: String,
-                required: true
-            },
-            result_value: {
-                type: String,
-                required: true
-            },
-            normal_values: {
-                type: String,
-                required: true
-            }
+    requesting_physician: {
+        name: {
+            type: String
+        },
+        license: {
+            type: String
         }
-    ]
+    },
+    test: {
+        type: {
+            type: String,
+            required: true
+        },
+        parameters: [{
+            name: {
+                type: String,
+                required: true
+            },
+            value: {
+                type: String,
+                required: true
+            },
+            normal: {
+                type: String
+            }
+        }],
+    }
 });
 
 const TestResult = module.exports = mongoose.model('TestResult', TestResultSchema);

@@ -1,0 +1,181 @@
+<div class="container mt-4 mb-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-7 col-xl-6">
+            <div class="wrap">
+                <form class="row g-3" (submit)="onSaveSubmit()">
+                    <legend class="text-center"><h2>Urinalysis</h2></legend>
+                    
+                    <!-- Date -->
+                    <div class="col-lg-4 col-md-4">
+                        <label for="dateDone" class="form-label">Date</label>
+                        <input type="text" class="form-control" id="dateDone" name="dateDone" [(ngModel)]="transactionData.dateDone" [disabled]="true">
+                    </div>
+
+                    <!-- Patient Name -->
+                    <div class="col-lg-8 col-md-8">
+                        <label for="patientName" class="form-label">Patient</label>
+                        <input type="text" class="form-control" id="patientName" name="patientName" [(ngModel)]="transactionData.patient.name" [disabled]="true">
+                    </div>
+
+                    <!-- Address -->
+                    <div class="col-lg-12 col-md-12">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="address" name="address" [(ngModel)]="transactionData.patient.address" [disabled]="true">
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="col-md-6">
+                        <label for="gender" class="form-label">Gender</label>
+                        <input type="text" class="form-control" id="gender" name="gender" [(ngModel)]="transactionData.patient.gender" [disabled]="true">
+                    </div>
+
+                    <!-- Age -->
+                    <div class="col-md-6">
+                        <label for="age" class="form-label">Age</label>
+                        <input type="text" class="form-control" id="age" name="age" [(ngModel)]="transactionData.patient.age" [disabled]="true">
+                    </div>
+
+                    <!-- Color -->
+                    <div class="col-md-12">
+                        <label for="color" class="form-label">{{ labelColor }}</label>
+                        <input type="text" class="form-control" id="color" name="color" [(ngModel)]="color">
+                    </div>
+
+                    <!-- Transparency -->
+                    <div class="col-md-12">
+                        <label for="transparency" class="form-label">{{ labelTransparency }}</label>
+                        <input type="text" class="form-control" id="transparency" name="transparency" [(ngModel)]="transparency">
+                    </div>
+
+                    <!-- Sugar -->
+                    <div class="col-md-12">
+                        <label for="sugar" class="form-label">{{ labelSugar }}</label>
+                        <input type="text" class="form-control" id="sugar" name="sugar" [(ngModel)]="sugar">
+                    </div>
+
+                    <!-- PH -->
+                    <div class="col-md-12">
+                        <label for="ph" class="form-label">{{ labelPh }}</label>
+                        <input type="text" class="form-control" id="ph" name="ph" [(ngModel)]="ph">
+                    </div>
+
+                    <!-- Specific Gravity -->
+                    <div class="col-md-12">
+                        <label for="specificGravity" class="form-label">{{ labelSpecificGravity }}</label>
+                        <input type="text" class="form-control" id="specificGravity" name="specificGravity" [(ngModel)]="specificGravity">
+                    </div>
+
+                    <!-- Protein -->
+                    <div class="col-md-12">
+                        <label for="protein" class="form-label">{{ labelProtein }}</label>
+                        <input type="text" class="form-control" id="protein" name="protein" [(ngModel)]="protein">
+                    </div>
+
+                    <!-- Pus Cells -->
+                    <div class="col-md-12">
+                        <label for="pusCells" class="form-label">{{ labelPusCells }}</label>
+                        <input type="text" class="form-control" id="pusCells" name="pusCells" [(ngModel)]="pusCells">
+                    </div>
+
+                    <!-- RBC -->
+                    <div class="col-md-12">
+                        <label for="rbc" class="form-label">{{ labelRbc }}</label>
+                        <input type="text" class="form-control" id="rbc" name="rbc" [(ngModel)]="rbc">
+                    </div>
+
+                    <!-- Epithelial Cells -->
+                    <div class="col-md-12">
+                        <label for="epithelialCells" class="form-label">{{ labelEpithelialCells }}</label>
+                        <input type="text" class="form-control" id="epithelialCells" name="epithelialCells" [(ngModel)]="epithelialCells">
+                    </div>
+
+                    <!-- Amorphous Urates -->
+                    <div class="col-md-12">
+                        <label for="amorphousUrates" class="form-label">Amorphous Urates</label>
+                        <input type="text" class="form-control" id="amorphousUrates" name="amorphousUrates" [(ngModel)]="amorphousUrates">
+                    </div>
+
+                    <!-- Amorphous Phosphates -->
+                    <div class="col-md-12">
+                        <label for="amorphousPhosphates" class="form-label">{{ labelAmorphousPhosphates }}</label>
+                        <input type="text" class="form-control" id="amorphousPhosphates" name="amorphousPhosphates" [(ngModel)]="amorphousPhosphates">
+                    </div>
+
+                    <!-- Bacteria -->
+                    <div class="col-md-12">
+                        <label for="bacteria" class="form-label">{{ labelBacteria }}</label>
+                        <input type="text" class="form-control" id="bacteria" name="bacteria" [(ngModel)]="bacteria">
+                    </div>
+
+                    <!-- Mucus Threads -->
+                    <div class="col-md-12">
+                        <label for="mucusThreads" class="form-label">{{ labelMucusThreads }}</label>
+                        <input type="text" class="form-control" id="mucusThreads" name="mucusThreads" [(ngModel)]="mucusThreads">
+                    </div>
+
+                    <!-- Pus Cells In Clumps -->
+                    <div class="col-md-12">
+                        <label for="pusCellsInClumps" class="form-label">{{ labelPusCellsInClumps }}</label>
+                        <input type="text" class="form-control" id="pusCellsInClumps" name="pusCellsInClumps" [(ngModel)]="pusCellsInClumps">
+                    </div>
+
+                    <!-- Micral Test -->
+                    <div class="col-md-12">
+                        <label for="micralTest" class="form-label">{{ labelMicralTest }}</label>
+                        <input type="text" class="form-control" id="micralTest" name="micralTest" [(ngModel)]="micralTest">
+                    </div>
+
+                    <!-- Hyaline Casts -->
+                    <div class="col-md-12">
+                        <label for="hyalineCasts" class="form-label">{{ labelHyalineCasts }}</label>
+                        <input type="text" class="form-control" id="hyalineCasts" name="hyalineCasts" [(ngModel)]="hyalineCasts">
+                    </div>
+
+                    <!-- Fine Granular Casts -->
+                    <div class="col-md-12">
+                        <label for="fineGranularCasts" class="form-label">{{ labelFineGranularCasts }}</label>
+                        <input type="text" class="form-control" id="fineGranularCasts" name="fineGranularCasts" [(ngModel)]="fineGranularCasts">
+                    </div>
+                  
+                    <!-- Requesting Physician -->
+                    <div class="col-md-12">
+                        <label for="requestingPhysician" class="form-label">Requesting Physician</label>
+                        <input type="text" class="form-control" id="requestingPhysicianName" name="requestingPhysicianName" [(ngModel)]="requestingPhysicianName">
+                    </div>
+
+                    <!-- Requesting Physician -->
+                    <div class="col-md-12">
+                        <label for="requestingPhysician" class="form-label">Requesting Physician</label>
+                        <input type="text" class="form-control" id="requestingPhysicianLicense" name="requestingPhysicianLicense" [(ngModel)]="requestingPhysicianLicense">
+                    </div>
+
+                    <!-- Medical Technologist -->
+                    <div class="col-md-12">
+                        <label for="medicalTechnologist" class="form-label">Medical Technologist</label>
+                        <input type="text" class="form-control" id="medtechName" name="medtechName" [(ngModel)]="medtechName">
+                    </div>
+
+                    <!-- Medical Technologist -->
+                    <div class="col-md-12">
+                        <label for="medicalTechnologist" class="form-label">License</label>
+                        <input type="text" class="form-control" id="medtechLicense" name="medtechLicense" [(ngModel)]="medtechLicense">
+                    </div>
+
+                    <!-- Pathologist -->
+                    <div class="col-md-12">
+                        <label for="pathologist" class="form-label">Pathologist</label>
+                        <input type="text" class="form-control" id="pathologistName" name="pathologistName" [(ngModel)]="pathologistName">
+                    </div>
+
+                    <!-- Pathologist -->
+                    <div class="col-md-12">
+                        <label for="pathologist" class="form-label">License</label>
+                        <input type="text" class="form-control" id="pathologistLicense" name="pathologistLicense" [(ngModel)]="pathologistLicense">
+                    </div>
+
+                    <input type="submit" class="btn btn-primary" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
