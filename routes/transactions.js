@@ -7,7 +7,7 @@ const conf = require('config');
 const h = require('../misc/helper');
 
 const Transaction = require('../models/transaction')
-const PendingTest = require('../models/pendingtest');
+const TestResult = require('../models/testresult');
 const { collapseTextChangeRangesAcrossMultipleVersions } = require('typescript');
 
 
@@ -92,12 +92,113 @@ router.post(
         newTransaction.createdBy = req.user._id;
 
         if(req.user && req.user.role && (req.user.role === "admin" || req.user.allowedActions && req.user.allowedActions.includes("Add Transaction"))) {
+            /****************************************************** */
+            /* 1 - GET ALL TEST FROM PACKAGES AND STORE IN AN ARRAY */
+            /****************************************************** */
+            // Create an empty array to store all unique test values
+            const allTest = [];
+            // Iterate over each package in transaction.packages
+            newTransaction.packages.forEach(package => {
+              // Iterate over each test in the testIncluded array
+              package.testIncluded.forEach(test => {
+                // Check if the test is not already in allTest array
+                if (!allTest.includes(test)) {
+                  // Add the test to allTest array
+                  allTest.push(test);
+                }
+              });
+            });
+
+            /*********************************************/
+            /* 2 - FILTER TEST AND GROUP WITH SAME TYPE */
+            /********************************************/
+            const sanRoqueData = req.app.locals.sanRoqueData
+
+            // Filter tests based on allTest array
+            const filteredTests = sanRoqueData.tests.filter(test => allTest.includes(test.testName));
+
+            // Group tests by type
+            const groupedTests = filteredTests.reduce((acc, test) => {
+              if (!acc[test.testType]) {
+                acc[test.testType] = {
+                  type: test.testType,
+                  parameters: []
+                };
+              }
+              acc[test.testType].parameters.push(...test.resultParameters);
+              return acc;
+            }, {});
+
+            /********************************************************/
+            /* 3 - ADDED OTHER DATA AND STRUCTURED TO NEEDED FORMAT */
+            /********************************************************/
+            // Initialize the newTests array
+            const newResults = [];
+            // Convert groupedTests to the desired format
+            for (const type in groupedTests) {
+              newResults.push({
+                type: groupedTests[type].type,
+                parameters: Array.from(new Set(groupedTests[type].parameters)),
+                date_done:newTransaction.dateDone,
+                patient: {
+                  id: newTransaction.patientId,
+                  name: newTransaction.patientName,
+                  address: newTransaction.patientAddress,
+                  gender: newTransaction.patientGender,
+                  age: newTransaction.patientAge
+                },
+                requesting_physician: {
+                  name: '1',
+                  license:'1'
+                },
+                medtech: {
+                  name: 'Joyce Ann E. Magnaye, RMT',
+                  license:'0063961'
+                },
+                pathologist: {
+                  name: 'Celso S. Ramos, MD, FPSP',
+                  license:'6'
+                },
+                test: req.body.test,
+                status: 'Incomplete',
+              });
+            }
+            // Create a deep copy to avoid modifying the original array
+            const modifiedResults = JSON.parse(JSON.stringify(newResults));
+            // Modify each object in the array
+            modifiedResults.forEach(obj => {
+              if (obj.parameters) {
+                obj.test = {
+                  type: obj.type,
+                  parameters: obj.parameters.map(param => ({
+                    name: param,
+                    value: '1',
+                    normal: '1'
+                  }))
+                };
+                delete obj.type;
+                delete obj.parameters;
+              }
+            });
+
             Transaction.addTransaction(new Transaction(newTransaction), (err, updatedTransaction) => {
                 if (err) {
                     return res.status(500).json({ 
                         success: false,
                         msg: 'Error adding new transaction'
                     });
+                }
+
+                // if adding transaction succeedd, add incomplete result
+                for(const result of modifiedResults) {
+                  TestResult.addResult(new TestResult(result), (err, testResult) => {
+                    if (err) {
+                        return res.status(500).json({
+                            success: false,
+                            msg: 'Error adding incomplete result'
+                        });
+                    }
+                  });
                 }
 
                 return res.status(200).json({
@@ -243,52 +344,6 @@ router.post(
                 // if all are good the payments in the transaction is updated
                 Transaction.updateTransactionPayments(newPayment.idToUpdate, transaction.payments);
                 h.dlog('aFTER Adding of Payments -------------------------------------');
-                // if after payment is now fully paid, add the tests to queue for making test results
-                if(currentPaid + newPayment.amountPaid === transaction.total) {
-
-                   for(const package of transaction.packages) {
-                      for(const test of package.testIncluded) {
-
-                        const testList = req.app.locals.sanRoqueData.tests;
-                        const foundTest = testList.find(test2 => test2.testName === test);
-
-                        let paramToPass = [];
-                        let testType = null;
-
-                        if (foundTest) {
-                          paramToPass = Array.isArray(foundTest.resultParameters) ? JSON.parse(JSON.stringify(foundTest.resultParameters)) : [];
-                          testType = foundTest.testType ? foundTest.testType : "UNIDENTIFIED";
-                        } else {
-                          h.dlog('Test not found');
-                        }
-
-                        let ptest = {
-                          dateDone: transaction.dateDone,
-                          transactionId: transaction._id,
-                          patientId: transaction.patientId,
-                          patientName: transaction.patientName,
-                          patientAddress: transaction.patientAddress,
-                          patientGender: transaction.patientGender,
-                          patientAge: transaction.patientAge,
-                          resultParameters: paramToPass,
-                          testType: testType,
-                          testName: test
-                        };
-
-                        PendingTest.insert(new PendingTest(ptest), (err, pendingTest) => {
-                          if (err) {
-                              return res.status(500).json({
-                                  success: false,
-                                  msg: 'Error adding to queue'
-                              });
-                          }
-                        });
-
-                      }
-                   }
-
-                   h.dlog(transaction.testIncluded);
-                }
 
                 h.sendEmail("jrtibayan@gmail.com", "Received Payment", "P" + newPayment.amountPaid + " received by the cashier");
 
