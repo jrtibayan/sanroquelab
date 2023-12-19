@@ -5,6 +5,9 @@ const h = require('../misc/helper');
 
 // Testresult Schema
 const TestResultSchema = mongoose.Schema({
+    status: {
+        type: String // Will allways have value. Either Incomplete or Done.
+    },
     date_done: {
         type: Date,
         required: true
