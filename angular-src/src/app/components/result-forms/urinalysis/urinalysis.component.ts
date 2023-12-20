@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ValidateService } from '../../../services/validate.service';
 import { AuthService } from '../../../services/auth.service';
+import { SharedService } from '../../../shared/shared.service';
 import { FlashMessagesModule, FlashMessagesService} from 'flash-messages-angular';
 import { Router } from '@angular/router';
 import { Utilities } from '../../../shared/utilities.functions';
@@ -13,6 +14,7 @@ import { Utilities } from '../../../shared/utilities.functions';
 export class UrinalysisComponent {
   public utilities = Utilities;
   user: any;
+  resultId: string;
 
   transactionData: any;
   dateDone!: String;
@@ -65,6 +67,7 @@ export class UrinalysisComponent {
   pathologistLicense!: String;
 
   constructor(
+    private sharedService: SharedService,
     private validateService: ValidateService,
     private authService: AuthService,
     private flashMessage: FlashMessagesService,
@@ -72,6 +75,9 @@ export class UrinalysisComponent {
   ) { }
 
   ngOnInit(): void { 
+    // Retrieve the ptest ID from the route parameters
+    this.transactionData = this.sharedService.getSharedData();
+
     this.authService.getProfile().subscribe(res => {
       let profile = {} as any;
       profile = res;
@@ -95,19 +101,32 @@ export class UrinalysisComponent {
       this.labelHyalineCasts = 'Hyaline Casts';
       this.labelFineGranularCasts = 'Fine Granular Casts';
 
+      /*
       this.transactionData = {
         dateDone: "12/11/2023",
         patient: {
-          name: "Tibayan, Jeric Padua",
-          address: "Lemery, Batangas",
-          gender: "Male",
-          age: "38Yo 8Mo"
+          name: "Lastname, Firstname Middlename",
+          address: "Street, City, Province",
+          gender: "Male / Female",
+          age: "30Yo 5Mo"
         },
         test: {
           type: "Urinalysis"
+        },
+        requestingPhysician: {
+          name: 'Firstname MI. Lastname, MD',
+          license: '00123456'
+        },
+        medtech: {
+          name: 'Joyce Ann E. Magnaye, RMT',
+          license: '0063961'
+        },
+        pathologist: {
+          name: 'Colso, S. Ramos, MD, FPSP',
+          license: '0046296'
         }
       };
-
+      */
     }, err => {
       this.utilities.dlog(err, 'error');
       return false
@@ -117,22 +136,7 @@ export class UrinalysisComponent {
 
   onSaveSubmit(){ 
     this.transactionData.test.parameters = [];
-
-    this.transactionData.requestingPhysician = {
-      name: this.requestingPhysicianName,
-      license: this.requestingPhysicianLicense
-    };
-
-    this.transactionData.medtech = {
-      name: this.medtechName,
-      license: this.medtechLicense
-    };
-
-    this.transactionData.pathologist = {
-      name: this.pathologistName,
-      license: this.pathologistLicense
-    };
-
+    this.transactionData.status = 'Ready';
 
     let params = [];
     params.push({ name: this.labelColor, value: this.color, normal: null});
@@ -163,6 +167,30 @@ export class UrinalysisComponent {
       }
     }
 
+    const resultIdToUpdate = this.transactionData._id;
+    const updatedResultData = {
+      test: this.transactionData.test,
+      requestingPhysician: this.transactionData.requestingPhysician,
+      medtech: this.transactionData.medtech,
+      pathologist: this.transactionData.pathologist,
+      status: this.transactionData.status
+    };
+    this.authService.updateUrinalysisResult(resultIdToUpdate, updatedResultData)
+    .subscribe(
+        (data) => {
+          if ((data as any).success) {
+            this.flashMessage.show('Test result updated', { cssClass: 'alert-success', timeout: 3000 });
+            this.router.navigate(['labresult/management']);
+          } else {
+            this.flashMessage.show('Test result was not saved. Make sure the data you entered is complete!', { cssClass: 'alert-danger', timeout: 3000 });
+          }
+        },
+        (error) => {
+          console.error('Update failed', error);
+          // Handle error, if needed
+        }
+    );
+
     /*
     if(!this.validateService.validateRegister(user)) {
       this.flashMessage.show('Please fill in all fields', {cssClass: 'alert-danger', timeout: 3000});
@@ -171,20 +199,16 @@ export class UrinalysisComponent {
     */
 
     // Submit and insert result
-    this.authService.registerUrinalysisResult(this.transactionData).subscribe(
+    /*this.authService.registerUrinalysisResult(this.transactionData).subscribe(
       data => {
         if ((data as any).success){
           this.flashMessage.show('Test result added', { cssClass: 'alert-success', timeout: 3000 });
+          this.router.navigate(['labresult/management']);
         } else {
           this.flashMessage.show('Something went wrong', {cssClass: 'alert-danger', timeout: 3000});
         }
       }
     );
+    */
   }
-
-
-
-  
-  
-
 }
