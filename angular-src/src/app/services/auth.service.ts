@@ -214,24 +214,24 @@ export class AuthService {
         ).pipe(map(res => res));
     }
 
-    getPendingTests() {
+    getPendingResult(startDate: string = '1900-01-01', endDate: string = '3000-12-31') {
         const httpOptions = {headers: new HttpHeaders({
             'Content-Type':  'application/json',
             'Authorization': this.authToken
         })};
         return this.http.get(
-            `${this.apiUrl}/labtests/pending/getall`,
+            `${this.apiUrl}/testresults/getbydate?startDate=${startDate}&endDate=${endDate}&status=Incomplete`,
             httpOptions
         ).pipe(map(res => res));
     }
 
-    getFinalizedResults() {
+    getFinalResult(startDate: string = '1900-01-01', endDate: string = '3000-12-31') {
         const httpOptions = {headers: new HttpHeaders({
             'Content-Type':  'application/json',
             'Authorization': this.authToken
         })};
         return this.http.get(
-            `${this.apiUrl}/testresults/getall`,
+            `${this.apiUrl}/testresults/getbydate?startDate=${startDate}&endDate=${endDate}&status=Ready`,
             httpOptions
         ).pipe(map(res => res));
     }
@@ -261,6 +261,21 @@ export class AuthService {
         return this.http.post(
             `${this.apiUrl}/testresults/urinalysis/register`,
             result,
+            httpOptions
+        ).pipe(map(res => res));
+    }
+
+    updateUrinalysisResult(id: string, updatedResult: any) {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('id_token')
+            })
+        };
+    
+        return this.http.put(
+            `${this.apiUrl}/testresults/urinalysis/update/${id}`,
+            updatedResult,
             httpOptions
         ).pipe(map(res => res));
     }
