@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FlashMessagesService} from 'flash-messages-angular';
+import { SharedService } from '../../shared/shared.service';
 
 import { Utilities } from '../../shared/utilities.functions';
 
@@ -14,6 +15,7 @@ import { Utilities } from '../../shared/utilities.functions';
 export class LabresultComponent {
 
     constructor(
+        private sharedService: SharedService,
         private authService: AuthService,
         private flashMessage: FlashMessagesService,
         private router: Router
@@ -25,7 +27,7 @@ export class LabresultComponent {
     allPendingTests: any[] = [];
     selectedPatientId: number = null;
     pendingTests: any[] = [];
-    visiblePendingTests: any[] = [];
+    incompleteTests: any[] = [];
     finalizedResults: any[] = [];
     selectedTests: any[] = [];
 
@@ -55,11 +57,13 @@ export class LabresultComponent {
                 profile = res;
                 this.user = profile.user;
 
-                this.getPendingTests();
+                // gets result that have status "Ready"
+                this.getFinalResult();
+
+                // gets result that have status "Incomplete"
+                this.getPendingResult();
 
                 this.getLabtests();
-
-                this.getFinalizedResults();
             },
             error: (err) => {
                 return false;
@@ -99,9 +103,9 @@ export class LabresultComponent {
         const selectedTest = this.pendingTests.find(test => test.isSelected === true);
         this.selectedPatientId = selectedTest ? selectedTest.patientId : null;
 
-        this.getPendingTests();
+        this.getPendingResult();
 
-        this.selectedTests = this.visiblePendingTests.filter((test) => test.isSelected === true);
+        this.selectedTests = this.incompleteTests.filter((test) => test.isSelected === true);
         this.utilities.dlog('--------------------');
         this.utilities.dlog(this.selectedTests);
 
@@ -117,130 +121,77 @@ export class LabresultComponent {
     /**
      * Calls the authservice getLabTransactions() which retrives and stores the list of transactions to this.transaction and packages to this.packages
      */
-    getPendingTests() {
-        this.authService.getPendingTests().subscribe({
+    getPendingResult() {
+        this.authService.getPendingResult().subscribe({
             next: (res) => {
-                let allPendingTests = {} as any;
-                allPendingTests = res;
-                this.allPendingTests = allPendingTests.tests;
-
-                // will add to pendingTests only those that are not yet added
-                // will add properties that will be used by the component which are the ones below
-                // isHidden - to filter which items to be hidden
-                // isSelected - to filter which tests needs input for result
-                // resultValue - to contain the result value needed for the printed lab report
-                if(this.pendingTests.length > 0) {
-                    let objectsToAdd = this.allPendingTests.filter(test => {
-                        return !this.pendingTests.some(pendingTest => pendingTest._id === test._id);
-                    });
-                    objectsToAdd = objectsToAdd.map(test => {
-                        return { ...test, isSelected: false, isHidden: false, resultValue: '' };
-                    });
-                    this.pendingTests.push(...objectsToAdd);
-                } else {
-                    this.pendingTests = [...this.allPendingTests];
-                    this.pendingTests = this.pendingTests.map(test => {
-                        return { ...test, isSelected: false, isHidden: false, resultValue: '' };
-                    });
-                }
-
-                // update hidden properties depending on Selected Patient ID
-                this.pendingTests.forEach((test) => {
-                    if (this.selectedPatientId === null) {
-                        test.isHidden = false;
-                    } else if (test.patientId !== this.selectedPatientId) {
-                        test.isHidden = true;
-                    } else {
-                        test.isHidden = false;
-                    }
-                });
-
-                // filters to only get patient that are not hidden
-                this.visiblePendingTests = this.pendingTests.filter(test => !test.isHidden);
+                let result = {} as any;
+                result = res;
+                this.incompleteTests = result.testResults || [];
+                this.incompleteTests = result.testResults.map(({ _id, date_done, patient, medtech, pathologist, requesting_physician, test }) => {
+                    return {
+                      _id: _id,
+                      dateDone: date_done,
+                      patient: patient,
+                      medtech: medtech,
+                      pathologist: pathologist,
+                      requestingPhysician: requesting_physician,
+                      test: test
+                    };
+                  });
             },
             error: (error) => {
-                this.utilities.dlog('Error fetching lab transactions and packages: ' + error, 'error');
+                this.utilities.dlog('Error fetching final lab results: ' + error, 'error');
             }
         });
     }
 
-    previewResult(result) {
-        // You can customize the way you want to display the content of the object here.
-        // For example, displaying it in an alert:
-        //alert(JSON.stringify(result, null, 2));
-
-        const printWindow = window.open('', '_blank', 'width=1000,height=800,scrollbars=yes');
-
-        if (printWindow) {
-            printWindow.document.write(`
-                <html>
-                <head>
-                    <title>Printable Result</title>
-                    <!-- Link your print-friendly CSS here -->
-                    <link rel="stylesheet" href="printable-result.css" media="print">
-                </head>
-                <body>
-                    <header>
-                        <!-- Company Logo and Name -->
-                        <div>
-                            <img src="company-logo.png" alt="Company Logo" width="100" height="50">
-                            <h2>Company Name</h2>
-                        </div>
-                    </header>
-
-                    <div>
-                        <h1>Test Result</h1>
-                        <p>Date: ${this.utilities.formatDateToMMDDYYYY(result.dateDone)}</p>
-                        <p>Patient: ${result.patientName}</p>
-                        <p>Address: ${result.patientAddress}</p>
-                        <p>Gender: ${result.patientGender}</p>
-                        <p>Age: ${result.patientAge}</p>
-                        <table>
-                        <tr *ngFor="let test of result.testsAndResults">
-
-                        </tr>
-                        </table>
-                    </div>
-
-                    <footer>
-                        <!-- Additional Company Information -->
-                        <div>
-                            <p>Company Address: Your Company Address</p>
-                            <p>Contact Number: Your Contact Number</p>
-                        </div>
-                    </footer>
-                </body>
-                </html>
-            `);
-
-            printWindow.document.close();
-            printWindow.print();
+    fillInForm(ptest: any) {
+        switch (ptest.test.type) {
+            case 'Urinalysis':
+                this.sharedService.setSharedData(ptest);
+                this.router.navigate(['/forms/urinalysis']);
+                break;
+            // Add more cases for other test types
+            // case 'AnotherTestType':
+            //     this.router.navigate(['/another-route', ptest._id]);
+            //     break;
+            default:
+                // Handle the default case or do nothing
+                break;
         }
     }
+    
+    // Method to preview the PDF for a specific result
+    previewResult(result: any): void {
+        // Call the generatePdf method from the Utilities class
+        console.log('Preview button clicked!', result);
+        this.utilities.generateUrinalysisPdf(result);
+    }
 
-    getFinalizedResults() {
-        this.authService.getFinalizedResults().subscribe({
+    getFinalResult() {
+        this.authService.getFinalResult().subscribe({
             next: (res) => {
-                let httpRes = {} as any;
-                httpRes = res;
-                this.finalizedResults = httpRes.testresults || [];
-                this.finalizedResults = httpRes.testresults.map(({date_done, patient_name, patient_address, patient_gender, patient_age, medtech, pathologist, tests_and_results}) => ({
-                    dateDone: date_done,
-                    patientName: patient_name,
-                    patientAddress: patient_address,
-                    patientGender: patient_gender,
-                    patientAge: patient_age,
-                    medtech: medtech,
-                    pathologist: pathologist,
-                    testsAndResults: tests_and_results.map(({test_name, result_value, normal_values}) => ({
-                        testName: test_name,
-                        resultValue: result_value,
-                        normalValues: normal_values
-                    }))
-                }));
+                let result = {} as any;
+                result = res;
+                console.log();
+                console.log('httpresultRes');
+                console.log(result);
+                this.finalizedResults = result.testResults || [];
+
+                this.finalizedResults = result.testResults.map(({ _id, date_done, patient, medtech, pathologist, requesting_physician, test }) => {
+                    return {
+                      _id: _id,
+                      dateDone: date_done,
+                      patient: patient,
+                      medtech: medtech,
+                      pathologist: pathologist,
+                      requestingPhysician: requesting_physician,
+                      test: test
+                    };
+                  });
             },
             error: (error) => {
-                this.utilities.dlog('Error fetching lab transactions and packages: ' + error, 'error');
+                this.utilities.dlog('Error fetching final lab results: ' + error, 'error');
             }
         });
     }

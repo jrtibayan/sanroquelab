@@ -1,4 +1,3 @@
-<p>labresult works!</p>
 <div *ngIf="user">
     <div class="container" *ngIf="showLabResultsList">
         <br />
@@ -7,9 +6,10 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Date - Time</th>
+                    <th>Date</th>
                     <th>Patient</th>
                     <th>Test</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -18,9 +18,10 @@
                         <button class="btn btn-sm btn-primary" (click)="showLabResultManagerSection()" [disabled]="!userHasPermission('Add Result')">Prepare Lab Result</button>
                     </td>
                 </tr>
-                <tr *ngFor="let result of this.finalizedResults">
+                <tr *ngFor="let result of finalizedResults">
                     <td>{{ this.utilities.formatDateToMMDDYYYY(result.dateDone) }}</td>
-                    <td>{{ result.patientName }}</td>
+                    <td>{{ result.patient.name }}</td>
+                    <td>{{ result.test.type }}</td>
                     <td>
                         <button class="btn btn-sm btn-primary" (click)="previewResult(result)">Preview</button>
                     </td>
@@ -42,16 +43,20 @@
                     <th>Date - Time</th>
                     <th>Patient</th>
                     <th>Test</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let ptest of visiblePendingTests">
+                <tr *ngFor="let ptest of incompleteTests">
                     <td>
                         <input type="checkbox" [(ngModel)]="ptest.isSelected" (change)="refreshList(ptest)">
                     </td>
                     <td>{{ utilities.formatDateToMMDDYYYY(ptest.dateDone) }}</td>
-                    <td>{{ ptest.patientName }}</td>
-                    <td>{{ ptest.testName }}</td>
+                    <td>{{ ptest.patient.name }}</td>
+                    <td>{{ ptest.test.type }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" (click)="fillInForm(ptest)">Create</button>
+                    </td>
                 </tr>       
             </tbody>
         </table>
