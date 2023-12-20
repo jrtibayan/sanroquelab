@@ -157,7 +157,7 @@ router.post(
                 },
                 pathologist: {
                   name: 'Celso S. Ramos, MD, FPSP',
-                  license:'6'
+                  license:'0046296'
                 },
                 test: req.body.test,
                 status: 'Incomplete',
@@ -189,22 +189,29 @@ router.post(
                     });
                 }
 
+                // if adding transaction succeeded, add incomplete result
+                let errorOccurred = false;  // Variable to track errors
                 // if adding transaction succeedd, add incomplete result
                 for(const result of modifiedResults) {
                   TestResult.addResult(new TestResult(result), (err, testResult) => {
                     if (err) {
-                        return res.status(500).json({
-                            success: false,
-                            msg: 'Error adding incomplete result'
-                        });
+                      errorOccurred = true;  // Set the variable if an error occurs
                     }
                   });
                 }
-
-                return res.status(200).json({
+                
+                // Send the response after the loop completes
+                if (errorOccurred) {
+                  return res.status(500).json({
+                    success: false,
+                    msg: 'Error adding incomplete result'
+                  });
+                } else {
+                  return res.status(200).json({
                     success: true,
                     msg: 'New transaction added successfully'
-                });
+                  });
+                }
             });
         } else {
             return res.status(401).json({
