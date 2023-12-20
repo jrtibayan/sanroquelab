@@ -1,4 +1,8 @@
 // shared/utilities.ts
+import pdfMake from "pdfmake/build/pdfmake";  
+import pdfFonts from "pdfmake/build/vfs_fonts";  
+import { Alignment, ContentImage, Margins, PageSize, StyleReference } from "pdfmake/interfaces";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
 export class Utilities {
@@ -35,4 +39,205 @@ export class Utilities {
             console.log(msg);
         }
       }
+
+      static generateUrinalysisPdf(result: any): void {  
+        let docDefinition = {  
+          pageSize: 'letter' as PageSize,
+          pageMargins: [72, 132, 72, 72] as Margins,
+          header: {
+            stack: [
+              { 
+                text: '\nSAN ROQUE MULTISPECIALTY CLINIC\nAND DIAGNOSTIC CENTER',
+                alignment: 'center' as Alignment,
+                fontSize: 20,
+                bold: true 
+              },
+              { 
+                text: 'LDMC BLDG., ILUSTRE AVENUE, LEMERY, BATANGAS\nTEL. NO: 043-341-6534',
+                alignment: 'center' as Alignment,
+                fontSize: 8,
+                bold: true 
+              }
+            ]
+            
+          },  
+          content: [
+            {
+              table: {
+                  widths: [37, '*', 25, 80],
+                  body: [
+                      [
+                        {text: 'Name', alignment: 'center', fontSize: 10}, 
+                        {text: result.patient.name, alignment: 'left'},
+                        {text: 'Date', alignment: 'center', fontSize: 10},
+                        {text: this.formatDateToMMDDYYYY(result.dateDone), alignment: 'center'},
+                      ]
+                  ],
+              },
+            },
+            {
+              table: {
+                  widths: [37, '*', 35, 40, 25, 80],
+                  body: [
+                      [
+                        {text: 'Address', alignment: 'center',border: [true, false, true, true], fontSize: 10}, 
+                        {text: result.patient.address, alignment: 'left',border: [true, false, true, true]},
+                        {text: 'Gender', alignment: 'center',border: [true, false, true, true], fontSize: 10},
+                        {text: result.patient.gender, alignment: 'center',border: [true, false, true, true]},
+                        {text: 'Age', alignment: 'center',border: [true, false, true, true], fontSize: 10},
+                        {text: result.patient.age, alignment: 'center',border: [true, false, true, true]},
+                      ]
+                  ],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [
+                      [
+                        {
+                          text: result.test.type,
+                          alignment: 'center',
+                          border: [false, false, false, false],
+                          fontSize: 20,
+                          bold: true
+                        }
+                      ]
+                  ],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*', '*'],
+                  body: [
+                      [{text: 'Test', alignment: 'center'}, {text:'Result', alignment: 'center'}],
+                      ...result.test.parameters.map((parameter: any) => [{text: parameter.name, alignment: 'left'}, {text: parameter.value, alignment: 'center'}]),
+                  ],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*'],
+                  body: [''],
+              },
+            },
+            {
+              table: {
+                  widths: ['*', '*', '*'],
+                  body: [
+                      [
+                        { text: result.requestingPhysician.name, alignment: 'center', fontSize: 10 }, 
+                        { text: result.medtech.name, alignment: 'center', fontSize: 10 }, 
+                        { text: result.pathologist.name, alignment: 'center', fontSize: 10 },
+                      ],
+                      [
+                        { text: 'License No: '+result.requestingPhysician.license, alignment: 'center', fontSize: 10 }, 
+                        { text: 'License No: '+result.medtech.license, alignment: 'center', fontSize: 10 }, 
+                        { text: 'License No: '+result.pathologist.license, alignment: 'center', fontSize: 10 }
+                      ],
+                      [
+                          { text: 'Requesting Physician', alignment: 'center', fontSize: 10 },
+                          { text: 'Medical Technologist', alignment: 'center', fontSize: 10 },
+                          { text: 'Pathologist', alignment: 'center', fontSize: 10 },
+                      ],
+                  ],
+              },
+            }
+          ]
+        };  
+       
+        pdfMake.createPdf(docDefinition).open();  
+      }  
+    
+  
 }
