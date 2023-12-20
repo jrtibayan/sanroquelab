@@ -94,5 +94,34 @@ module.exports.getAll = function (query = {}, callback) {
 }
 
 module.exports.addResult = function (newResult, callback) {
-    newResult.save(callback);
+    //newResult.save(callback);
+    newResult.save(function(err, savedResult) {
+        if (err) {
+            console.error(err);
+            return callback(err);
+        }
+        callback(null, savedResult);
+    });
+};
+
+module.exports.getTestResultByDate = function (startDate, endDate, status, callback) {
+    //function (startDate, endDate, status, callback) {
+    // Set start date to the first minute of the day
+    const adjustedStartDate = new Date(startDate);
+    adjustedStartDate.setHours(0, 0, 0, 0);
+
+    // Set end date to the last minute of the day
+    const adjustedEndDate = new Date(endDate);
+    adjustedEndDate.setHours(23, 59, 59, 999);
+
+    const query = {
+        date_done: {
+            $gte: adjustedStartDate, // Greater than or equal to start date
+            $lte: adjustedEndDate // Less than or equal to end date
+        },
+        status: status
+    };
+
+    //TestResult.find(query, callback);
+    TestResult.find(query).sort({ date_done: -1 }).exec(callback);
 };
