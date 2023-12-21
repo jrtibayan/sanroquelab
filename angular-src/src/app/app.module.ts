@@ -22,6 +22,7 @@ import { TransactionComponent } from './components/transaction/transaction.compo
 import { LabresultComponent } from './components/labresult/labresult.component';
 import { TransactionhistoryComponent } from './components/transactionhistory/transactionhistory.component';
 import { UrinalysisComponent } from './components/result-forms/urinalysis/urinalysis.component';
+import { HematologyComponent } from './components/result-forms/hematology/hematology.component';
 
 
 const appRoutes: Routes = [
@@ -53,7 +54,8 @@ const appRoutes: Routes = [
     LabresultComponent,
     LabtestComponent,
     TransactionhistoryComponent,
-    UrinalysisComponent
+    UrinalysisComponent,
+    HematologyComponent
   ],
   imports: [
     BrowserModule,
