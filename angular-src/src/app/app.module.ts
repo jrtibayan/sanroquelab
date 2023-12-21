@@ -38,6 +38,7 @@ const appRoutes: Routes = [
   {path:'transaction/history', component: TransactionhistoryComponent, canActivate: [AuthGuard]},
   {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path:'forms/urinalysis', component: UrinalysisComponent, canActivate: [AuthGuard]},
+  {path:'forms/hematology', component: HematologyComponent, canActivate: [AuthGuard]},
 ]
 
 @NgModule({
