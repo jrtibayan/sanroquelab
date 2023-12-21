@@ -155,6 +155,10 @@ export class LabresultComponent {
                 this.sharedService.setSharedData(ptest);
                 this.router.navigate(['/forms/hematology']);
                 break;
+            case 'Blood Chemistry':
+                this.sharedService.setSharedData(ptest);
+                this.router.navigate(['/forms/blood-chemistry']);
+                break;
             // Add more cases for other test types
             // case 'AnotherTestType':
             //     this.router.navigate(['/another-route', ptest._id]);
