@@ -1,0 +1,145 @@
+<div class="container mt-4 mb-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-7 col-xl-6">
+            <div class="wrap">
+                <form class="row g-3" (submit)="onSaveSubmit()">
+                    <legend class="text-center"><h2>{{ transactionData.test.type }}</h2></legend>
+
+                    <!-- Date -->
+                    <div class="col-lg-4 col-md-4">
+                        <label for="dateDone" class="form-label">Date</label>
+                        <input type="text" class="form-control" id="dateDone" name="dateDone" [(ngModel)]="transactionData.dateDone" [disabled]="true">
+                    </div>
+
+                    <!-- Patient Name -->
+                    <div class="col-lg-8 col-md-8">
+                        <label for="patientName" class="form-label">Patient</label>
+                        <input type="text" class="form-control" id="patientName" name="patientName" [(ngModel)]="transactionData.patient.name" [disabled]="false">
+                    </div>
+
+                    <!-- Address -->
+                    <div class="col-lg-12 col-md-12">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="address" name="address" [(ngModel)]="transactionData.patient.address" [disabled]="false">
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="col-md-6">
+                        <label for="gender" class="form-label">Gender</label>
+                        <input type="text" class="form-control" id="gender" name="gender" [(ngModel)]="transactionData.patient.gender" [disabled]="false">
+                    </div>
+
+                    <!-- Age -->
+                    <div class="col-md-6">
+                        <label for="age" class="form-label">Age</label>
+                        <input type="text" class="form-control" id="age" name="age" [(ngModel)]="transactionData.patient.age" [disabled]="false">
+                    </div>
+
+                    <!-- HbA1c -->
+                    <div class="col-md-12">
+                        <label for="hba1c" class="form-label">{{ labelHba1c }}</label>
+                        <input type="text" class="form-control" id="hba1c" name="hba1c" [(ngModel)]="hba1c">
+                    </div>
+
+                    <!-- FBS -->
+                    <div class="col-md-12" >
+                        <label for="fbs" class="form-label">{{ labelFbs }}</label>
+                        <input type="text" class="form-control" id="fbs" name="fbs" [(ngModel)]="fbs">
+                    </div>
+
+                    <!-- Cholesterol -->
+                    <div class="col-md-12">
+                        <label for="cholesterol" class="form-label">{{ labelCholesterol }}</label>
+                        <input type="text" class="form-control" id="cholesterol" name="cholesterol" [(ngModel)]="cholesterol">
+                    </div>
+
+                    <!-- Triglycerides -->
+                    <div class="col-md-12">
+                        <label for="triglycerides" class="form-label">{{ labelTriglycerides }}</label>
+                        <input type="text" class="form-control" id="triglycerides" name="triglycerides" [(ngModel)]="triglycerides">
+                    </div>
+
+                    <!-- HDL -->
+                    <div class="col-md-12">
+                        <label for="hdl" class="form-label">{{ labelHdl }}</label>
+                        <input type="text" class="form-control" id="hdl" name="hdl" [(ngModel)]="hdl">
+                    </div>
+
+                    <!-- LDL -->
+                    <div class="col-md-12">
+                        <label for="ldl" class="form-label">{{ labelLdl }}</label>
+                        <input type="text" class="form-control" id="ldl" name="ldl" [(ngModel)]="ldl">
+                    </div>
+
+                    <!-- BUA -->
+                    <div class="col-md-12">
+                        <label for="bua" class="form-label">{{ labelBua }}</label>
+                        <input type="text" class="form-control" id="bua" name="bua" [(ngModel)]="bua">
+                    </div>
+
+                    <!-- Creatinine -->
+                    <div class="col-md-12">
+                        <label for="creatinine " class="form-label">{{ labelCreatinine }}</label>
+                        <input type="text" class="form-control" id="creatinine" name="creatinine" [(ngModel)]="creatinine">
+                    </div>
+
+                    <!-- BUN -->
+                    <div class="col-md-12">
+                        <label for="bun" class="form-label">{{ labelBun }}</label>
+                        <input type="text" class="form-control" id="bun" name="bun" [(ngModel)]="bun">
+                    </div>
+
+                    <!-- SGOT -->
+                    <div class="col-md-12">
+                        <label for="sgot" class="form-label">{{ labelSgot }}</label>
+                        <input type="text" class="form-control" id="sgot" name="sgot" [(ngModel)]="sgot">
+                    </div>
+
+                    <!-- SGPT -->
+                    <div class="col-md-12">
+                        <label for="sgpt" class="form-label">{{ labelSgpt }}</label>
+                        <input type="text" class="form-control" id="sgpt" name="sgpt" [(ngModel)]="sgpt">
+                    </div>
+
+                    <!-- Requesting Physician -->
+                    <div class="col-md-12">
+                        <label for="requestingPhysician" class="form-label">Requesting Physician</label>
+                        <input type="text" class="form-control" id="requestingPhysicianName" name="requestingPhysicianName" [(ngModel)]="transactionData.requestingPhysician.name" [disabled]="false">
+                    </div>
+
+                    <!-- Requesting Physician -->
+                    <div class="col-md-12">
+                        <label for="requestingPhysician" class="form-label">License</label>
+                        <input type="text" class="form-control" id="requestingPhysicianLicense" name="requestingPhysicianLicense" [(ngModel)]="transactionData.requestingPhysician.license" [disabled]="false">
+                    </div>
+
+                    <!-- Medical Technologist -->
+                    <div class="col-md-12">
+                        <label for="medicalTechnologist" class="form-label">Medical Technologist</label>
+                        <input type="text" class="form-control" id="medtechName" name="medtechName" [(ngModel)]="transactionData.medtech.name" [disabled]="false">
+                    </div>
+
+                    <!-- Medical Technologist -->
+                    <div class="col-md-12">
+                        <label for="medicalTechnologist" class="form-label">License</label>
+                        <input type="text" class="form-control" id="medtechLicense" name="medtechLicense" [(ngModel)]="transactionData.medtech.license" [disabled]="false">
+                    </div>
+
+                    <!-- Pathologist -->
+                    <div class="col-md-12">
+                        <label for="pathologist" class="form-label">Pathologist</label>
+                        <input type="text" class="form-control" id="pathologistName" name="pathologistName" [(ngModel)]="transactionData.pathologist.name" [disabled]="false">
+                    </div>
+
+                    <!-- Pathologist -->
+                    <div class="col-md-12">
+                        <label for="pathologist" class="form-label">License</label>
+                        <input type="text" class="form-control" id="pathologistLicense" name="pathologistLicense" [(ngModel)]="transactionData.pathologist.license" [disabled]="false">
+                    </div>
+
+                    <input type="submit" class="btn btn-primary" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

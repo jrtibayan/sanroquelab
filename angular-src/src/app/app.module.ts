@@ -23,6 +23,7 @@ import { LabresultComponent } from './components/labresult/labresult.component';
 import { TransactionhistoryComponent } from './components/transactionhistory/transactionhistory.component';
 import { UrinalysisComponent } from './components/result-forms/urinalysis/urinalysis.component';
 import { HematologyComponent } from './components/result-forms/hematology/hematology.component';
+import { BloodChemistryComponent } from './components/result-forms/blood-chemistry/blood-chemistry.component';
 
 
 const appRoutes: Routes = [
@@ -39,6 +40,7 @@ const appRoutes: Routes = [
   {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path:'forms/urinalysis', component: UrinalysisComponent, canActivate: [AuthGuard]},
   {path:'forms/hematology', component: HematologyComponent, canActivate: [AuthGuard]},
+  {path:'forms/blood-chemistry', component: BloodChemistryComponent, canActivate: [AuthGuard]},
 ]
 
 @NgModule({
@@ -56,7 +58,8 @@ const appRoutes: Routes = [
     LabtestComponent,
     TransactionhistoryComponent,
     UrinalysisComponent,
-    HematologyComponent
+    HematologyComponent,
+    BloodChemistryComponent
   ],
   imports: [
     BrowserModule,
