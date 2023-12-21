@@ -193,6 +193,8 @@ router.post(
                 let errorOccurred = false;  // Variable to track errors
                 // if adding transaction succeedd, add incomplete result
                 for(const result of modifiedResults) {
+                  result.receiptNumber = null;
+                  result.transactionId = updatedTransaction._id,
                   TestResult.addResult(new TestResult(result), (err, testResult) => {
                     if (err) {
                       errorOccurred = true;  // Set the variable if an error occurs
