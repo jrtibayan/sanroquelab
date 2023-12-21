@@ -5,6 +5,13 @@ const h = require('../misc/helper');
 
 // Testresult Schema
 const TestResultSchema = mongoose.Schema({
+    receiptNumber: {
+        type: String
+    },
+    transactionId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Transaction'
+    },
     status: {
         type: String // Will allways have value. Either Incomplete or Done.
     },
