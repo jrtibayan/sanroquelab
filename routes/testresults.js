@@ -65,7 +65,7 @@ router.get(
                     return res.json({
                       success: false,
                       msg: 'No test results found within the selected dates',
-                      testResult: []
+                      testResults: []
                     });
                 }
             }
