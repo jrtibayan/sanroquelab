@@ -32,6 +32,7 @@ export class HematologyComponent {
     plateletCount!: String;
     bleedingTime!: String;
     clottingTime!: String;
+    esr!: String;
     bloodType!: String;
 
     labelWbc!: String;
@@ -43,6 +44,7 @@ export class HematologyComponent {
     labelPlateletCount!: String;
     labelBleedingTime!: String;
     labelClottingTime!: String;
+    labelEsr!: String;
     labelBloodType!: String;
 
     requestingPhysicianName!: String;
@@ -79,6 +81,7 @@ export class HematologyComponent {
             this.labelPlateletCount = 'Platelet Count';
             this.labelBleedingTime = 'Bleeding Time';
             this.labelClottingTime = 'Clotting Time';
+            this.labelEsr = 'ESR';
             this.labelBloodType = 'Blood Type';
 
           /*
@@ -129,6 +132,7 @@ export class HematologyComponent {
         params.push({ name: this.labelPlateletCount, value: this.plateletCount, normal: '150 - 400 x 10\u2079 g/L'});
         params.push({ name: this.labelBleedingTime, value: this.bleedingTime, normal: '1 - 3 minutes'});
         params.push({ name: this.labelClottingTime, value: this.clottingTime, normal: '3 - 5 minutes'});
+        params.push({ name: this.labelEsr, value: this.esr, normal: '0 - 20 mm/Hr'});
         params.push({ name: this.labelBloodType, value: this.bloodType, normal: 'N/A'});
     
         for (const param of params) {
