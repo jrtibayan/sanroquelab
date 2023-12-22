@@ -292,15 +292,6 @@ router.post(
       h.dlog('*********************************');
       const action = "Add Payment";
   
-      // const email = req.body.email
-      // check if new is equals old
-      /*if (newPassword === confirmPassword) {
-        h.dlog('Cannot update. There are no changes to apply.')
-        return res.json({ success: false, msg: 'Cannot update. There are no changes to apply.'})
-      }*/
-  
-      // find retrieve record
-      
       if(req.user && req.user.role && (req.user.role === "admin" || req.user.allowedActions && req.user.allowedActions.includes(action))) {
           // get record to update
           Transaction.getTransactionById(
@@ -350,9 +341,34 @@ router.post(
                 }
                 h.dlog('Adding of Payments -------------------------------------');
 
+                
                 // if all are good the payments in the transaction is updated
                 Transaction.updateTransactionPayments(newPayment.idToUpdate, transaction.payments);
                 h.dlog('aFTER Adding of Payments -------------------------------------');
+
+                // if after payment is now fully paid, add the tests to queue for making test results
+                if(currentPaid + newPayment.amountPaid === transaction.total) {
+                  // Retrieve test results associated with the transactionId
+                  TestResult.getResultsWithTransactionId(newPayment.idToUpdate, (err, testResults) => {
+                    if (err) {
+                        h.dlog('Failed to get test results');
+                        return res.json({ success: false, msg: 'Failed to get test results' });
+                    }
+
+                    // Loop through testResults and update receiptNumber
+                    testResults.forEach(testResult => {
+                        testResult.receiptNumber = newPayment.receiptNumber;
+                    });
+
+                    // Save the updated testResults
+                    TestResult.updateTestResultsReceiptNumber(testResults, (err) => {
+                        if (err) {
+                            h.dlog('Failed to update test results');
+                            return res.json({ success: false, msg: 'Failed to update test results' });
+                        }
+                    });
+                  });
+                }
 
                 h.sendEmail("jrtibayan@gmail.com", "Received Payment", "P" + newPayment.amountPaid + " received by the cashier");
 
