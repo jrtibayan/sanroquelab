@@ -100,6 +100,26 @@ module.exports.getAll = function (query = {}, callback) {
     TestResult.find(query, callback)
 }
 
+module.exports.getResultById = function (id, callback) {
+    TestResult.findById(id, callback)
+}
+
+module.exports.getResultsWithTransactionId = function (id, callback) {
+    TestResult.find({ transactionId: id }, callback);
+}
+
+// Update multiple test results
+module.exports.updateTestResultsReceiptNumber = function(testResults, callback) {
+    const updateOperations = testResults.map(testResult => ({
+        updateOne: {
+            filter: { _id: testResult._id },
+            update: { receiptNumber: testResult.receiptNumber }
+        }
+    }));
+
+    TestResult.bulkWrite(updateOperations, {}, callback);
+};
+
 module.exports.addResult = function (newResult, callback) {
     //newResult.save(callback);
     newResult.save(function(err, savedResult) {
