@@ -120,7 +120,7 @@ export class Utilities {
       ];
 
 
-      if(result.test.type === 'Urinalysis') {
+      if(result.test.type === 'Urinalysis' || result.test.type === 'Fecalysis') {
         pdfContent.push({
           table: {
               widths: ['*', '*'],
