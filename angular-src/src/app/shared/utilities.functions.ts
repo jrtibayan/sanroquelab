@@ -120,7 +120,7 @@ export class Utilities {
       ];
 
 
-      if(result.test.type === 'Urinalysis' || result.test.type === 'Fecalysis') {
+      if(result.test.type === 'Urinalysis' || result.test.type === 'Fecalysis' || result.test.type === 'Serology') {
         pdfContent.push({
           table: {
               widths: ['*', '*'],

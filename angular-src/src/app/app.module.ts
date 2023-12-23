@@ -25,6 +25,7 @@ import { UrinalysisComponent } from './components/result-forms/urinalysis/urinal
 import { HematologyComponent } from './components/result-forms/hematology/hematology.component';
 import { BloodChemistryComponent } from './components/result-forms/blood-chemistry/blood-chemistry.component';
 import { FecalysisComponent } from './components/result-forms/fecalysis/fecalysis.component';
+import { SerologyComponent } from './components/result-forms/serology/serology.component';
 
 
 const appRoutes: Routes = [
@@ -42,6 +43,7 @@ const appRoutes: Routes = [
   {path:'forms/urinalysis', component: UrinalysisComponent, canActivate: [AuthGuard]},
   {path:'forms/hematology', component: HematologyComponent, canActivate: [AuthGuard]},
   {path:'forms/fecalysis', component: FecalysisComponent, canActivate: [AuthGuard]},
+  {path:'forms/serology', component: SerologyComponent, canActivate: [AuthGuard]},
   {path:'forms/blood-chemistry', component: BloodChemistryComponent, canActivate: [AuthGuard]},
 ]
 
@@ -62,7 +64,8 @@ const appRoutes: Routes = [
     UrinalysisComponent,
     HematologyComponent,
     BloodChemistryComponent,
-    FecalysisComponent
+    FecalysisComponent,
+    SerologyComponent
   ],
   imports: [
     BrowserModule,
