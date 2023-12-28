@@ -49,6 +49,7 @@ export class RegisterUserComponent {
     'Add Transaction',
     'Add Payment',
     'Add Result',
+    'Update Result',
   ];
   selectedAction: string = '';
   selectedActions: string[] = [];
