@@ -7,7 +7,7 @@
     "node": ">=18 <19"
   },
   "scripts": {
-    "buildback": "npm install && tsc",
+    "buildback": "npm install --production && tsc",
     "buildfront": "cd angular-src && npm run build",
     "test": "node_modules/mocha/bin/mocha --require mock-local-storage --exit",
     "start": "nodemon app.js",
