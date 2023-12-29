@@ -60,11 +60,11 @@ export class FecalysisComponent {
             profile = res;
             this.user = profile.user;
     
-            this.labelColor = 'WBC';
-            this.labelConsistency = 'Hematocrit';
-            this.labelPusCell = 'Hemoglobin';
-            this.labelRedBloodCell = 'Neutrophils';
-            this.labelOthers = 'Lymphocytes';
+            this.labelColor = 'Color';
+            this.labelConsistency = 'Consistency';
+            this.labelPusCell = 'PusCell';
+            this.labelRedBloodCell = 'RedBloodCell';
+            this.labelOthers = 'Others';
         }, err => {
           this.utilities.dlog(err, 'error');
           return false
