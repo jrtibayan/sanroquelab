@@ -40,6 +40,7 @@ export class UrinalysisComponent {
   micralTest!: String;
   hyalineCasts!: String;
   fineGranularCasts!: String;
+  others!: String;
 
   labelColor!: String;
   labelTransparency!: String;
@@ -58,6 +59,7 @@ export class UrinalysisComponent {
   labelMicralTest!: String;
   labelHyalineCasts!: String;
   labelFineGranularCasts!: String;
+  labelOthers!: String;
 
   requestingPhysicianName!: String;
   requestingPhysicianLicense!: String;
@@ -100,6 +102,7 @@ export class UrinalysisComponent {
       this.labelMicralTest = 'Micral Test';
       this.labelHyalineCasts = 'Hyaline Casts';
       this.labelFineGranularCasts = 'Fine Granular Casts';
+      this.labelOthers = 'Others';
 
       /*
       this.transactionData = {
@@ -156,6 +159,7 @@ export class UrinalysisComponent {
     params.push({ name: this.labelMicralTest, value: this.micralTest, normal: null});
     params.push({ name: this.labelHyalineCasts, value: this.hyalineCasts, normal: null});
     params.push({ name: this.labelFineGranularCasts, value: this.fineGranularCasts, normal: null});
+    params.push({ name: this.labelOthers, value: this.others, normal: null});
 
     for (const param of params) {
       if (param.value) {
