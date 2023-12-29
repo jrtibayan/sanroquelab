@@ -25,9 +25,11 @@ export class SerologyComponent {
 
     hbsag!: String;
     vdrl!: String;
+    others!: String;
 
     labelHbsag!: String;
     labelVdrl!: String;
+    labelOthers!: String;
 
     requestingPhysicianName!: String;
     requestingPhysicianLicense!: String;
@@ -56,6 +58,7 @@ export class SerologyComponent {
     
             this.labelHbsag = 'HBsAg';
             this.labelVdrl = 'VDRL';
+            this.labelOthers = 'Others';
         }, err => {
           this.utilities.dlog(err, 'error');
           return false
@@ -71,6 +74,7 @@ export class SerologyComponent {
  
         params.push({ name: this.labelHbsag, value: this.hbsag, normal: null});
         params.push({ name: this.labelVdrl, value: this.vdrl, normal: null});
+        params.push({ name: this.labelOthers, value: this.others, normal: null});
     
         for (const param of params) {
           if (param.value) {
