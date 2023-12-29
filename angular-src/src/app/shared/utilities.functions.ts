@@ -123,7 +123,7 @@ export class Utilities {
       if(result.test.type === 'Urinalysis' || result.test.type === 'Fecalysis' || result.test.type === 'Serology') {
         pdfContent.push({
           table: {
-              widths: ['*', '*'],
+              widths: ['30%', '70%'],
               body: [
                   [{text: 'Test', alignment: 'center'}, {text:'Result', alignment: 'center'}],
                   ...result.test.parameters.map((parameter: any) => [{text: parameter.name, alignment: 'left'}, {text: parameter.value, alignment: 'center'}]),
@@ -133,7 +133,7 @@ export class Utilities {
       }else {
         pdfContent.push({
           table: {
-              widths: ['*', '*', '*'],
+              widths: ['18%', '57%', '25%'],
               body: [
                   [{text: 'Test', alignment: 'center'}, {text:'Result', alignment: 'center'}, {text:'Normal', alignment: 'center'}],
                   ...result.test.parameters.map((parameter: any) => [{text: parameter.name, alignment: 'left'}, {text: parameter.value, alignment: 'center'}, {text: parameter.normal, alignment: 'center'}]),
