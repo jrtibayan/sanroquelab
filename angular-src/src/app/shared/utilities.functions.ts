@@ -194,24 +194,6 @@ export class Utilities {
         },
         {
           table: {
-              widths: ['*'],
-              body: [''],
-          },
-        },
-        {
-          table: {
-              widths: ['*'],
-              body: [''],
-          },
-        },
-        {
-          table: {
-              widths: ['*'],
-              body: [''],
-          },
-        },
-        {
-          table: {
               widths: ['*', '*', '*'],
               body: [
                   [
@@ -240,7 +222,7 @@ export class Utilities {
 
         let docDefinition = {
           pageSize: 'letter' as PageSize,
-          pageMargins: [72, 132, 72, 72] as Margins,
+          pageMargins: [72, 112, 72, 48] as Margins,
           header: {
             stack: [
               {
