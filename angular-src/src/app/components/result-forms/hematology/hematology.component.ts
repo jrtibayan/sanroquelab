@@ -34,6 +34,7 @@ export class HematologyComponent {
     clottingTime!: String;
     esr!: String;
     bloodType!: String;
+    others!: String;
 
     labelWbc!: String;
     labelHematocrit!: String;
@@ -46,6 +47,7 @@ export class HematologyComponent {
     labelClottingTime!: String;
     labelEsr!: String;
     labelBloodType!: String;
+    labelOthers!: String;
 
     requestingPhysicianName!: String;
     requestingPhysicianLicense!: String;
@@ -83,6 +85,7 @@ export class HematologyComponent {
             this.labelClottingTime = 'Clotting Time';
             this.labelEsr = 'ESR';
             this.labelBloodType = 'Blood Type';
+            this.labelOthers = 'Others';
 
           /*
           this.transactionData = {
@@ -134,6 +137,7 @@ export class HematologyComponent {
         params.push({ name: this.labelClottingTime, value: this.clottingTime, normal: '3 - 5 minutes'});
         params.push({ name: this.labelEsr, value: this.esr, normal: '0 - 20 mm/Hr'});
         params.push({ name: this.labelBloodType, value: this.bloodType, normal: 'N/A'});
+        params.push({ name: this.labelOthers, value: this.others, normal: 'N/A'});
     
         for (const param of params) {
           if (param.value) {
