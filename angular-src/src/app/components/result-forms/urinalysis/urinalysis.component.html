@@ -38,13 +38,25 @@
                     <!-- Color -->
                     <div class="col-md-12">
                         <label for="color" class="form-label">{{ labelColor }}</label>
-                        <input type="text" class="form-control" id="color" name="color" [(ngModel)]="color">
+                        <select class="form-select" id="color" [(ngModel)]="color" name="color">
+                            <option value="Yellow" selected>Yellow</option>
+                            <option value="Light Yellow">Light Yellow</option>
+                            <option value="Dark Yellow">Dark Yellow</option>
+                            <option value="Straw">Straw</option>
+                            <option value="Amber">Amber</option>
+                            <option value="Red">Red</option>
+                        </select>
                     </div>
 
                     <!-- Transparency -->
                     <div class="col-md-12">
                         <label for="transparency" class="form-label">{{ labelTransparency }}</label>
-                        <input type="text" class="form-control" id="transparency" name="transparency" [(ngModel)]="transparency">
+                        <select class="form-select" id="transparency" [(ngModel)]="transparency" name="transparency">
+                            <option value="Turbid" selected>Turbid</option>
+                            <option value="Slightly Turbid">Slightly Turbid</option>
+                            <option value="Clear">Clear</option>
+                            <option value="Hazy">Hazy</option>
+                        </select>
                     </div>
 
                     <!-- Sugar -->
@@ -56,19 +68,41 @@
                     <!-- PH -->
                     <div class="col-md-12">
                         <label for="ph" class="form-label">{{ labelPh }}</label>
-                        <input type="text" class="form-control" id="ph" name="ph" [(ngModel)]="ph">
+                        <select class="form-select" id="ph" [(ngModel)]="ph" name="ph">
+                            <option value="5.0" selected>5.0</option>
+                            <option value="6.0">6.0</option>
+                            <option value="6.5">6.5</option>
+                            <option value="7.0">7.0</option>
+                            <option value="7.5">7.5</option>
+                            <option value="8.0">8.0</option>
+                        </select>
                     </div>
 
                     <!-- Specific Gravity -->
                     <div class="col-md-12">
                         <label for="specificGravity" class="form-label">{{ labelSpecificGravity }}</label>
-                        <input type="text" class="form-control" id="specificGravity" name="specificGravity" [(ngModel)]="specificGravity">
+                        <select class="form-select" id="specificGravity" [(ngModel)]="specificGravity" name="specificGravity">
+                            <option value="1.000" selected>1.000</option>
+                            <option value="1.005">1.005</option>
+                            <option value="1.010">1.010</option>
+                            <option value="1.015">1.015</option>
+                            <option value="1.020">1.020</option>
+                            <option value="1.025">1.025</option>
+                            <option value="1.030">1.030</option>
+                        </select>
                     </div>
 
                     <!-- Protein -->
                     <div class="col-md-12">
                         <label for="protein" class="form-label">{{ labelProtein }}</label>
-                        <input type="text" class="form-control" id="protein" name="protein" [(ngModel)]="protein">
+                        <select class="form-select" id="protein" [(ngModel)]="protein" name="protein">
+                            <option value="Negative" selected>Negative</option>
+                            <option value="Trace (+/-)">Trace (+/-)</option>
+                            <option value="+1">+1</option>
+                            <option value="+2">+2</option>
+                            <option value="+3">+3</option>
+                            <option value="+4">+4</option>
+                        </select>
                     </div>
 
                     <!-- Pus Cells -->
@@ -86,31 +120,61 @@
                     <!-- Epithelial Cells -->
                     <div class="col-md-12">
                         <label for="epithelialCells" class="form-label">{{ labelEpithelialCells }}</label>
-                        <input type="text" class="form-control" id="epithelialCells" name="epithelialCells" [(ngModel)]="epithelialCells">
+                        <select class="form-select" id="epithelialCells" [(ngModel)]="epithelialCells" name="epithelialCells">
+                            <option value="Occasional" selected>Occasional</option>
+                            <option value="Rare">Rare</option>
+                            <option value="Few">Few</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Many">Many</option>
+                        </select>
                     </div>
 
                     <!-- Amorphous Urates -->
                     <div class="col-md-12">
                         <label for="amorphousUrates" class="form-label">Amorphous Urates</label>
-                        <input type="text" class="form-control" id="amorphousUrates" name="amorphousUrates" [(ngModel)]="amorphousUrates">
+                        <select class="form-select" id="amorphousUrates" [(ngModel)]="amorphousUrates" name="amorphousUrates">
+                            <option value="Occasional" selected>Occasional</option>
+                            <option value="Rare">Rare</option>
+                            <option value="Few">Few</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Many">Many</option>
+                        </select>
                     </div>
 
                     <!-- Amorphous Phosphates -->
                     <div class="col-md-12">
                         <label for="amorphousPhosphates" class="form-label">{{ labelAmorphousPhosphates }}</label>
-                        <input type="text" class="form-control" id="amorphousPhosphates" name="amorphousPhosphates" [(ngModel)]="amorphousPhosphates">
+                        <select class="form-select" id="amorphousPhosphates" [(ngModel)]="amorphousPhosphates" name="amorphousPhosphates">
+                            <option value="Occasional" selected>Occasional</option>
+                            <option value="Rare">Rare</option>
+                            <option value="Few">Few</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Many">Many</option>
+                        </select>
                     </div>
 
                     <!-- Bacteria -->
                     <div class="col-md-12">
                         <label for="bacteria" class="form-label">{{ labelBacteria }}</label>
-                        <input type="text" class="form-control" id="bacteria" name="bacteria" [(ngModel)]="bacteria">
+                        <select class="form-select" id="bacteria" [(ngModel)]="bacteria" name="bacteria">
+                            <option value="Occasional" selected>Occasional</option>
+                            <option value="Rare">Rare</option>
+                            <option value="Few">Few</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Many">Many</option>
+                        </select>
                     </div>
 
                     <!-- Mucus Threads -->
                     <div class="col-md-12">
                         <label for="mucusThreads" class="form-label">{{ labelMucusThreads }}</label>
-                        <input type="text" class="form-control" id="mucusThreads" name="mucusThreads" [(ngModel)]="mucusThreads">
+                        <select class="form-select" id="mucusThreads" [(ngModel)]="mucusThreads" name="mucusThreads">
+                            <option value="Occasional" selected>Occasional</option>
+                            <option value="Rare">Rare</option>
+                            <option value="Few">Few</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Many">Many</option>
+                        </select>
                     </div>
 
                     <!-- Pus Cells In Clumps -->
