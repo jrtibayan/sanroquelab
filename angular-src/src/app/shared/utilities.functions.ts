@@ -1,8 +1,7 @@
 // shared/utilities.ts
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Alignment, Content, ContentImage, Margins, PageSize, StyleReference } from "pdfmake/interfaces";
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
 export class Utilities {
@@ -40,7 +39,15 @@ export class Utilities {
         }
       }
 
-      static generateUrinalysisPdf(result: any): void {
+      public static async generateUrinalysisPdf(result: any): Promise<void> {
+        try {
+          // Dynamically import only when needed
+          const pdfMake = (await import('pdfmake/build/pdfmake')).default;
+          const pdfFonts = (await import('pdfmake/build/vfs_fonts')).default;
+
+          // Set vfs
+          pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 
       let pdfContent = [
         {
@@ -244,6 +251,9 @@ export class Utilities {
         };
 
         pdfMake.createPdf(docDefinition).open();
+        } catch (error) {
+          console.error('Error fetching logo data:', error);
+        }
       }
 
 
