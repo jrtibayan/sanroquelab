@@ -1,10 +1,36 @@
 // shared/utilities.ts
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-import { Alignment, Content, ContentImage, Margins, PageSize, StyleReference } from "pdfmake/interfaces";
+import { Alignment, Content, Margins, PageSize, TDocumentDefinitions } from "pdfmake/interfaces";
 
 
 export class Utilities {
+
+  public static getBase64ImageFromURL(url) {
+    return new Promise((resolve, reject) => {
+      var img = new Image();
+      img.setAttribute("crossOrigin", "anonymous");
+
+      img.onload = () => {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+
+        var dataURL = canvas.toDataURL("image/png");
+
+        resolve(dataURL);
+      };
+
+      img.onerror = error => {
+        reject(error);
+      };
+
+      img.src = url;
+    });
+  }
     static formatDateToMMDDYYYY(gDate: Date): string {
         const givenDate = new Date(gDate);
         const formattedDateTime = `${givenDate.toLocaleDateString()}`;
@@ -48,6 +74,15 @@ export class Utilities {
           // Set vfs
           pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
+          // Use the local image file
+          const logoDataUrl = await this.getBase64ImageFromURL('assets/images/LDMC-logo.jpg');
+
+          // Check if the image is loaded successfully
+          if (logoDataUrl) {
+            console.log('Logo loaded successfully');
+          } else {
+            console.error('Error loading logo data.');
+          }
 
       let pdfContent = [
         {
@@ -223,34 +258,45 @@ export class Utilities {
         }
       ]);
 
-
-
-
-
         let docDefinition = {
           pageSize: 'letter' as PageSize,
           pageMargins: [72, 112, 72, 48] as Margins,
           header: {
             stack: [
               {
-                text: '\nSAN ROQUE MULTISPECIALTY CLINIC\nAND DIAGNOSTIC CENTER',
-                alignment: 'center' as Alignment,
-                fontSize: 20,
-                bold: true
-              },
-              {
-                text: 'LDMC BLDG., ILUSTRE AVENUE, LEMERY, BATANGAS\nTEL. NO: 043-341-6534',
-                alignment: 'center' as Alignment,
-                fontSize: 8,
-                bold: true
+                columns: [
+                  {
+                    image: logoDataUrl,
+                    width: 60,
+                    height: 60,
+                    alignment: 'left',
+                    margin: [100, 25, 0, 0] // Adjust the margin as needed
+                  },
+                  {
+                    stack: [
+                      {
+                        text: '\nSAN ROQUE MULTISPECIALTY CLINIC\nAND DIAGNOSTIC CENTER',
+                        alignment: 'center' as Alignment,
+                        fontSize: 20,
+                        bold: true
+                      },
+                      {
+                        text: 'LDMC BLDG., ILUSTRE AVENUE, LEMERY, BATANGAS\nTEL. NO: 043-341-6534',
+                        alignment: 'center' as Alignment,
+                        fontSize: 8,
+                        bold: true
+                      }
+                    ]
+                  }
+                ]
               }
             ]
-
           },
           content: pdfContent as Content
-        };
+        } as TDocumentDefinitions;
 
-        pdfMake.createPdf(docDefinition).open();
+        //pdfMake.createPdf(docDefinition).open(); // open in new window
+        pdfMake.createPdf(docDefinition).open({}, window); // open in own window
         } catch (error) {
           console.error('Error fetching logo data:', error);
         }
