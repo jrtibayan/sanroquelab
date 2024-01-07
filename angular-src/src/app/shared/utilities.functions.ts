@@ -75,7 +75,8 @@ export class Utilities {
           pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
           // Use the local image file
-          const logoDataUrl = await this.getBase64ImageFromURL('assets/images/LDMC-logo.jpg');
+          const logoDataUrl = await this.getBase64ImageFromURL('assets/images/LDMC-logo.png');
+          const signPathologistUrl = await this.getBase64ImageFromURL('assets/images/sign-pathologist.png');
 
           // Check if the image is loaded successfully
           if (logoDataUrl) {
@@ -188,50 +189,14 @@ export class Utilities {
       pdfContent = pdfContent.concat([
         {
           table: {
-              widths: ['*'],
-              body: [''],
-          },
-        },
-        {
-          table: {
-              widths: ['*'],
-              body: [''],
-          },
-        },
-        {
-          table: {
-              widths: ['*'],
-              body: [''],
-          },
-        },
-        {
-          table: {
-              widths: ['*'],
-              body: [''],
-          },
-        },
-        {
-          table: {
-              widths: ['*'],
-              body: [''],
-          },
-        },
-        {
-          table: {
-              widths: ['*'],
-              body: [''],
-          },
-        },
-        {
-          table: {
-              widths: ['*'],
-              body: [''],
-          },
-        },
-        {
-          table: {
-              widths: ['*'],
-              body: [''],
+            widths: ['*', '*', '*'],
+            body: [
+              [
+                { text: ' ', alignment: 'center', border: [true, false, false, false] },
+                { text: ' ', alignment: 'center', border: [false, false, false, false], fontSize: 10 },
+                { image: signPathologistUrl, width: 80, height: 80, alignment: 'center', margin: [0, 10, 0, -50], border: [false, false, false, false] } as any,
+              ],
+            ],
           },
         },
         {
