@@ -66,6 +66,23 @@ export class Utilities {
       }
 
       public static async generateUrinalysisPdf(result: any): Promise<void> {
+        function shorterAge(inputString: string): string {
+          // Split the input string into words
+          const words = inputString.split(' ');
+
+          // Check if any of the words are '0yo', '0mo', or '0d' and remove them
+          const invalidWords = ['0yr', '0mo', '0d'];
+          const filteredWords = words.filter(word => !invalidWords.includes(word.toLowerCase()));
+
+          // If there are still 3 words, remove the 3rd word
+          if (filteredWords.length === 3) {
+            filteredWords.pop();
+          }
+
+          // Return the modified string
+          return filteredWords.join(' ');
+        }
+
         try {
           // Dynamically import only when needed
           const pdfMake = (await import('pdfmake/build/pdfmake')).default;
@@ -109,7 +126,7 @@ export class Utilities {
                     {text: 'Gender', alignment: 'center',border: [true, false, true, true], fontSize: 10},
                     {text: result.patient.gender, alignment: 'center',border: [true, false, true, true]},
                     {text: 'Age', alignment: 'center',border: [true, false, true, true], fontSize: 10},
-                    {text: result.patient.age, alignment: 'center',border: [true, false, true, true]},
+                    {text: shorterAge(result.patient.age), alignment: 'center',border: [true, false, true, true]},
                   ]
               ],
           },
