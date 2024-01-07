@@ -192,7 +192,7 @@ export class Utilities {
             widths: ['*', '*', '*'],
             body: [
               [
-                { text: ' ', alignment: 'center', border: [true, false, false, false] },
+                { text: ' ', alignment: 'center', border: [false, false, false, false] },
                 { text: ' ', alignment: 'center', border: [false, false, false, false], fontSize: 10 },
                 { image: signPathologistUrl, width: 80, height: 80, alignment: 'center', margin: [0, 10, 0, -50], border: [false, false, false, false] } as any,
               ],
