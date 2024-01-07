@@ -71,7 +71,7 @@ export class Utilities {
           const words = inputString.split(' ');
 
           // Check if any of the words are '0yo', '0mo', or '0d' and remove them
-          const invalidWords = ['0yr', '0mo', '0d'];
+          const invalidWords = ['0yr', '0yo', '0mo', '0d'];
           const filteredWords = words.filter(word => !invalidWords.includes(word.toLowerCase()));
 
           // If there are still 3 words, remove the 3rd word
