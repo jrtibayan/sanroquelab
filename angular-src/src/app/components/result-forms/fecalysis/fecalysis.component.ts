@@ -96,6 +96,7 @@ export class FecalysisComponent {
     
         const resultIdToUpdate = this.transactionData._id;
         const updatedResultData = {
+          patient: this.transactionData.patient,
           test: this.transactionData.test,
           requestingPhysician: this.transactionData.requestingPhysician,
           medtech: this.transactionData.medtech,
