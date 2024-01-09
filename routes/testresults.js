@@ -205,6 +205,11 @@ router.put(
 
     if (req.user && req.user.role && (req.user.role === "admin" || req.user.allowedActions && req.user.allowedActions.includes(action))) {
         try {
+
+            // Change requestingPhysician to requesting_physician
+            req.body.requesting_physician = req.body.requestingPhysician;
+            delete req.body.requestingPhysician;
+
             // Find the TestResult by _id
             const testResult = await TestResult.findById(id);
 
