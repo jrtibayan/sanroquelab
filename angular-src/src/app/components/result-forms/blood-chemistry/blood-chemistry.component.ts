@@ -35,6 +35,7 @@ export class BloodChemistryComponent {
     bun!: String;
     sgot!: String;
     sgpt!: String;
+    rbs!: String;
     others!: String;
 
     labelHba1c!: String;
@@ -48,6 +49,7 @@ export class BloodChemistryComponent {
     labelBun!: String;
     labelSgot!: String;
     labelSgpt!: String;
+    labelRbs!: String;
     labelOthers!: String;
 
     requestingPhysicianName!: String;
@@ -85,6 +87,7 @@ export class BloodChemistryComponent {
             this.labelBun = 'BUN';
             this.labelSgot = 'SGOT';
             this.labelSgpt = 'SGPT';
+            this.labelRbs = 'RBS';
             this.labelOthers = 'Others';
 
           /*
@@ -136,6 +139,7 @@ export class BloodChemistryComponent {
         params.push({ name: this.labelBun, value: this.bun, normal: '6 - 19 mg/dl'});
         params.push({ name: this.labelSgot, value: this.sgot, normal: this.transactionData.patient.gender === 'Female' ? '0 - 31 U/L' : '0 - 37 U/L'});
         params.push({ name: this.labelSgpt, value: this.sgpt, normal: this.transactionData.patient.gender === 'Female' ? '0 - 31 U/L' : '0 - 41 U/L'});
+        params.push({ name: this.labelRbs, value: this.rbs, normal: '80 - 120 mg/dl'});
         params.push({ name: this.labelOthers, value: this.others, normal: 'N/A'});
     
         for (const param of params) {
