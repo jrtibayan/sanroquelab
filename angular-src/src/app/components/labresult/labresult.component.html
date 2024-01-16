@@ -2,7 +2,15 @@
     <div class="container" *ngIf="showLabResultsList">
         <br />
         <h2>Lab Results</h2>
-        
+        <div class="row mb-3">
+            <div class="col-sm-6 col-md-4 mb-2">
+                <label for="listFilterDate" class="form-label">Select Date</label>
+                <input type="date" class="form-control" id="listFilterDate" [(ngModel)]="listFilterDate">
+            </div>
+            <div class="col-sm-6 col-md-4 mt-auto mb-2">
+                <button class="btn btn-primary" (click)="refreshFinalResultList()">Refresh List</button>
+            </div>
+        </div>
         <table class="table">
             <thead>
                 <tr>

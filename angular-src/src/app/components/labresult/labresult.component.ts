@@ -22,6 +22,7 @@ export class LabresultComponent {
     ) {}
 
     public utilities = Utilities;
+    currentDate: Date = new Date();
 
     user: any;
     allPendingTests: any[] = [];
@@ -31,6 +32,7 @@ export class LabresultComponent {
     finalizedResults: any[] = [];
     selectedTests: any[] = [];
 
+    listFilterDate: string = '';
     showLabResultsList: boolean = true;
     showLabResultManager: boolean = false;
 
@@ -51,6 +53,7 @@ export class LabresultComponent {
     };
 
     ngOnInit(): void {
+        this.listFilterDate = this.utilities.formatDateForInput(this.currentDate);
         this.authService.getProfile().subscribe({
             next: (res) => {
                 let profile = {} as any;
@@ -176,7 +179,11 @@ export class LabresultComponent {
                 break;
         }
     }
-    
+
+    refreshFinalResultList() {
+        this.getFinalResult(this.listFilterDate);
+    }
+
     // Method to preview the PDF for a specific result
     previewResult(result: any): void {
         // Call the generatePdf method from the Utilities class
@@ -184,8 +191,8 @@ export class LabresultComponent {
         this.utilities.generateUrinalysisPdf(result);
     }
 
-    getFinalResult() {
-        this.authService.getFinalResult().subscribe({
+    getFinalResult(filterDate: string = null) {
+        this.authService.getFinalResult(this.listFilterDate,this.listFilterDate).subscribe({
             next: (res) => {
                 let result = {} as any;
                 result = res;
