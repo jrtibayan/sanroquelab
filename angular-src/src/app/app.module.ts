@@ -26,6 +26,8 @@ import { HematologyComponent } from './components/result-forms/hematology/hemato
 import { BloodChemistryComponent } from './components/result-forms/blood-chemistry/blood-chemistry.component';
 import { FecalysisComponent } from './components/result-forms/fecalysis/fecalysis.component';
 import { SerologyComponent } from './components/result-forms/serology/serology.component';
+import { ListPatientComponent } from './components/patient/list-patient/list-patient.component';
+import { InfoPatientComponent } from './components/patient/info-patient/info-patient.component';
 
 
 const appRoutes: Routes = [
@@ -65,7 +67,9 @@ const appRoutes: Routes = [
     HematologyComponent,
     BloodChemistryComponent,
     FecalysisComponent,
-    SerologyComponent
+    SerologyComponent,
+    ListPatientComponent,
+    InfoPatientComponent
   ],
   imports: [
     BrowserModule,
