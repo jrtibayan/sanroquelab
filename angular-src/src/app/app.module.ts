@@ -35,6 +35,7 @@ const appRoutes: Routes = [
   {path:'user/register', component: RegisterUserComponent, canActivate: [AuthGuard]},
   {path:'patient/register', component: RegisterPatientComponent, canActivate: [AuthGuard]},
   {path:'patient/list', component: ListPatientComponent, canActivate: [AuthGuard]},
+  {path:'patient/info', component: InfoPatientComponent, canActivate: [AuthGuard]},
   {path:'login', component: LoginComponent},
   {path:'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path:'transaction/management', component: TransactionComponent, canActivate: [AuthGuard]},
