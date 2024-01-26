@@ -143,7 +143,7 @@ router.get(
       // if the pageNumber > 0 then it is assumed that user just want to get page from req.session.activePatients
 
       // if there is no req.app.locals['uid'+req.user._id].activePatients then search for new list
-      if(!req.app.locals['uid'+req.user._id].activePatients) {
+      if(!req.app.locals['uid'+req.user._id].activePatients || req.app.locals['uid'+req.user._id].activePatients.length < 1 || pageNumber === 1) {
         try {
           await getPatient();
         } catch (error) {
