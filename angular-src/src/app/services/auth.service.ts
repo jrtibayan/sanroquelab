@@ -82,13 +82,18 @@ export class AuthService {
     }
 
 
-    getAllActivePatientsByName(filterName: string) {
+    getAllActivePatientsByName(filterName: string, maxPatient = 0, pageNumber = 0) {
         const httpOptions = {headers: new HttpHeaders({
             'Content-Type':  'application/json',
             'Authorization': this.authToken
         })};
+
+        let url = `${this.apiUrl}/patients/getall/active?name=${filterName}`;
+        url += `&max=${maxPatient}`;
+        url += `&page=${pageNumber}`;
+
         return this.http.get(
-            `${this.apiUrl}/patients/getall/active?name=${filterName}`,
+            url,
             httpOptions
         ).pipe(map(res => res));
     }
