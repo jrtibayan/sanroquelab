@@ -1,0 +1,16 @@
+.pagination-container {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination-item {
+    /* Your default text styles here */
+    margin: 0 5px;
+    cursor: pointer; /* Add this to show it's clickable */
+}
+
+.pagination-item.active {
+    color: #007bff; /* Change to your desired text color */
+
+    /* Add any additional styles for the active state */
+}
