@@ -88,7 +88,10 @@ module.exports.getPersonByFirstAndLastName = function (firstName, lastName, call
 
 
 module.exports.getPersons = function (query, fieldsToSelect, callback) {
-    User.find(query).select(fieldsToSelect).exec(callback);
+    User.find(query)
+        .select(fieldsToSelect)
+        .sort({ lastName: 1, firstName: 1, middleName: 1 }) // 1 for ascending order
+        .exec(callback);
 };
 
 
