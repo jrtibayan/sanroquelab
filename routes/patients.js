@@ -71,58 +71,123 @@ function registerPatient (newUser, newPassword, res) {
 router.get(
   '/getall/active',
   passport.authenticate('jwt', { session: false }),
-  (req, res, next) => {
-    const filterName = req.query.name;
-
-    // Split the filterName if it contains a comma
-    const nameParts = filterName ? filterName.split(',').map(part => part.trim()) : [];
-
-     // Create a query object
-    let query = {};
-
-    if (nameParts.length === 1) {
-      // If there is no comma, search for the filterName in firstName, lastName, and middleName
-      query = {
-        $or: [
-          { firstName: { $regex: new RegExp(filterName, 'i') } },
-          { lastName: { $regex: new RegExp(filterName, 'i') } },
-          { middleName: { $regex: new RegExp(filterName, 'i') } },
-        ],
-      };
-    } else if (nameParts.length === 2) {
-      // If there is a comma, use the first part as lastName and the second part as firstName
-      query = {
-        lastName: { $regex: new RegExp(nameParts[0], 'i') },
-        firstName: { $regex: new RegExp(nameParts[1], 'i') },
-      };
+  async (req, res, next) => {
+    // always add on route to make sure there will be req.app.locals['uid'] to be used if there is none
+    // i used this to replace session since i cant make it work
+    // all supposed session values stored will be stored on local instead and use the userid to differentiate which is the owner of that data
+    if (!req.app.locals['uid'+req.user._id]) {
+      req.app.locals['uid'+req.user._id] = {};
     }
 
-    // Exclude documents where isActive is explicitly set to false
-    query.isActive = { $ne: false };
+    const filterName = req.query.name;
+    const maxPatient = Number(req.query.max);
+    const pageNumber = Number(req.query.page);
 
-      // Since any person can be a patient we can just use the get person function and query only those that are with inActive = false
-      const fieldsToSelect = 'firstName middleName lastName address dateOfBirth gender address isSeniorCitizen seniorIdNumber ';
-      
-      //const query = {isInactive: false};
-      User.getPersons(
+    // Function to return an empty array
+    const getPatient = () => {
+      return new Promise((resolve, reject) => {
+        // Split the filterName if it contains a comma
+        const nameParts = filterName ? filterName.split(',').map(part => part.trim()) : [];
+
+        // Create a query object
+        let query = {};
+
+        if (nameParts.length === 1) {
+          // If there is no comma, search for the filterName in firstName, lastName, and middleName
+          query = {
+            $or: [
+              { firstName: { $regex: new RegExp(filterName, 'i') } },
+              { lastName: { $regex: new RegExp(filterName, 'i') } },
+              { middleName: { $regex: new RegExp(filterName, 'i') } },
+            ],
+          };
+        } else if (nameParts.length === 2) {
+          // If there is a comma, use the first part as lastName and the second part as firstName
+          query = {
+            lastName: { $regex: new RegExp(nameParts[0], 'i') },
+            firstName: { $regex: new RegExp(nameParts[1], 'i') },
+          };
+        }
+
+        // Exclude documents where isActive is explicitly set to false
+        query.isActive = { $ne: false };
+
+        // Since any person can be a patient we can just use the get person function and query only those that are with inActive = false
+        const fieldsToSelect = 'firstName middleName lastName address dateOfBirth gender address isSeniorCitizen seniorIdNumber ';
+
+        //const query = {isInactive: false};
+        User.getPersons(
           query,
           fieldsToSelect,
           (err, patients) => {
-              if (err) {
-                  return res.json({ success: false, msg: 'There was and error while getting all patients.' });
-              }
+            if (err) {
+                req.app.locals['uid'+req.user._id].activePatients = null;
+                reject({ success: false, msg: 'There was and error while getting all patients.' });
+            }
 
-              if (patients && patients.length > 0) {
-                  return res.json({
-                      success: true,
-                      msg: 'Successfuly retrieved active patients!',
-                      patients: patients
-                  });
-              } else {
-                  return res.json({ success: false, msg: 'There are no active patients found.' });
-              }
+            if (patients) {
+              req.app.locals['uid'+req.user._id].activePatients = patients;
+            }
+
+            if (patients && patients.length > 0) {
+                resolve(patients);
+            } else {
+              resolve(null);
+            }
           }
-      )
+        )
+      });
+    };
+
+    if(pageNumber > 0) {
+      // if the pageNumber > 0 then it is assumed that user just want to get page from req.session.activePatients
+
+      // if there is no req.app.locals['uid'+req.user._id].activePatients then search for new list
+      if(!req.app.locals['uid'+req.user._id].activePatients) {
+        try {
+          await getPatient();
+        } catch (error) {
+          // Handle any errors if needed
+          console.error(error);
+        }
+      }
+
+      // req.session.activePatiens will now be available
+      const patients = req.app.locals['uid'+req.user._id].activePatients;
+      // Calculate start and end indices for pagination
+      const startIndex = (pageNumber - 1) * maxPatient;
+      const endIndex = startIndex + maxPatient;
+      const maxPage = Math.ceil(patients.length / maxPatient);
+
+      // Get the subset of patients for the requested page
+      const patientsForPage = patients.slice(startIndex, endIndex);
+
+      res.json({
+        success: true,
+        msg: 'Successfuly retrieved active patients!',
+        patients: patientsForPage,
+        maxPage: maxPage
+      });
+    } else {
+      // since no page number was requested it is assumed that user is requesting for new list from database
+      try {
+        const result = await getPatient();
+
+        if (result && result.length > 0) {
+          res.json({
+            success: true,
+            msg: 'Successfuly retrieved active patients!',
+            patients: result
+          });
+        } else {
+          res.json({ success: false, msg: 'There are no active patients found.' });
+        }
+      } catch (error) {
+        // Handle any errors if needed
+        console.error(error);
+        res.json({ success: false, msg: 'There are no active patients found.' });
+      }
+    }
   }
 )
 
