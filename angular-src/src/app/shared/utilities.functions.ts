@@ -33,6 +33,12 @@ export class Utilities {
         });
     }
 
+    static formatDateToLongDate(gDate: Date): string {
+        const givenDate = new Date(gDate);
+        const formattedDate = givenDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        return formattedDate; // Sample Output: March 11, 1985
+    }
+
 
     static formatDateToMMDDYYYY(gDate: Date): string {
         const givenDate = new Date(gDate);
