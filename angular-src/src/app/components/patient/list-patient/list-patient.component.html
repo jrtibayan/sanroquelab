@@ -5,6 +5,7 @@
             <div class="col-md-8"><input type="text" class="form-control" id="filterString" name="filterString" [(ngModel)]="this.filterString"  placeholder="Enter patient firstname or lastname"></div>
             <div class="col-md-4"><button class="btn btn-primary w-100" (click)="getPatientsOnPage(1)">Search</button></div>
         </div>
+        <br>
         <div class="pagination-container">
             <div class="pagination">
                 <span class="pagination-item" (click)="getPatientsOnPage(1)">&lt;&lt;</span>
@@ -18,7 +19,6 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>PATIENT</th>
                     <th>DOB</th>
                     <th>Action</th>
@@ -34,16 +34,35 @@
                 -->
                 <ng-container *ngFor="let patient of patientsFromDb; let i = index">
                     <tr>
-                        <td>{{ patient._id }}</td>
                         <td>{{ patient.lastName + ', ' + patient.firstName }}</td>
-                        <td>{{ patient.dateOfBirth }}</td>
+                        <td>{{ this.utilities.formatDateToLongDate(patient.dateOfBirth) }}</td>
                         <td>
                             <!-- <button class="btn btn-sm btn-primary" (click)="editTransaction(i)" [disabled]="!userHasPermission('Edit Transaction')">Edit</button> -->
-                            <button class="btn btn-sm btn-primary">VIEW</button>
+                            <button class="btn btn-sm btn-primary" *ngIf="selectedPatientIndex !== i" (click)="toggleDropdown(i)">Results</button>
+
+                            <div class="input-group" *ngIf="selectedPatientIndex === i">
+                                <select class="form-select" id="inputGroupSelect04">
+
+                                    <option disabled selected hidden>Choose...</option>
+                                    <option *ngFor="let result of resultsOfSelectedPatient" [value]="result._id">
+                                        {{ this.utilities.formatDateToLongDate(result.dateDone) + ' ' + result.test.type }}
+                                    </option>
+                                </select>
+                                <button class="btn btn-outline-secondary" type="button" (click)="previewResult($event)">VIEW</button>
+                            </div>
                         </td>
                     </tr>
                 </ng-container>
             </tbody>
         </table>
+        <div class="pagination-container">
+            <div class="pagination">
+                <span class="pagination-item" (click)="getPatientsOnPage(1)">&lt;&lt;</span>
+                <span *ngFor="let pageNumber of getPageNumbers()">
+                    <span class="pagination-item" (click)="getPatientsOnPage(pageNumber)" [class.active]="pageNumber === currentPage">{{ pageNumber }}</span>
+                </span>
+                <span class="pagination-item" (click)="getPatientsOnPage(maxPageNumber)">&gt;&gt;</span>
+            </div>
+        </div>
     </div>
 </div>

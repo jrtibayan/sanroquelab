@@ -19,6 +19,8 @@ export class ListPatientComponent {
     editingIndex: number | null = null;
     filterString: string = '';
     maxPageNumber: number = null;
+    selectedPatientIndex: number = -1;
+    resultsOfSelectedPatient: any[] = [];
 
     constructor(
         private fb: FormBuilder,
@@ -44,10 +46,6 @@ export class ListPatientComponent {
     }
     currentPage: number = 1;
 
-    /*getPageNumbers(): number[] {
-        const totalPages = 100;
-        return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }*/
     getPageNumbers(): number[] {
         const totalPages = this.maxPageNumber;
         const maxPagesToShow = 7;
@@ -74,6 +72,7 @@ export class ListPatientComponent {
         this.currentPage = pageNumber;
         // Make another API call or filter the patients based on the current page
         this.getPatientByName(this.filterString, pageNumber);
+        this.selectedPatientIndex = -1;
     }
 
     getPatientByName(filterString, page=0) {
@@ -89,5 +88,61 @@ export class ListPatientComponent {
                 this.utilities.dlog('Error adding getting patient by name: ' + error, 'error');
             }
         });
+    }
+
+    toggleDropdown(index: number): void {
+        // Clicking Result will trigger function that will get testresults of that patient and display on dropdownbox
+        this.selectedPatientIndex = this.selectedPatientIndex === index ? -1 : index;
+        this.getTestResultByPatientId(this.patientsFromDb[this.selectedPatientIndex]._id);
+    }
+
+    previewResult(event: any): void {
+        // Get the selected value from the <select> element
+        const selectedValue = event.target.previousElementSibling.value;
+
+        if (selectedValue !== 'Choose...') {
+          // Find the selected result based on the selected value
+          const selectedResult = this.resultsOfSelectedPatient.find(result => result._id === selectedValue);
+
+          if (selectedResult) {
+            this.utilities.generateUrinalysisPdf(selectedResult);
+          }
+        }
+    }
+
+    alertFunction(result: any): void {
+        // Use your utilities function to format the result and display in an alert
+        const formattedResult = this.utilities.formatDateToLongDate(result.date_done) + ' ' + result.test.type;
+        alert(formattedResult);
+    }
+
+    getTestResultByPatientId(patientId) {
+        this.authService.getFinalResultById(patientId).subscribe({
+            next: (response) => {
+                let allRes = {} as any;
+                allRes = response;
+                this.resultsOfSelectedPatient = allRes.testresults || [];
+
+                this.resultsOfSelectedPatient = this.resultsOfSelectedPatient.map(({ _id, date_done, patient, medtech, pathologist, requesting_physician, test }) => {
+                    return {
+                      _id: _id,
+                      dateDone: date_done,
+                      patient: patient,
+                      medtech: medtech,
+                      pathologist: pathologist,
+                      requestingPhysician: requesting_physician,
+                      test: test
+                    };
+                });
+            },
+            error: (error) => {
+                this.utilities.dlog('Error adding getting patient by name: ' + error, 'error');
+            }
+        });
+    }
+
+    handleDropdownChange(event: any): void {
+        // Handle dropdown change if needed
+        // console.log('Dropdown selected:', event.target.value);
     }
 }
