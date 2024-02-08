@@ -15,12 +15,16 @@ router.get(
     '/getall',
     passport.authenticate('jwt', { session: false }),
     (req, res, next) => {
-        const query = {};
+        const patientId = req.query.id || null;
+        let query = {};
+        if(patientId) {
+            query = { 'patient.id': patientId };
+        }
         TestResult.getAll(
             query,
             (err, testresults) => {
                 if (err) {
-                    return res.json({ success: false, msg: 'Failed to get testresults' });
+                    return res.json({ success: false, msg: 'Failed to get testresults', testresults: [] });
                 }
 
                 if (testresults.length > 0) {
@@ -30,7 +34,7 @@ router.get(
                         testresults: testresults
                     });
                 } else {
-                    return res.json({ success: false, msg: 'No testresults in the database' });
+                    return res.json({ success: false, msg: 'No testresults in the database', testresults: [] });
                 }
             }
         )
