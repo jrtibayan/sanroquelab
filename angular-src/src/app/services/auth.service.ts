@@ -241,6 +241,17 @@ export class AuthService {
         ).pipe(map(res => res));
     }
 
+    getFinalResultById(patientId: string) {
+        const httpOptions = {headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': this.authToken
+        })};
+        return this.http.get(
+            `${this.apiUrl}/testresults/getall?id=${patientId}`,
+            httpOptions
+        ).pipe(map(res => res));
+    }
+
 
 /*************************************************************************************************************************************
  * TestResult Route
@@ -277,7 +288,7 @@ export class AuthService {
                 'Authorization': localStorage.getItem('id_token')
             })
         };
-    
+
         return this.http.put(
             `${this.apiUrl}/testresults/urinalysis/update/${id}`,
             updatedResult,
