@@ -28,11 +28,13 @@ import { FecalysisComponent } from './components/result-forms/fecalysis/fecalysi
 import { SerologyComponent } from './components/result-forms/serology/serology.component';
 import { ListPatientComponent } from './components/patient/list-patient/list-patient.component';
 import { InfoPatientComponent } from './components/patient/info-patient/info-patient.component';
+import { ChangePasswordComponent } from './components/user/change-password/change-password.component';
 
 
 const appRoutes: Routes = [
   {path:'', component: HomeComponent},
   {path:'user/register', component: RegisterUserComponent, canActivate: [AuthGuard]},
+  {path:'user/password/update', component: ChangePasswordComponent, canActivate: [AuthGuard]},
   {path:'patient/register', component: RegisterPatientComponent, canActivate: [AuthGuard]},
   {path:'patient/list', component: ListPatientComponent, canActivate: [AuthGuard]},
   {path:'patient/info', component: InfoPatientComponent, canActivate: [AuthGuard]},
@@ -71,6 +73,7 @@ const appRoutes: Routes = [
     FecalysisComponent,
     SerologyComponent,
     ListPatientComponent,
+    ChangePasswordComponent,
     InfoPatientComponent
   ],
   imports: [
