@@ -53,6 +53,19 @@ export class AuthService {
     }
 
 
+    changeUserPassword(userInput) {
+        const httpOptions = {headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': localStorage.getItem('id_token')
+        })};
+        return this.http.post(
+            `${this.apiUrl}/users/password/update`,
+            userInput,
+            httpOptions
+        ).pipe(map(res => res));
+    }
+
+
     getProfile() {
         this.loadToken();
         const httpOptions = {headers: new HttpHeaders({

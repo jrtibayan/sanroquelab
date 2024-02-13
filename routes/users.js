@@ -119,12 +119,13 @@ router.post(
 
 // Change Password
 router.post(
-    '/update/password',
+    '/password/update',
+    passport.authenticate('jwt', { session: false }),
     (req, res, next) => {
         h.dlog('\n\n\nUpdating User Password');
 
-        const email = req.body.email;
-        const password = req.body.password;
+        const email = req.user.email;
+        const currentPassword = req.body.currentPassword;
         const newPassword = req.body.newPassword;
         const confirmPassword = req.body.confirmPassword;
 
@@ -147,7 +148,7 @@ router.post(
 
                 h.dlog('User found');
                 User.comparePassword(
-                    password,
+                    currentPassword,
                     user.password,
                     (err, isMatch) => {
                         if (err) throw err;
