@@ -22,6 +22,7 @@ export class SerologyComponent {
     address!: String;
     gender!: String;
     age!: String;
+    requiredParameters: any;
 
     hbsag!: String;
     vdrl!: String;
@@ -50,6 +51,7 @@ export class SerologyComponent {
     ngOnInit(): void { 
         // Retrieve the ptest ID from the route parameters
         this.transactionData = this.sharedService.getSharedData();
+        this.requiredParameters = this.transactionData.test.parameters;
     
         this.authService.getProfile().subscribe(res => {
             let profile = {} as any;
@@ -68,6 +70,10 @@ export class SerologyComponent {
         });
     }
 
+    // Check if there is an object with property name "Sugar" in this.requiredParameters
+    hasParameter(paramName): boolean {
+      return this.requiredParameters.some(param => param.name.toLowerCase() === paramName.toLowerCase());
+    }
 
     onSaveSubmit(){ 
         this.transactionData.test.parameters = [];

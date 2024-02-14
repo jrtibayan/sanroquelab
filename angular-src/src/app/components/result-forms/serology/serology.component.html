@@ -14,35 +14,35 @@
                     <!-- Patient Name -->
                     <div class="col-lg-8 col-md-8">
                         <label for="patientName" class="form-label">Patient</label>
-                        <input type="text" class="form-control" id="patientName" name="patientName" [(ngModel)]="transactionData.patient.name" [disabled]="false">
+                        <input type="text" class="form-control" id="patientName" name="patientName" [(ngModel)]="transactionData.patient.name" [disabled]="true">
                     </div>
 
                     <!-- Address -->
                     <div class="col-lg-12 col-md-12">
                         <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" name="address" [(ngModel)]="transactionData.patient.address" [disabled]="false">
+                        <input type="text" class="form-control" id="address" name="address" [(ngModel)]="transactionData.patient.address" [disabled]="true">
                     </div>
 
                     <!-- Gender -->
                     <div class="col-md-6">
                         <label for="gender" class="form-label">Gender</label>
-                        <input type="text" class="form-control" id="gender" name="gender" [(ngModel)]="transactionData.patient.gender" [disabled]="false">
+                        <input type="text" class="form-control" id="gender" name="gender" [(ngModel)]="transactionData.patient.gender" [disabled]="true">
                     </div>
 
                     <!-- Age -->
                     <div class="col-md-6">
                         <label for="age" class="form-label">Age</label>
-                        <input type="text" class="form-control" id="age" name="age" [(ngModel)]="transactionData.patient.age" [disabled]="false">
+                        <input type="text" class="form-control" id="age" name="age" [(ngModel)]="transactionData.patient.age" [disabled]="true">
                     </div>
 
                     <!-- HBsAg -->
-                    <div class="col-md-12" >
+                    <div class="col-md-12" *ngIf="hasParameter('hbsag')">
                         <label for="hbsag" class="form-label">{{ labelHbsag }}</label>
                         <input type="text" class="form-control" id="hbsag" name="hbsag" [(ngModel)]="hbsag">
                     </div>
 
                     <!-- VDRL -->
-                    <div class="col-md-12">
+                    <div class="col-md-12" *ngIf="hasParameter('vdrl')">
                         <label for="vdrl" class="form-label">{{ labelVdrl }}</label>
                         <input type="text" class="form-control" id="vdrl" name="vdrl" [(ngModel)]="vdrl">
                     </div>
@@ -68,25 +68,25 @@
                     <!-- Medical Technologist -->
                     <div class="col-md-12">
                         <label for="medicalTechnologist" class="form-label">Medical Technologist</label>
-                        <input type="text" class="form-control" id="medtechName" name="medtechName" [(ngModel)]="medtechName" [disabled]="false">
+                        <input type="text" class="form-control" id="medtechName" name="medtechName" [(ngModel)]="medtechName" [disabled]="true">
                     </div>
 
                     <!-- Medical Technologist -->
                     <div class="col-md-12">
                         <label for="medicalTechnologist" class="form-label">License</label>
-                        <input type="text" class="form-control" id="medtechLicense" name="medtechLicense" [(ngModel)]="medtechLicense" [disabled]="false">
+                        <input type="text" class="form-control" id="medtechLicense" name="medtechLicense" [(ngModel)]="medtechLicense" [disabled]="true">
                     </div>
 
                     <!-- Pathologist -->
                     <div class="col-md-12">
                         <label for="pathologist" class="form-label">Pathologist</label>
-                        <input type="text" class="form-control" id="pathologistName" name="pathologistName" [(ngModel)]="transactionData.pathologist.name" [disabled]="false">
+                        <input type="text" class="form-control" id="pathologistName" name="pathologistName" [(ngModel)]="transactionData.pathologist.name" [disabled]="true">
                     </div>
 
                     <!-- Pathologist -->
                     <div class="col-md-12">
                         <label for="pathologist" class="form-label">License</label>
-                        <input type="text" class="form-control" id="pathologistLicense" name="pathologistLicense" [(ngModel)]="transactionData.pathologist.license" [disabled]="false">
+                        <input type="text" class="form-control" id="pathologistLicense" name="pathologistLicense" [(ngModel)]="transactionData.pathologist.license" [disabled]="true">
                     </div>
 
                     <input type="submit" class="btn btn-primary" value="Submit">
