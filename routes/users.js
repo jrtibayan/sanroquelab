@@ -269,6 +269,9 @@ router.get(
     passport.authenticate('jwt', { session: false }),
     (req, res, next) => {
 
+        const sName = req.user.signatoryName && req.user.signatoryName.length > 0 ? req.user.signatoryName : null;
+        const license = req.user.license && req.user.license.length > 0 ? req.user.license : null;
+
         // res.json(user: req.user); // original code replaced by the one used below
         return res.json({
             success: true,
@@ -278,6 +281,8 @@ router.get(
                 lastName: req.user.lastName,
                 email: req.user.email,
                 allowedActions: req.user.allowedActions,
+                signatoryName: sName,
+                license: license,
                 role: req.user.role
             }
         });
