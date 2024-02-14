@@ -14,7 +14,7 @@ import { Utilities } from '../../../shared/utilities.functions';
 })
 export class BloodChemistryComponent {
     public utilities = Utilities;
-    user: any;
+    user: any = {};
     resultId: string;
 
     transactionData: any;
@@ -75,7 +75,10 @@ export class BloodChemistryComponent {
             let profile = {} as any;
             profile = res;
             this.user = profile.user;
-    
+
+            this.medtechName = this.user.signatoryName && this.user.signatoryName.length > 0 ? this.user.signatoryName : 'Joyce Ann E. Magnaye, RMT';
+            this.medtechLicense = this.user.license && this.user.license.length > 0 ? this.user.license : '0063961';
+
             this.labelHba1c = 'HbA1c';
             this.labelFbs = 'FBS';
             this.labelCholesterol = 'Cholesterol';
