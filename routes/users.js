@@ -276,7 +276,11 @@ router.post(
                                     return JSON.parse(JSON.stringify(src));
                                 }
 
-                                const token = jwt.sign(convertToPlainObj(user), process.env.SECRET_KEY);
+                                const token = jwt.sign(
+                                    convertToPlainObj(user),
+                                    process.env.SECRET_KEY,
+                                    {expiresIn:'8h'}
+                                );
 
                                 return res.json({
                                     success: true,
