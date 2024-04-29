@@ -53,4 +53,28 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
+
+  resetPassword() {
+    // Show confirmation dialog
+    const confirmReset = confirm('Are you sure you want to reset your password?');
+
+    if (confirmReset) {
+      // Call the resetUserPassword function
+      const userInput = {
+        email: this.email
+      }
+
+      this.authService.resetUserPassword(userInput).subscribe(
+        data => {
+          console.log('requesting to backend');
+          if ((data as any).success){
+            this.flashMessage.show('Password Reset Successful', { cssClass: 'alert-success position-fixed top-0 start-0 w-100', timeout: 3000 });
+          } else {
+            this.flashMessage.show('Password reset failed!', {cssClass: 'alert-danger', timeout: 3000});
+          }
+        }
+      );
+    }
+  }
 }
