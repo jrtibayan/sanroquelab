@@ -174,6 +174,44 @@ router.post(
     }
 );
 
+
+// Reset Password
+router.post(
+    '/password/reset',
+    (req, res, next) => {
+        h.dlog('\n\n\nReseting User Password');
+
+        const email = req.body.email;
+        let newPassword = null;
+
+        if (conf.util.getEnv('NODE_ENV') === 'test') newPassword = 'password1';
+        else newPassword = h.randomString(12, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+
+        User.getUserByEmail(
+            email,
+            (err, user) => {
+                h.dlog('Finding user with email: ' + email);
+
+                if (err) throw err;
+
+                if (!user) {
+                    h.dlog('User not found');
+                    return res.json({ success: false, msg: 'User not found' });
+                }
+
+                // update the password
+                User.changePassword(email, newPassword);
+                h.sendEmail(req.body.email, "Password Reset Request!", "New Password: " + newPassword);
+                return res.json({
+                    success: true,
+                    msg: 'Password Updated'
+                });
+            }
+        );
+    }
+);
+
+
 // Authenticate
 router.post(
     '/authenticate',
