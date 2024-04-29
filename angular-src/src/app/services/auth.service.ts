@@ -66,6 +66,18 @@ export class AuthService {
     }
 
 
+    resetUserPassword(userInput) {
+        const httpOptions = {headers: new HttpHeaders({
+            'Content-Type':  'application/json'
+        })};
+        return this.http.post(
+            `${this.apiUrl}/users/password/reset`,
+            userInput,
+            httpOptions
+        ).pipe(map(res => res));
+    }
+
+
     getProfile() {
         this.loadToken();
         const httpOptions = {headers: new HttpHeaders({
