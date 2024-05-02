@@ -35,9 +35,9 @@
             <td>{{ transaction.receiptNo }}</td>
             <td>{{ transaction.patientName }}</td>
             <td>{{ transaction.items }}</td>
-            <td>{{ transaction.subTotal | currency }}</td>
-            <td>{{ transaction.discount | currency }}</td>
-            <td>{{ transaction.total | currency }}</td>
+            <td class="text-end">{{ transaction.subTotal | currency:'':'':'1.2-2' }}</td>
+            <td class="text-end">{{ transaction.discount | currency:'':'':'1.2-2' }}</td>
+            <td class="text-end">{{ transaction.total | currency:'':'':'1.2-2' }}</td>
           </tr>
         </tbody>
       </table>
@@ -64,10 +64,10 @@
     </div>
     <div class="mt-3">
       <h4>Summary</h4>
-      <p>Total Subtotal: {{ getTotal('subTotal') | currency }}</p>
-      <p>Total Discount: {{ getTotal('discount') | currency }}</p>
-      <p>Total Paid: {{ getTotal('total') | currency }}</p>
-      <p>Toral Refund: {{ getTotal('refundAmount') | currency }}</p>
-      <p>Total: {{ getTotal('total')-getTotal('refundAmount') | currency }}</p>
+      <p class="text-end">Total Subtotal: {{ getTotal('subTotal') | currency:'':'':'1.2-2' }}</p>
+      <p class="text-end">Total Discount: {{ getTotal('discount') | currency:'':'':'1.2-2' }}</p>
+      <p class="text-end">Total Paid: {{ getTotal('total') | currency:'':'':'1.2-2' }}</p>
+      <p class="text-end">Toral Refund: {{ getTotal('refundAmount') | currency:'':'':'1.2-2' }}</p>
+      <p class="text-end">Total: {{ getTotal('total')-getTotal('refundAmount') | currency:'':'':'1.2-2' }}</p>
     </div>
   </div>
