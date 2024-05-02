@@ -95,6 +95,35 @@ export class TransactionhistoryComponent {
             }
           });
 
+          // Create a map to store combined transactions
+          const combinedTransactionsMap = new Map<string, any>();
+
+          // Iterate through the transaction history
+          for (const transaction of this.transactionHistory) {
+              // Check if the receiptNo already exists in the map
+              if (combinedTransactionsMap.has(transaction.receiptNo)) {
+                  // If receiptNo exists, update the existing entry
+                  const existingTransaction = combinedTransactionsMap.get(transaction.receiptNo);
+                  existingTransaction.items += `, ${transaction.items}`; // Concatenate items
+                  existingTransaction.subTotal += transaction.subTotal; // Add subtotal
+                  existingTransaction.discount += transaction.discount; // Add discount
+                  existingTransaction.total += transaction.total; // Add total
+              } else {
+                  // If receiptNo doesn't exist, add a new entry
+                  combinedTransactionsMap.set(transaction.receiptNo, {
+                      receiptNo: transaction.receiptNo,
+                      patientName: transaction.patientName,
+                      items: transaction.items,
+                      subTotal: transaction.subTotal,
+                      discount: transaction.discount,
+                      total: transaction.total
+                  });
+              }
+          }
+
+          // Convert the map values to an array
+          this.transactionHistory= Array.from(combinedTransactionsMap.values());
+
           this.refunds = this.transactionHistory.filter(transaction => transaction.refundAmount > 0);
 
           console.log('this.refunds');
