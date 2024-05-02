@@ -80,6 +80,21 @@ export class TransactionhistoryComponent {
           }, []);
           this.transactionHistory = formattedTransactions;
 
+          this.transactionHistory.sort((a, b) => {
+            // Convert receipt numbers to numbers for proper numeric sorting
+            const receiptNoA = parseInt(a.receiptNo);
+            const receiptNoB = parseInt(b.receiptNo);
+
+            // Compare receipt numbers
+            if (receiptNoA < receiptNoB) {
+                return -1; // a should come before b
+            } else if (receiptNoA > receiptNoB) {
+                return 1; // a should come after b
+            } else {
+                return 0; // receipt numbers are equal
+            }
+          });
+
           this.refunds = this.transactionHistory.filter(transaction => transaction.refundAmount > 0);
 
           console.log('this.refunds');
