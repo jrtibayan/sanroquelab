@@ -78,6 +78,10 @@ export class HematologyComponent {
 
             this.medtechName = this.user.signatoryName && this.user.signatoryName.length > 0 ? this.user.signatoryName : 'Joyce Ann E. Magnaye, RMT';
             this.medtechLicense = this.user.license && this.user.license.length > 0 ? this.user.license : '0063961';
+            this.transactionData.medtech = {
+              name: this.medtechName,
+              license: this.medtechLicense
+            }
 
             this.labelWbc = 'WBC';
             this.labelHematocrit = 'Hematocrit';
