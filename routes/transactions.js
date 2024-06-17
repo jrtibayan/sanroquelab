@@ -7,6 +7,7 @@ const conf = require('config');
 const h = require('../misc/helper');
 
 const Transaction = require('../models/transaction')
+const User = require('../models/person');
 const TestResult = require('../models/testresult');
 const { collapseTextChangeRangesAcrossMultipleVersions } = require('typescript');
 
@@ -345,6 +346,9 @@ router.post(
                 // if all are good the payments in the transaction is updated
                 Transaction.updateTransactionPayments(newPayment.idToUpdate, transaction.payments);
                 h.dlog('aFTER Adding of Payments -------------------------------------');
+
+                User.updateCashOnHand(req.user._id, req.user.cashOnHand, newPayment.amountPaid);
+                h.dlog('aFTER Updating of CashOnHand -------------------------------------');
 
                 // if after payment is now fully paid, add the tests to queue for making test results
                 if(currentPaid + newPayment.amountPaid === transaction.total) {

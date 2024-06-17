@@ -64,6 +64,10 @@ const UserSchema = mongoose.Schema({
     role: { // all user
         type: String
     },
+    cashOnHand: {
+        type: Number,
+        default: 0
+    },
     allowedActions: { // all user
         type: [String]
     }
@@ -177,6 +181,38 @@ module.exports.changePassword = function (email, password) {
                 User.updateUser(query, update);
                 h.dlog('Password updated');
             });
+        }
+    );
+};
+
+
+
+/*************************************************************************************************************************************
+ * Cashier
+ *************************************************************************************************************************************/
+
+
+module.exports.updateCashOnHand = function (cashierId, oldBalance, amountToAdd) {
+    let updateQuery = {};
+
+    if (oldBalance && oldBalance > 0) {
+        // If oldBalance is greater than 0, use $inc to increment cashOnHand
+        updateQuery = { $inc: { cashOnHand: amountToAdd } };
+    } else {
+        // If oldBalance is 0 or falsy, set cashOnHand directly
+        updateQuery = { cashOnHand: amountToAdd };
+    }
+
+    // Update cashOnHand in the database
+    User.findByIdAndUpdate(
+        cashierId,
+        updateQuery,
+        (err, updatedUser) => {
+            if (err) {
+                console.error("Error updating cashOnHand:", err);
+            } else {
+                console.log("Updated user:", updatedUser);
+            }
         }
     );
 };
