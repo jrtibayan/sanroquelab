@@ -13,7 +13,11 @@ const h = require('./misc/helper')
 const LabTest = require('./models/labtest');
 
 //  Connect to database
-const dbHost = process.env.DB_CONNECTION_STRING;
+const dbHost =
+  process.env.NODE_ENV === 'test' ? process.env.DB_CONNECTION_STRING_TEST :
+  process.env.NODE_ENV === 'development' ? process.env.DB_CONNECTION_STRING :
+  process.env.DB_CONNECTION_STRING;
+
 mongoose.connect(
   dbHost,
   {
