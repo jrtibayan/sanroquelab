@@ -31,7 +31,7 @@ mongoose.connection.on('connected', () => {
   h.dlog('Connected to database ' + dbHost)
 
   //  delete test database if we are running test
-  if (conf.util.getEnv('NODE_ENV') === 'test') {
+  if (conf.util.getEnv('NODE_ENV') === 'test' && dbHost === process.env.DB_CONNECTION_STRING_TEST) {
     initializeDatabase()
   }
 })
