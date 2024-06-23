@@ -8,7 +8,6 @@ const h = require('../misc/helper');
 const UserSchema = mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
     },
     firstName: {
         type: String,

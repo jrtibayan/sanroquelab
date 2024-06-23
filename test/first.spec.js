@@ -52,6 +52,32 @@ describe('MEAN Stack App', function () {
             })
         }
       )
+
+      it(
+        'it should create default admin account if database is empty',
+        function (done) {
+          chai.request(server)
+            .post('/users/authenticate')
+            .send({
+              email: 'admin',
+              password: 'password'
+            })
+            .end(function (err, res) {
+              console.log('Response:', res.body);
+              let er = null
+
+              if (err) er = err
+
+              res.should.have.status(200)
+              res.body.should.have.property('success').eql(true)
+              res.body.should.have.property('msg')
+              res.body.should.not.have.property('token')
+
+              if (er) done(er)
+              else done()
+            })
+        }
+      )
     })
   })
 })
