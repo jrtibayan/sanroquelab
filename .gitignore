@@ -3,4 +3,5 @@ node_modules/
 angular-src/node_modules/
 angular-src/.angular/
 my_db_backup/
+my_log/
 .env
