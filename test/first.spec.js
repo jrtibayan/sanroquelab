@@ -63,7 +63,6 @@ describe('MEAN Stack App', function () {
               password: 'password'
             })
             .end(function (err, res) {
-              console.log('Response:', res.body);
               let er = null
 
               if (err) er = err
