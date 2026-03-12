@@ -63,6 +63,7 @@ exports.emailRegistrationSuccessful = function (email, password, user) {
 }
 
 exports.sendEmail = function (email, subject, msg) {
+  exports.dlog('sendEmail start');
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
