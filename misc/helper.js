@@ -24,7 +24,8 @@ exports.emailRegistrationSuccessful = function (email, password, user) {
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAILPW
-    }
+    },
+    debug: true,
   })
 
   let mailOptions = {
