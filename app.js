@@ -88,6 +88,7 @@ app.get('/', (req, res) => {
 
 //  Keep app awake by requesting to this ping route
 app.get('/ping', (req, res) => {
+  h.dlog('\nPing request received\n')
   res.status(200).send('pong')
 })
 
